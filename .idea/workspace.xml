@@ -4,60 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d000b209-e205-4894-a9ea-f86bc8cb3114" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/CommonExpense.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/CommonIncome.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/Expense.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/IRecurringBill.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/Income.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/RecurringExpense.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/RecurringIncome.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/UserConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/Wallet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/enums/ExpenseCategory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/entities/enums/IncomeCategory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/primitives/AggregateRoot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/primitives/Entity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/primitives/ValueObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/validators/ExpenseValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/validators/IValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/validators/IncomeValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/validators/UserValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/validators/WalletValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/valueobjects/Identity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/entities/ExpenseTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/entities/IncomeTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/entities/RecurringBillTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/entities/UserTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/entities/WalletTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/validators/ExpenseValidatorTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/validators/IncomeValidatorTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/validators/UserValidatorTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/validators/WalletValidatorTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/presentation/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/presentation/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/presentation/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/presentation/pom.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d000b209-e205-4894-a9ea-f86bc8cb3114" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,14 +32,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/giraf/expense-manager-api/expensemanager/src/main/java/dev/gabriel/Main.java&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "<unknown>",
+    "onboarding.tips.debug.path": "C:/Users/giraf/expense-manager-api/expensemanager/src/main/java/dev/gabriel/Main.java"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\giraf\expense-manager-api\expensemanager" />
