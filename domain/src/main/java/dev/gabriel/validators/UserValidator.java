@@ -21,7 +21,7 @@ public class UserValidator implements IValidator<User> {
         if(user.getConfiguration().getCreatedAt() == null) {
             errors.add("Creation date must be present.");
         }
-        if(user.getWallets().size() == 0 || user.getWallets().size() > 4) {
+        if(user.getWallets().isEmpty() || user.getWallets().size() > 4) {
             errors.add("User must have a wallet and not more than 4.");
         }
 

@@ -6,7 +6,7 @@ public abstract class Entity {
     private Identity id;
 
     protected Entity(Long id) {
-        this.id = new Identity(id);
+        this.id = Identity.create(id);
     }
 
     protected Entity() {}

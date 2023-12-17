@@ -2,7 +2,9 @@ package dev.gabriel.validators;
 
 import dev.gabriel.entities.CommonExpense;
 import dev.gabriel.entities.RecurringExpense;
+import dev.gabriel.entities.enums.CurrencyType;
 import dev.gabriel.entities.enums.ExpenseCategory;
+import dev.gabriel.valueobjects.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,8 @@ public class ExpenseValidatorTest {
     @Test
     @DisplayName("Validating a common income without constraints violations.")
     public void validateCommonExpenseTestCase1() {
-        CommonExpense commonExpense = CommonExpense.create(1L, "Expense Name", "Expense Comment", 80.0, ExpenseCategory.GIFTS);
+        CommonExpense commonExpense = CommonExpense
+                .create(1L, "Expense Name", "Expense Comment", Money.create(800.0, CurrencyType.BRL), ExpenseCategory.GIFTS);
         ExpenseValidator expenseValidator = new ExpenseValidator();
 
         List<String> errors = expenseValidator.validate(commonExpense);
@@ -25,7 +28,8 @@ public class ExpenseValidatorTest {
     @Test
     @DisplayName("Validating a common income with constraints violations.")
     public void validateCommonExpenseTestCase2() {
-        CommonExpense commonExpense = CommonExpense.create(1L, "", "", -20.0, null);
+        CommonExpense commonExpense = CommonExpense
+                .create(1L, "", "", Money.create(-800.0, CurrencyType.BRL), null);
         List<String> expectedErrors = Arrays.asList(new String[] {
                 "Name must be between 1 and 255 characters.",
                 "Category must be present.",
@@ -40,7 +44,8 @@ public class ExpenseValidatorTest {
     @Test
     @DisplayName("Validating a recurring expense without constraints violations.")
     public void validateRecurringExpenseTestCase1() {
-        RecurringExpense recurringExpense = RecurringExpense.create(1L, "Expense Name", "Expense Comment", 20.0, ExpenseCategory.GIFTS, 4);
+        RecurringExpense recurringExpense = RecurringExpense
+                .create(1L, "Expense Name", "Expense Comment", Money.create(800.0, CurrencyType.BRL), ExpenseCategory.GIFTS, 4);
         ExpenseValidator expenseValidator = new ExpenseValidator();
 
         List<String> errors = expenseValidator.validate(recurringExpense);
@@ -51,7 +56,8 @@ public class ExpenseValidatorTest {
     @Test
     @DisplayName("Validating a recurring expense with constraints violations.")
     public void validateRecurringExpenseTestCase2() {
-        RecurringExpense recurringExpense = RecurringExpense.create(1L, "", "", -20.0, null, 0);
+        RecurringExpense recurringExpense = RecurringExpense
+                .create(1L, "", "", Money.create(-800.0, CurrencyType.BRL), null, 0);
         List<String> expectedErrors = Arrays.asList(new String[] {
                 "Name must be between 1 and 255 characters.",
                 "Category must be present.",

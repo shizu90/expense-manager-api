@@ -19,7 +19,7 @@ public class ExpenseValidator implements IValidator<Expense> {
         if(expense.getCategory() == null) {
             errors.add("Category must be present.");
         }
-        if(expense.getAmount() == null || expense.getAmount() <= 0) {
+        if(expense.getAmount() == null || expense.getAmount().getValue() <= 0) {
             errors.add("Amount must be greater than 0.");
         }
         if(expense.getCreatedAt() == null) {

@@ -1,5 +1,6 @@
 package dev.gabriel.entities;
 
+import dev.gabriel.exceptions.MaxReachedException;
 import dev.gabriel.primitives.AggregateRoot;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +25,7 @@ public class User extends AggregateRoot {
     }
 
     public void addWallet(Wallet wallet) {
-        if(wallets.size() == 4) return;
+        if(wallets.size() == 4) throw new MaxReachedException("Reached max number of wallets.");
         wallets.add(wallet);
     }
 

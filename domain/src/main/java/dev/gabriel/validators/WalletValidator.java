@@ -12,7 +12,7 @@ public class WalletValidator implements IValidator<Wallet> {
         if(wallet.getName().isEmpty() || wallet.getName().length() > 255) {
             errors.add("Name must be between 1 and 255 characters.");
         }
-        if(wallet.getBalance() == null) {
+        if(wallet.getBalance() == null || wallet.getBalance().getValue() < 0) {
             errors.add("Balance must be present.");
         }
 

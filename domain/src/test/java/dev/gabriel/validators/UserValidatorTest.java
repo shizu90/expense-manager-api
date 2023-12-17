@@ -2,6 +2,8 @@ package dev.gabriel.validators;
 
 import dev.gabriel.entities.User;
 import dev.gabriel.entities.Wallet;
+import dev.gabriel.entities.enums.CurrencyType;
+import dev.gabriel.valueobjects.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,7 @@ public class UserValidatorTest {
     @DisplayName("Validating a user without constraints violations.")
     public void validateUserTestCase1() {
         User user = User.create(1L, "User", "user@gmail.com", "user123");
-        user.addWallet(Wallet.create(1L, 0.0, "Wallet"));
+        user.addWallet(Wallet.create(1L, Money.create(800.0, CurrencyType.BRL), "Wallet"));
         UserValidator userValidator = new UserValidator();
         List<String> errors = userValidator.validate(user);
 

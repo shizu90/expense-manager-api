@@ -1,6 +1,7 @@
 package dev.gabriel.entities;
 
 import dev.gabriel.entities.enums.ExpenseCategory;
+import dev.gabriel.valueobjects.Money;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,14 +15,14 @@ public class RecurringExpense extends Expense implements IRecurringBill {
     private Date previousPaymentDate;
     private Date nextPaymentDate;
 
-    private RecurringExpense(Long id, String name, String comment, Double amount, ExpenseCategory category, Integer daysOccurrence) {
+    private RecurringExpense(Long id, String name, String comment, Money amount, ExpenseCategory category, Integer daysOccurrence) {
         super(id, name, comment, amount, category);
         this.daysOccurrence = daysOccurrence;
         this.previousPaymentDate = this.createdAt;
         this.nextPaymentDate = this.createdAt;
     }
 
-    public static RecurringExpense create(Long id, String name, String comment, Double amount, ExpenseCategory category, Integer daysOccurrence) {
+    public static RecurringExpense create(Long id, String name, String comment, Money amount, ExpenseCategory category, Integer daysOccurrence) {
         return new RecurringExpense(id, name, comment, amount, category, daysOccurrence);
     }
 

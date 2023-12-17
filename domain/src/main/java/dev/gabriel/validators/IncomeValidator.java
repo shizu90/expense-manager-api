@@ -19,7 +19,7 @@ public class IncomeValidator implements IValidator<Income> {
         if(income.getCategory() == null) {
             errors.add("Category must be present.");
         }
-        if(income.getAmount() == null || income.getAmount() <= 0) {
+        if(income.getAmount() == null || income.getAmount().getValue() <= 0) {
             errors.add("Amount must be greater than 0.");
         }
         if(income.getCreatedAt() == null) {

@@ -1,6 +1,7 @@
 package dev.gabriel.entities;
 
 import dev.gabriel.primitives.AggregateRoot;
+import dev.gabriel.valueobjects.Money;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,19 +15,19 @@ import java.util.stream.Collectors;
 @Setter
 public class Wallet extends AggregateRoot {
     private String name;
-    private BigDecimal balance;
+    private Money balance;
     private List<Expense> expenses;
     private List<Income> incomes;
 
-    private Wallet(Long id, String name, Double balance) {
+    private Wallet(Long id, String name, Money balance) {
         super(id);
         this.name = name;
-        this.balance = BigDecimal.valueOf(balance);
+        this.balance = balance;
         this.expenses = new ArrayList<>();
         this.incomes = new ArrayList<>();
     }
 
-    public static Wallet create(Long id, Double balance, String name) {
+    public static Wallet create(Long id, Money balance, String name) {
         return new Wallet(id, name, balance);
     }
 
@@ -72,9 +73,5 @@ public class Wallet extends AggregateRoot {
                 .filter(e -> !(e instanceof IRecurringBill))
                 .map(e -> (CommonIncome) e)
                 .collect(Collectors.toList());
-    }
-
-    public BigDecimal calculateBalance() {
-        return balance;
     }
 }

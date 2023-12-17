@@ -1,6 +1,8 @@
 package dev.gabriel.entities;
 
+import dev.gabriel.entities.enums.CurrencyType;
 import dev.gabriel.entities.enums.ExpenseCategory;
+import dev.gabriel.valueobjects.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ public class RecurringBillTest {
     public void calculateNextPaymentDateTestCase() throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         IRecurringBill recurringExpense = RecurringExpense
-                .create(1L, "Expense", "Expense", 80.0, ExpenseCategory.ENTERTAINMENT, 4);
+                .create(1L, "Expense", "Expense", Money.create(800.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT, 4);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(recurringExpense.getNextPaymentDate());
@@ -41,7 +43,7 @@ public class RecurringBillTest {
     public void getNextPaymentDateTestCase() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         IRecurringBill recurringExpense = RecurringExpense
-                .create(1L, "Expense", "Expense", 80.0, ExpenseCategory.ENTERTAINMENT, 4);
+                .create(1L, "Expense", "Expense", Money.create(800.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT, 4);
 
         Assertions.assertEquals(formatter.format(new Date()), formatter.format(recurringExpense.getNextPaymentDate()));
     }
@@ -51,7 +53,7 @@ public class RecurringBillTest {
     public void getPreviousPaymentDateTestCase() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         IRecurringBill recurringExpense = RecurringExpense
-                .create(1L, "Expense", "Expense", 80.0, ExpenseCategory.ENTERTAINMENT, 4);
+                .create(1L, "Expense", "Expense", Money.create(800.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT, 4);
 
         Assertions.assertEquals(formatter.format(new Date()), formatter.format(recurringExpense.getPreviousPaymentDate()));
     }
@@ -60,7 +62,7 @@ public class RecurringBillTest {
     @DisplayName("Should return recurring bill days occurrence properly.")
     public void getDaysOccurrenceCase() {
         IRecurringBill recurringExpense = RecurringExpense
-                .create(1L, "Expense", "Expense", 80.0, ExpenseCategory.ENTERTAINMENT, 4);
+                .create(1L, "Expense", "Expense", Money.create(800.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT, 4);
 
         Assertions.assertEquals(4, recurringExpense.getDaysOccurrence());
     }

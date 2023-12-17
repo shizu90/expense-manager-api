@@ -1,11 +1,12 @@
 package dev.gabriel.entities;
 
+import dev.gabriel.entities.enums.CurrencyType;
+import dev.gabriel.exceptions.MaxReachedException;
 import dev.gabriel.primitives.AggregateRoot;
+import dev.gabriel.valueobjects.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
 
 public class UserTest {
     @Test
@@ -24,20 +25,23 @@ public class UserTest {
 
         Assertions.assertEquals(0, user.getWallets().size());
 
-        user.addWallet(Wallet.create(1L, 800.0, "Wallet1"));
+        user.addWallet(Wallet.create(1L, Money.create(800.0, CurrencyType.BRL), "Wallet1"));
 
         Assertions.assertEquals(1, user.getWallets().size());
     }
 
     @Test
-    @DisplayName("Should return if wallets size reached max value in addWallet method.")
+    @DisplayName("Should throw MaxReachedException if wallets size reached max value in addWallet method.")
     public void addWalletMaxReachedTestCase() {
         User user = User.create(1L, "User", "user@gmail.com", "user123");
-        user.addWallet(Wallet.create(1L, 800.0, "Wallet1"));
-        user.addWallet(Wallet.create(2L, 800.0, "Wallet2"));
-        user.addWallet(Wallet.create(3L, 800.0, "Wallet3"));
-        user.addWallet(Wallet.create(4L, 800.0, "Wallet4"));
-        user.addWallet(Wallet.create(5L, 800.0, "Wallet5"));
+        user.addWallet(Wallet.create(1L, Money.create(800.0, CurrencyType.BRL), "Wallet1"));
+        user.addWallet(Wallet.create(2L, Money.create(800.0, CurrencyType.BRL), "Wallet2"));
+        user.addWallet(Wallet.create(3L, Money.create(800.0, CurrencyType.BRL), "Wallet3"));
+        user.addWallet(Wallet.create(4L, Money.create(800.0, CurrencyType.BRL), "Wallet4"));
+
+        Assertions.assertThrows(MaxReachedException.class, () -> {
+            user.addWallet(Wallet.create(5L, Money.create(800.0, CurrencyType.BRL), "Wallet5"));
+        });
 
         Assertions.assertEquals(4, user.getWallets().size());
     }
@@ -46,8 +50,8 @@ public class UserTest {
     @DisplayName("Should remove wallet properly.")
     public void removeWalletTestCase() {
         User user = User.create(1L, "User", "user@gmail.com", "user123");
-        Wallet wallet = Wallet.create(2L, 800.0, "Wallet2");
-        user.addWallet(Wallet.create(1L, 800.0, "Wallet1"));
+        Wallet wallet = Wallet.create(2L, Money.create(800.0, CurrencyType.BRL), "Wallet2");
+        user.addWallet(Wallet.create(1L, Money.create(800.0, CurrencyType.BRL), "Wallet1"));
         user.addWallet(wallet);
 
         Assertions.assertEquals(2, user.getWallets().size());

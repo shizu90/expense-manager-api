@@ -1,8 +1,10 @@
 package dev.gabriel.entities;
 
+import dev.gabriel.entities.enums.CurrencyType;
 import dev.gabriel.entities.enums.ExpenseCategory;
 import dev.gabriel.entities.enums.IncomeCategory;
 import dev.gabriel.primitives.AggregateRoot;
+import dev.gabriel.valueobjects.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,7 @@ public class WalletTest {
     @Test
     @DisplayName("Should create wallet successfully.")
     public void createWalletTestCase() {
-        Wallet wallet = Wallet.create(1L, 80.0, "Wallet");
+        Wallet wallet = Wallet.create(1L, Money.create(80.0, CurrencyType.BRL), "Wallet");
 
         Assertions.assertInstanceOf(AggregateRoot.class, wallet);
         Assertions.assertEquals(1L, wallet.getIdentity());
@@ -23,11 +25,11 @@ public class WalletTest {
     @Test
     @DisplayName("Should add expense properly.")
     public void addExpenseTestCase() {
-        Wallet wallet = Wallet.create(1L, 80.0, "Wallet");
+        Wallet wallet = Wallet.create(1L, Money.create(80.0, CurrencyType.BRL), "Wallet");
 
         Assertions.assertEquals(0, wallet.getExpenses().size());
 
-        wallet.addExpense(CommonExpense.create(1L, "Expense", "Expense", 0.0, ExpenseCategory.ENTERTAINMENT));
+        wallet.addExpense(CommonExpense.create(1L, "Expense", "Expense", Money.create(0.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT));
 
         Assertions.assertEquals(1, wallet.getExpenses().size());
     }
@@ -35,10 +37,10 @@ public class WalletTest {
     @Test
     @DisplayName("Should remove expense properly.")
     public void removeExpenseTestCase() {
-        Wallet wallet = Wallet.create(1L, 80.0, "Wallet");
+        Wallet wallet = Wallet.create(1L, Money.create(80.0, CurrencyType.BRL), "Wallet");
         Expense commonExpense = CommonExpense
-                .create(2L, "Expense", "Expense", 0.0, ExpenseCategory.ENTERTAINMENT);
-        wallet.addExpense(CommonExpense.create(1L, "Expense", "Expense", 0.0, ExpenseCategory.ENTERTAINMENT));
+                .create(2L, "Expense", "Expense", Money.create(0.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT);
+        wallet.addExpense(CommonExpense.create(1L, "Expense", "Expense", Money.create(0.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT));
         wallet.addExpense(commonExpense);
 
         Assertions.assertEquals(2, wallet.getExpenses().size());
@@ -51,11 +53,11 @@ public class WalletTest {
     @Test
     @DisplayName("Should add income properly.")
     public void addIncomeTestCase() {
-        Wallet wallet = Wallet.create(1L, 80.0, "Wallet");
+        Wallet wallet = Wallet.create(1L, Money.create(80.0, CurrencyType.BRL), "Wallet");
 
         Assertions.assertEquals(0, wallet.getIncomes().size());
 
-        wallet.addIncome(CommonIncome.create(1L, "Income", "Income", 0.0, IncomeCategory.WAGE));
+        wallet.addIncome(CommonIncome.create(1L, "Income", "Income", Money.create(0.0, CurrencyType.BRL), IncomeCategory.WAGE));
 
         Assertions.assertEquals(1, wallet.getIncomes().size());
     }
@@ -63,10 +65,10 @@ public class WalletTest {
     @Test
     @DisplayName("Should remove income properly.")
     public void removeIncomeTestCase() {
-        Wallet wallet = Wallet.create(1L, 80.0, "Wallet");
+        Wallet wallet = Wallet.create(1L, Money.create(80.0, CurrencyType.BRL), "Wallet");
         Income commonIncome = CommonIncome
-                .create(2L, "Income", "Income", 0.0, IncomeCategory.WAGE);
-        wallet.addIncome(CommonIncome.create(1L, "Income", "Income", 0.0, IncomeCategory.WAGE));
+                .create(2L, "Income", "Income", Money.create(0.0, CurrencyType.BRL), IncomeCategory.WAGE);
+        wallet.addIncome(CommonIncome.create(1L, "Income", "Income", Money.create(0.0, CurrencyType.BRL), IncomeCategory.WAGE));
         wallet.addIncome(commonIncome);
 
         Assertions.assertEquals(2, wallet.getIncomes().size());
@@ -79,14 +81,14 @@ public class WalletTest {
     @Test
     @DisplayName("Should get common expenses properly.")
     public void getCommonExpensesTestCase() {
-        Wallet wallet = Wallet.create(1L, 80.0, "Wallet");
-        CommonExpense commonExpense1 = CommonExpense.create(1L, "Expense", "Expense", 0.0, ExpenseCategory.ENTERTAINMENT);
+        Wallet wallet = Wallet.create(1L, Money.create(80.0, CurrencyType.BRL), "Wallet");
+        CommonExpense commonExpense1 = CommonExpense.create(1L, "Expense", "Expense", Money.create(0.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT);
         List<CommonExpense> commonExpenses = new ArrayList<>();
         commonExpenses.add(commonExpense1);
         commonExpenses.add(commonExpense1);
         wallet.addExpense(commonExpense1);
         wallet.addExpense(commonExpense1);
-        wallet.addExpense(RecurringExpense.create(1L, "Recurring", "Recurring", 0.0, ExpenseCategory.ENTERTAINMENT, 4));
+        wallet.addExpense(RecurringExpense.create(1L, "Recurring", "Recurring", Money.create(0.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT, 4));
 
         Assertions.assertEquals(commonExpenses, wallet.getCommonExpenses());
     }
@@ -94,14 +96,14 @@ public class WalletTest {
     @Test
     @DisplayName("Should get common incomes properly.")
     public void getCommonIncomesTestCase() {
-        Wallet wallet = Wallet.create(1L, 80.0, "Wallet");
-        CommonIncome commonIncome1 = CommonIncome.create(1L, "Income", "Income", 0.0, IncomeCategory.WAGE);
+        Wallet wallet = Wallet.create(1L, Money.create(80.0, CurrencyType.BRL), "Wallet");
+        CommonIncome commonIncome1 = CommonIncome.create(1L, "Income", "Income", Money.create(0.0, CurrencyType.BRL), IncomeCategory.WAGE);
         List<CommonIncome> commonIncomes = new ArrayList<>();
         commonIncomes.add(commonIncome1);
         commonIncomes.add(commonIncome1);
         wallet.addIncome(commonIncome1);
         wallet.addIncome(commonIncome1);
-        wallet.addIncome(RecurringIncome.create(1L, "Recurring", "Recurring", 0.0, IncomeCategory.WAGE, 4));
+        wallet.addIncome(RecurringIncome.create(1L, "Recurring", "Recurring", Money.create(0.0, CurrencyType.BRL), IncomeCategory.WAGE, 4));
 
         Assertions.assertEquals(commonIncomes, wallet.getCommonIncomes());
     }
@@ -109,15 +111,15 @@ public class WalletTest {
     @Test
     @DisplayName("Should get recurring expenses properly.")
     public void getRecurringExpensesTestCase() {
-        Wallet wallet = Wallet.create(1L, 80.0, "Wallet");
+        Wallet wallet = Wallet.create(1L, Money.create(80.0, CurrencyType.BRL), "Wallet");
         RecurringExpense recurringExpense1 = RecurringExpense
-                .create(1L, "Recurring", "Recurring", 0.0, ExpenseCategory.ENTERTAINMENT, 4);
+                .create(1L, "Recurring", "Recurring", Money.create(0.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT, 4);
         List<RecurringExpense> recurringExpenses = new ArrayList<>();
         recurringExpenses.add(recurringExpense1);
         recurringExpenses.add(recurringExpense1);
         wallet.addExpense(recurringExpense1);
         wallet.addExpense(recurringExpense1);
-        wallet.addExpense(CommonExpense.create(1L, "Expense", "Expense", 0.0, ExpenseCategory.ENTERTAINMENT));
+        wallet.addExpense(CommonExpense.create(1L, "Expense", "Expense", Money.create(0.0, CurrencyType.BRL), ExpenseCategory.ENTERTAINMENT));
 
         Assertions.assertEquals(recurringExpenses, wallet.getRecurringExpenses());
     }
@@ -125,15 +127,15 @@ public class WalletTest {
     @Test
     @DisplayName("Should get recurring incomes properly.")
     public void getRecurringIncomesTestCase() {
-        Wallet wallet = Wallet.create(1L, 80.0, "Wallet");
+        Wallet wallet = Wallet.create(1L, Money.create(80.0, CurrencyType.BRL), "Wallet");
         RecurringIncome recurringIncome1 = RecurringIncome
-                .create(1L, "Recurring", "Recurring", 0.0, IncomeCategory.WAGE, 4);
+                .create(1L, "Recurring", "Recurring", Money.create(0.0, CurrencyType.BRL), IncomeCategory.WAGE, 4);
         List<RecurringIncome> recurringIncomes = new ArrayList<>();
         recurringIncomes.add(recurringIncome1);
         recurringIncomes.add(recurringIncome1);
         wallet.addIncome(recurringIncome1);
         wallet.addIncome(recurringIncome1);
-        wallet.addIncome(CommonIncome.create(1L, "Income", "Income", 0.0, IncomeCategory.WAGE));
+        wallet.addIncome(CommonIncome.create(1L, "Income", "Income", Money.create(0.0, CurrencyType.BRL), IncomeCategory.WAGE));
 
         Assertions.assertEquals(recurringIncomes, wallet.getRecurringIncomes());
     }
