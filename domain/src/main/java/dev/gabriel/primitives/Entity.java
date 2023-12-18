@@ -5,13 +5,13 @@ import dev.gabriel.valueobjects.Identity;
 public abstract class Entity {
     private Identity id;
 
-    protected Entity(Long id) {
+    protected Entity(String id) {
         this.id = Identity.create(id);
     }
 
     protected Entity() {}
 
-    public Long getIdentity() {
-        return (Long) id.getAtomicValues().get(0);
+    public String getIdentity() {
+        return (String) id.getAtomicValues().get(0);
     }
 }

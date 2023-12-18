@@ -1,7 +1,6 @@
 package dev.gabriel.valueobjects;
 
-import dev.gabriel.entities.enums.CurrencyType;
-import dev.gabriel.exceptions.InvalidDataException;
+import dev.gabriel.enums.CurrencyType;
 import dev.gabriel.primitives.ValueObject;
 import lombok.Getter;
 
@@ -28,9 +27,19 @@ public class Money extends ValueObject {
         return this;
     }
 
+    public Money add(Double value) {
+        this.value += value;
+        return this;
+    }
+
     public Money subtract(Money other) {
         if(!other.currency.equals(this.currency)) return null;
         this.value -= other.value;
+        return this;
+    }
+
+    public Money subtract(Double value) {
+        this.value -= value;
         return this;
     }
 

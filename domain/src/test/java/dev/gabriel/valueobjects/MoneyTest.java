@@ -1,6 +1,6 @@
 package dev.gabriel.valueobjects;
 
-import dev.gabriel.entities.enums.CurrencyType;
+import dev.gabriel.enums.CurrencyType;
 import dev.gabriel.primitives.ValueObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

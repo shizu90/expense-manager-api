@@ -8,13 +8,13 @@ import java.util.List;
 
 @Getter
 public class Identity extends ValueObject {
-    private Long value;
+    private final String value;
 
-    private Identity(Long value) {
+    private Identity(String value) {
         this.value = value;
     }
 
-    public static Identity create(Long value) {
+    public static Identity create(String value) {
         return new Identity(value);
     }
 
