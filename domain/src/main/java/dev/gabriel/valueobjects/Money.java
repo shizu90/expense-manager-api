@@ -1,51 +1,43 @@
 package dev.gabriel.valueobjects;
 
 import dev.gabriel.enums.CurrencyType;
+import dev.gabriel.exceptions.DifferentCurrencyTypeException;
 import dev.gabriel.primitives.ValueObject;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-@Getter
 public class Money extends ValueObject {
-    private Double value;
-    private CurrencyType currency;
+    private final BigDecimal value;
+    private final CurrencyType currency;
 
-    private Money(Double value, CurrencyType currency) {
+    private Money(BigDecimal value, CurrencyType currency) {
         this.value = value;
         this.currency = currency;
     }
 
-    public static Money create(Double value, CurrencyType currency) {
+    public static Money create(BigDecimal value, CurrencyType currency) {
         return new Money(value, currency);
     }
 
     public Money add(Money other) {
-        if(!other.currency.equals(this.currency)) return null;
-        this.value += other.value;
-        return this;
-    }
-
-    public Money add(Double value) {
-        this.value += value;
-        return this;
+        if(!other.currency.equals(this.currency)) throw new DifferentCurrencyTypeException("Given currency type is different.");
+        return new Money(value.add(other.value), this.currency);
     }
 
     public Money subtract(Money other) {
-        if(!other.currency.equals(this.currency)) return null;
-        this.value -= other.value;
-        return this;
+        if(!other.currency.equals(this.currency)) throw new DifferentCurrencyTypeException("Given currency type is different.");
+        return new Money(value.subtract(other.value), this.currency);
     }
 
-    public Money subtract(Double value) {
-        this.value -= value;
-        return this;
+    public Money multiply(double value) {
+        return new Money(this.value.multiply(BigDecimal.valueOf(value)), this.currency);
     }
 
-    public Money multiply(Double value) {
-        this.value *= value;
-        return this;
+    public boolean isGreater(Money other) {
+        return value.compareTo(other.value) >= 0;
     }
 
     @Override

@@ -1,17 +1,22 @@
 package dev.gabriel.primitives;
 
 import dev.gabriel.valueobjects.Identity;
+import lombok.Getter;
+
+import java.time.LocalDate;
 
 public abstract class Entity {
-    private Identity id;
+    private Identity identity;
+    @Getter private LocalDate createdAt;
 
     protected Entity(String id) {
-        this.id = Identity.create(id);
+        this.identity = Identity.create(id);
+        this.createdAt = LocalDate.now();
     }
 
     protected Entity() {}
 
     public String getIdentity() {
-        return (String) id.getAtomicValues().get(0);
+        return (String) identity.getAtomicValues().get(0);
     }
 }

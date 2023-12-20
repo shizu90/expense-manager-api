@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.List;
 
-@Getter
 public class Identity extends ValueObject {
     private final String value;
 
