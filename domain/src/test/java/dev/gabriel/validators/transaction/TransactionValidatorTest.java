@@ -37,12 +37,32 @@ public class TransactionValidatorTest {
     }
 
     @Test
+    @DisplayName("Should validate bill id properly.")
+    void validateBillIdTestCase() {
+        Transaction transaction = populate();
+        ITransactionValidator transactionValidator = new TransactionValidator();
+        String error = transactionValidator.validateBillId(transaction.getBillId());
+
+        Assertions.assertNotNull(error);
+    }
+
+    @Test
+    @DisplayName("Should validate wallet id properly.")
+    void validateWalletIdTestCase() {
+        Transaction transaction = populate();
+        ITransactionValidator transactionValidator = new TransactionValidator();
+        String error = transactionValidator.validateWalletId(transaction.getWalletId());
+
+        Assertions.assertNotNull(error);
+    }
+
+    @Test
     @DisplayName("Should validate transaction properly.")
     void validateTransactionTestCase() {
         Transaction transaction = populate();
         ITransactionValidator transactionValidator = new TransactionValidator();
         List<String> errors = transactionValidator.validate(transaction);
 
-        Assertions.assertEquals(2, errors.size());
+        Assertions.assertEquals(4, errors.size());
     }
 }

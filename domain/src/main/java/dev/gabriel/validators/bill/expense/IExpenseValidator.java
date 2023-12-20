@@ -3,6 +3,7 @@ package dev.gabriel.validators.bill.expense;
 import dev.gabriel.entities.bill.expense.Expense;
 import dev.gabriel.enums.BillStatus;
 import dev.gabriel.enums.ExpenseCategory;
+import dev.gabriel.valueobjects.Identity;
 import dev.gabriel.valueobjects.Money;
 
 import java.time.LocalDate;
@@ -14,6 +15,9 @@ public interface IExpenseValidator {
     String validateAmount(Money amount);
     String validateCategory(ExpenseCategory category);
     String validateStatus(BillStatus status);
+    String validateUserId(Identity userId);
+    String validateCycles(Long cycles);
+    String validateStartDate(LocalDate startDate);
     String validatePaymentsDate(LocalDate prev, LocalDate next);
     String validateDaysOccurrence(Integer daysOccurrence);
     List<String> validate(Expense expense);

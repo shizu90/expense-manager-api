@@ -92,12 +92,42 @@ public class ExpenseValidatorTest {
     }
 
     @Test
+    @DisplayName("Should validate user id properly.")
+    void validateUserIdTestCase() {
+        RecurringExpense recurringExpense = populate();
+        IExpenseValidator expenseValidator = new ExpenseValidator();
+        String error = expenseValidator.validateUserId(recurringExpense.getUserId());
+
+        Assertions.assertNotNull(error);
+    }
+
+    @Test
+    @DisplayName("Should validate cycles properly.")
+    void validateCyclesTestCase() {
+        RecurringExpense recurringExpense = populate();
+        IExpenseValidator expenseValidator = new ExpenseValidator();
+        String error = expenseValidator.validateCycles(recurringExpense.getCycles());
+
+        Assertions.assertNull(error);
+    }
+
+    @Test
+    @DisplayName("Should validate start date properly.")
+    void validateStartDateTestCase() {
+        RecurringExpense recurringExpense = populate();
+        IExpenseValidator expenseValidator = new ExpenseValidator();
+        String error = expenseValidator.validateStartDate((LocalDate) recurringExpense.getStartDate().getAtomicValues().get(0));
+
+        Assertions.assertNull(error);
+    }
+
+    @Test
     @DisplayName("Should validate expense properly.")
     void validateExpenseTestCase() {
         RecurringExpense recurringExpense = populate();
         IExpenseValidator expenseValidator = new ExpenseValidator();
         List<String> errors = expenseValidator.validate(recurringExpense);
 
-        Assertions.assertEquals(4, errors.size());
+        Assertions.assertEquals(5, errors.size());
     }
 }

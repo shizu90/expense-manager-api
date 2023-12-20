@@ -91,12 +91,42 @@ public class IncomeValidatorTest {
     }
 
     @Test
+    @DisplayName("Should validate user id properly.")
+    void validateUserIdTestCase() {
+        RecurringIncome recurringIncome = populate();
+        IIncomeValidator incomeValidator = new IncomeValidator();
+        String error = incomeValidator.validateUserId(recurringIncome.getUserId());
+
+        Assertions.assertNotNull(error);
+    }
+
+    @Test
+    @DisplayName("Should validate cycles properly.")
+    void validateCyclesTestCase() {
+        RecurringIncome recurringIncome = populate();
+        IIncomeValidator incomeValidator = new IncomeValidator();
+        String error = incomeValidator.validateCycles(recurringIncome.getCycles());
+
+        Assertions.assertNull(error);
+    }
+
+    @Test
+    @DisplayName("Should validate start date properly.")
+    void validateStartDateTestCase() {
+        RecurringIncome recurringIncome = populate();
+        IIncomeValidator incomeValidator = new IncomeValidator();
+        String error = incomeValidator.validateStartDate((LocalDate) recurringIncome.getStartDate().getAtomicValues().get(0));
+
+        Assertions.assertNull(error);
+    }
+
+    @Test
     @DisplayName("Should validate income properly.")
     void validateIncomeTestCase() {
         RecurringIncome recurringIncome = populate();
         IIncomeValidator incomeValidator = new IncomeValidator();
         List<String> errors = incomeValidator.validate(recurringIncome);
 
-        Assertions.assertEquals(4, errors.size());
+        Assertions.assertEquals(5, errors.size());
     }
 }

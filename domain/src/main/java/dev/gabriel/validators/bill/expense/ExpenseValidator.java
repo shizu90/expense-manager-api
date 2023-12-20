@@ -5,6 +5,7 @@ import dev.gabriel.entities.bill.expense.Expense;
 import dev.gabriel.enums.BillStatus;
 import dev.gabriel.enums.ExpenseCategory;
 import dev.gabriel.validators.DomainValidator;
+import dev.gabriel.valueobjects.Identity;
 import dev.gabriel.valueobjects.Money;
 
 import java.math.BigDecimal;
@@ -69,15 +70,46 @@ public class ExpenseValidator extends DomainValidator implements IExpenseValidat
             return errorLabel;
         }else return null;
     }
+
+    @Override
+    public String validateUserId(Identity userId) {
+        String errorLabel = "An user must be present.";
+        if(userId == null) {
+            errors.add(errorLabel);
+            return errorLabel;
+        }else return null;
+    }
+
+    @Override
+    public String validateCycles(Long cycles) {
+        String errorLabel = "Invalid cycles count.";
+        if(cycles == null || cycles < 0) {
+            errors.add(errorLabel);
+            return errorLabel;
+        }else return null;
+    }
+
+    @Override
+    public String validateStartDate(LocalDate startDate) {
+        String errorLabel = "Start date must be present.";
+        if(startDate == null) {
+            errors.add(errorLabel);
+            return errorLabel;
+        }else return null;
+    }
+
     @Override
     public List<String> validate(Expense expense) {
         validateName(expense.getName());
         validateComment(expense.getComment());
         validateAmount(expense.getAmount());
         validateCategory(expense.getCategory());
+        validateUserId(expense.getUserId());
         if(expense instanceof IRecurringBill recurringBill) {
             validateDaysOccurrence(recurringBill.getDaysOccurrence());
             validatePaymentsDate((LocalDate) recurringBill.getPreviousPaymentDate().getAtomicValues().get(0), (LocalDate) recurringBill.getNextPaymentDate().getAtomicValues().get(0));
+            validateCycles(recurringBill.getCycles());
+            validateStartDate((LocalDate) recurringBill.getStartDate().getAtomicValues().get(0));
         }
         return errors;
     }

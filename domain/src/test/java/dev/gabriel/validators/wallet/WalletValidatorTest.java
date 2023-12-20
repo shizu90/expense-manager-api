@@ -37,12 +37,42 @@ public class WalletValidatorTest {
     }
 
     @Test
+    @DisplayName("Should validate user id properly.")
+    void validateUserIdTestCase() {
+        Wallet wallet = populate();
+        IWalletValidator walletValidator = new WalletValidator();
+        String error = walletValidator.validateUserId(wallet.getUserId());
+
+        Assertions.assertNotNull(error);
+    }
+
+    @Test
+    @DisplayName("Should validate initial balance properly.")
+    void validateInitialBalanceTestCase() {
+        Wallet wallet = populate();
+        IWalletValidator walletValidator = new WalletValidator();
+        String error = walletValidator.validateInitialBalance(wallet.getInitialBalance());
+
+        Assertions.assertNull(error);
+    }
+
+    @Test
+    @DisplayName("Should validate last balance update properly.")
+    void validateLastBalanceUpdate() {
+        Wallet wallet = populate();
+        IWalletValidator walletValidator = new WalletValidator();
+        String error = walletValidator.validateLastBalanceUpdate(wallet.getLastBalanceUpdate());
+
+        Assertions.assertNull(error);
+    }
+
+    @Test
     @DisplayName("Should validate wallet properly.")
     void validateWalletTestCase() {
         Wallet wallet = populate();
         IWalletValidator walletValidator = new WalletValidator();
         List<String> errors = walletValidator.validate(wallet);
 
-        Assertions.assertEquals(2, errors.size());
+        Assertions.assertEquals(3, errors.size());
     }
 }

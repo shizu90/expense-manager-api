@@ -3,12 +3,30 @@ package dev.gabriel.validators.transaction;
 import dev.gabriel.entities.transaction.Transaction;
 import dev.gabriel.enums.TransactionType;
 import dev.gabriel.validators.DomainValidator;
+import dev.gabriel.valueobjects.Identity;
 import dev.gabriel.valueobjects.Money;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public class TransactionValidator extends DomainValidator implements ITransactionValidator {
+    @Override
+    public String validateBillId(Identity billId) {
+        String errorLabel = "Bill id must be present.";
+        if(billId == null) {
+            errors.add(errorLabel);
+            return errorLabel;
+        }else return null;
+    }
+    @Override
+    public String validateWalletId(Identity walletId) {
+        String errorLabel = "Wallet id must be present.";
+        if(walletId == null) {
+            errors.add(errorLabel);
+            return errorLabel;
+        }else return null;
+    }
+
     @Override
     public String validateTotalPaid(Money totalPaid) {
         String errorLabel = "Transaction total paid must not be smaller than 0.";
@@ -32,6 +50,8 @@ public class TransactionValidator extends DomainValidator implements ITransactio
     public List<String> validate(Transaction transaction) {
         validateTotalPaid(transaction.getTotalPaid());
         validateTransactionType(transaction.getTransactionType());
+        validateBillId(transaction.getBillId());
+        validateWalletId(transaction.getWalletId());
         return errors;
     }
 }
