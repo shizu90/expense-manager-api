@@ -2,6 +2,7 @@ package dev.gabriel.validators.bill.expense;
 
 import dev.gabriel.entities.bill.IRecurringBill;
 import dev.gabriel.entities.bill.expense.Expense;
+import dev.gabriel.enums.BillStatus;
 import dev.gabriel.enums.ExpenseCategory;
 import dev.gabriel.validators.DomainValidator;
 import dev.gabriel.valueobjects.Money;
@@ -31,6 +32,14 @@ public class ExpenseValidator extends DomainValidator implements IExpenseValidat
     public String validateCategory(ExpenseCategory category) {
         String errorLabel = "Category must be present.";
         if(category == null) {
+            errors.add(errorLabel);
+            return errorLabel;
+        }else return null;
+    }
+    @Override
+    public String validateStatus(BillStatus status) {
+        String errorLabel = "Status must be present.";
+        if(status == null) {
             errors.add(errorLabel);
             return errorLabel;
         }else return null;

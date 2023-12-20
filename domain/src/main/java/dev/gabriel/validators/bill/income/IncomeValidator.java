@@ -2,6 +2,7 @@ package dev.gabriel.validators.bill.income;
 
 import dev.gabriel.entities.bill.IRecurringBill;
 import dev.gabriel.entities.bill.income.Income;
+import dev.gabriel.enums.BillStatus;
 import dev.gabriel.enums.IncomeCategory;
 import dev.gabriel.validators.DomainValidator;
 import dev.gabriel.valueobjects.Money;
@@ -40,6 +41,14 @@ public class IncomeValidator extends DomainValidator implements IIncomeValidator
         String errorLabel = "Amount must be greater than 0.";
         BigDecimal value = (BigDecimal) amount.getAtomicValues().get(0);
         if(value == null || value.compareTo(BigDecimal.ZERO) < 0) {
+            errors.add(errorLabel);
+            return errorLabel;
+        }else return null;
+    }
+    @Override
+    public String validateStatus(BillStatus status) {
+        String errorLabel = "Status must be present.";
+        if(status == null) {
             errors.add(errorLabel);
             return errorLabel;
         }else return null;

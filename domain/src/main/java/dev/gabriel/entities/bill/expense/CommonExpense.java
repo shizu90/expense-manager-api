@@ -10,7 +10,7 @@ public class CommonExpense extends Expense {
         super(id, name, comment, amount, category, status, userId);
     }
 
-    protected static CommonExpense create(String id, String name, String comment, Money amount, ExpenseCategory category, BillStatus status, Identity userId) {
+    public static CommonExpense create(String id, String name, String comment, Money amount, ExpenseCategory category, BillStatus status, Identity userId) {
         return new CommonExpense(id, name, comment, amount, category, status, userId);
     }
 }

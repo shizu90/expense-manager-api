@@ -10,7 +10,7 @@ public class CommonIncome extends Income {
         super(id, name, comment, amount, category, status, userId);
     }
 
-    protected static CommonIncome create(String id, String name, String comment, Money amount, IncomeCategory category, BillStatus status, Identity userId) {
+    public static CommonIncome create(String id, String name, String comment, Money amount, IncomeCategory category, BillStatus status, Identity userId) {
         return new CommonIncome(id, name, comment, amount, category, status, userId);
     }
 }

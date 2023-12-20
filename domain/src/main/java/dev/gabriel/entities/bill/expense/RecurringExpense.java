@@ -39,11 +39,11 @@ public class RecurringExpense extends Expense implements IRecurringBill {
         this.cycles = 0L;
     }
 
-    protected static RecurringExpense create(String id, String name, String comment, Money amount, ExpenseCategory category, Integer daysOccurrence, BillStatus status, Identity userId) {
+    public static RecurringExpense create(String id, String name, String comment, Money amount, ExpenseCategory category, Integer daysOccurrence, BillStatus status, Identity userId) {
         return new RecurringExpense(id, name, comment, amount, category, daysOccurrence, status, userId);
     }
 
-    protected static RecurringExpense create(String id, String name, String comment, Money amount, ExpenseCategory category, Integer daysOccurrence, BillStatus status, Identity userId, LocalDate startDate) {
+    public static RecurringExpense create(String id, String name, String comment, Money amount, ExpenseCategory category, Integer daysOccurrence, BillStatus status, Identity userId, LocalDate startDate) {
         return new RecurringExpense(id, name, comment, amount, category, daysOccurrence, status, userId, startDate);
     }
 

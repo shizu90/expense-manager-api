@@ -1,6 +1,7 @@
 package dev.gabriel.validators.transaction;
 
 import dev.gabriel.entities.transaction.Transaction;
+import dev.gabriel.enums.TransactionType;
 import dev.gabriel.validators.DomainValidator;
 import dev.gabriel.valueobjects.Money;
 
@@ -19,8 +20,18 @@ public class TransactionValidator extends DomainValidator implements ITransactio
     }
 
     @Override
+    public String validateTransactionType(TransactionType transactionType) {
+        String errorLabel = "Transaction type must be present.";
+        if(transactionType == null) {
+            errors.add(errorLabel);
+            return errorLabel;
+        }else return null;
+    }
+
+    @Override
     public List<String> validate(Transaction transaction) {
         validateTotalPaid(transaction.getTotalPaid());
+        validateTransactionType(transaction.getTransactionType());
         return errors;
     }
 }
