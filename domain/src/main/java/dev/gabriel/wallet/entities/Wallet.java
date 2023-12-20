@@ -9,6 +9,8 @@ import dev.gabriel.shared.exceptions.InsufficientFundsException;
 import dev.gabriel.shared.entities.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Identity;
 import dev.gabriel.shared.valueobjects.Money;
+import dev.gabriel.wallet.events.WalletCreatedEvent;
+import dev.gabriel.wallet.events.WalletUpdatedEvent;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -23,17 +25,19 @@ public class Wallet extends AggregateRoot {
     private LocalDate lastBalanceUpdate;
 
     private Wallet(String id, String name, String comment, Money balance, Identity userId) {
-        super(id);
+        super(Identity.create(id));
         this.name = name;
         this.comment = comment;
         this.balance = balance;
         this.initialBalance = balance;
         this.userId = userId;
-        this.lastBalanceUpdate = getCreatedAt();
+        this.lastBalanceUpdate = getCreatedAt().toLocalDate();
     }
 
     public static Wallet create(String id, Money balance, String name, String comment, Identity userId) {
-        return new Wallet(id, name, comment, balance, userId);
+        Wallet wallet = new Wallet(id, name, comment, balance, userId);
+        addEvent(new WalletCreatedEvent(wallet.identity));
+        return wallet;
     }
 
     public void rename(String name) {
@@ -58,12 +62,14 @@ public class Wallet extends AggregateRoot {
         commonExpense.updateStatus(BillStatus.PAID);
         balance = balance.subtract(commonExpense.getAmount());
         lastBalanceUpdate = LocalDate.now();
+        addEvent(new WalletUpdatedEvent(identity));
     }
 
     public void receiveCommonIncomePayment(CommonIncome commonIncome) {
         balance.add(commonIncome.getAmount());
         commonIncome.updateStatus(BillStatus.PAID);
         lastBalanceUpdate = LocalDate.now();
+        addEvent(new WalletUpdatedEvent(identity));
     }
 
     public void payRecurringExpenseCycles(RecurringExpense recurringExpense) {
@@ -77,6 +83,7 @@ public class Wallet extends AggregateRoot {
         recurringExpense.updateStatus(BillStatus.PAID);
         balance.subtract(recurringExpenseTotalAmount);
         lastBalanceUpdate = LocalDate.now();
+        addEvent(new WalletUpdatedEvent(identity));
     }
 
     public void receiveRecurringIncomePaymentCycles(RecurringIncome recurringIncome) {
@@ -84,5 +91,6 @@ public class Wallet extends AggregateRoot {
         recurringIncome.updateStatus(BillStatus.PAID);
         balance = balance.add(recurringIncomeTotalAmount);
         lastBalanceUpdate = LocalDate.now();
+        addEvent(new WalletUpdatedEvent(identity));
     }
  }

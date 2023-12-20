@@ -7,8 +7,7 @@ import java.util.List;
 
 public class Identity extends ValueObject {
     private final String value;
-
-    private Identity(String value) {
+    protected Identity(String value) {
         this.value = value;
     }
 

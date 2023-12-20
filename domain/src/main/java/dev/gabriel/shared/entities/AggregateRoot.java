@@ -1,7 +1,9 @@
 package dev.gabriel.shared.entities;
 
+import dev.gabriel.shared.valueobjects.Identity;
+
 public abstract class AggregateRoot extends Entity {
-    protected AggregateRoot(String id) {
+    protected AggregateRoot(Identity id) {
         super(id);
     }
 }

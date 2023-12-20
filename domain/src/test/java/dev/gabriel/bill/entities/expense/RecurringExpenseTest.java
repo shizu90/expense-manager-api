@@ -49,14 +49,14 @@ public class RecurringExpenseTest {
                         ExpenseCategory.OTHER, 4, BillStatus.UNPAID,
                         Identity.create(UUID.randomUUID().toString()), LocalDate.of(2023, 12, 8));
 
-        Assertions.assertEquals(LocalDate.of(2023, 12, 8), recurringExpense.getPreviousPaymentDate().getAtomicValues().get(0));
-        Assertions.assertEquals(LocalDate.of(2023, 12, 12), recurringExpense.getNextPaymentDate().getAtomicValues().get(0));
+        Assertions.assertEquals(LocalDate.of(2023, 12, 8), recurringExpense.getPreviousPaymentDate());
+        Assertions.assertEquals(LocalDate.of(2023, 12, 12), recurringExpense.getNextPaymentDate());
 
         recurringExpense.nextPayment(LocalDate.of(2023, 12, 12));
 
-        Assertions.assertEquals(LocalDate.of(2023, 12, 8), recurringExpense.getStartDate().getAtomicValues().get(0));
-        Assertions.assertEquals(LocalDate.of(2023, 12, 12), recurringExpense.getPreviousPaymentDate().getAtomicValues().get(0));
-        Assertions.assertEquals(LocalDate.of(2023, 12, 16), recurringExpense.getNextPaymentDate().getAtomicValues().get(0));
+        Assertions.assertEquals(LocalDate.of(2023, 12, 8), recurringExpense.getStartDate());
+        Assertions.assertEquals(LocalDate.of(2023, 12, 12), recurringExpense.getPreviousPaymentDate());
+        Assertions.assertEquals(LocalDate.of(2023, 12, 16), recurringExpense.getNextPaymentDate());
         Assertions.assertEquals(1, recurringExpense.getCycles());
         Assertions.assertEquals(BillStatus.PAID, recurringExpense.getStatus());
     }

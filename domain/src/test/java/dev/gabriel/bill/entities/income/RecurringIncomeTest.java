@@ -49,14 +49,14 @@ public class RecurringIncomeTest {
                         IncomeCategory.OTHER, 4, BillStatus.UNPAID,
                         Identity.create(UUID.randomUUID().toString()), LocalDate.of(2023, 12, 8));
 
-        Assertions.assertEquals(LocalDate.of(2023, 12, 8), recurringIncome.getPreviousPaymentDate().getAtomicValues().get(0));
-        Assertions.assertEquals(LocalDate.of(2023, 12, 12), recurringIncome.getNextPaymentDate().getAtomicValues().get(0));
+        Assertions.assertEquals(LocalDate.of(2023, 12, 8), recurringIncome.getPreviousPaymentDate());
+        Assertions.assertEquals(LocalDate.of(2023, 12, 12), recurringIncome.getNextPaymentDate());
 
         recurringIncome.nextPayment(LocalDate.of(2023, 12, 12));
 
-        Assertions.assertEquals(LocalDate.of(2023, 12, 8), recurringIncome.getStartDate().getAtomicValues().get(0));
-        Assertions.assertEquals(LocalDate.of(2023, 12, 12), recurringIncome.getPreviousPaymentDate().getAtomicValues().get(0));
-        Assertions.assertEquals(LocalDate.of(2023, 12, 16), recurringIncome.getNextPaymentDate().getAtomicValues().get(0));
+        Assertions.assertEquals(LocalDate.of(2023, 12, 8), recurringIncome.getStartDate());
+        Assertions.assertEquals(LocalDate.of(2023, 12, 12), recurringIncome.getPreviousPaymentDate());
+        Assertions.assertEquals(LocalDate.of(2023, 12, 16), recurringIncome.getNextPaymentDate());
         Assertions.assertEquals(1, recurringIncome.getCycles());
         Assertions.assertEquals(BillStatus.PAID, recurringIncome.getStatus());
     }

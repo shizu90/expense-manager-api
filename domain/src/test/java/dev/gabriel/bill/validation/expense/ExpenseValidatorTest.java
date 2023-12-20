@@ -78,7 +78,7 @@ public class ExpenseValidatorTest {
     void validatePaymentsDateTestCase() {
         RecurringExpense recurringExpense = populate();
         IExpenseValidator expenseValidator = new ExpenseValidator();
-        String error = expenseValidator.validatePaymentsDate((LocalDate) recurringExpense.getPreviousPaymentDate().getAtomicValues().get(0), (LocalDate) recurringExpense.getNextPaymentDate().getAtomicValues().get(0));
+        String error = expenseValidator.validatePaymentsDate(recurringExpense.getPreviousPaymentDate(), recurringExpense.getNextPaymentDate());
 
         Assertions.assertNull(error);
     }
@@ -118,7 +118,7 @@ public class ExpenseValidatorTest {
     void validateStartDateTestCase() {
         RecurringExpense recurringExpense = populate();
         IExpenseValidator expenseValidator = new ExpenseValidator();
-        String error = expenseValidator.validateStartDate((LocalDate) recurringExpense.getStartDate().getAtomicValues().get(0));
+        String error = expenseValidator.validateStartDate(recurringExpense.getStartDate());
 
         Assertions.assertNull(error);
     }

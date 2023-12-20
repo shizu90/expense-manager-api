@@ -1,11 +1,8 @@
 package dev.gabriel.bill.entities.expense;
 
-import dev.gabriel.bill.entities.expense.CommonExpense;
-import dev.gabriel.bill.entities.expense.Expense;
 import dev.gabriel.bill.entities.Bill;
 import dev.gabriel.bill.entities.BillStatus;
 import dev.gabriel.shared.valueobjects.CurrencyType;
-import dev.gabriel.bill.entities.expense.ExpenseCategory;
 import dev.gabriel.shared.entities.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Identity;
 import dev.gabriel.shared.valueobjects.Money;

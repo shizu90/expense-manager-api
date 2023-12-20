@@ -1,6 +1,8 @@
 package dev.gabriel.bill.entities.income;
 
 import dev.gabriel.bill.entities.BillStatus;
+import dev.gabriel.bill.events.income.IncomeCreatedEvent;
+import dev.gabriel.bill.events.income.IncomeRemovedEvent;
 import dev.gabriel.shared.valueobjects.Identity;
 import dev.gabriel.shared.valueobjects.Money;
 
@@ -10,6 +12,12 @@ public class CommonIncome extends Income {
     }
 
     public static CommonIncome create(String id, String name, String comment, Money amount, IncomeCategory category, BillStatus status, Identity userId) {
-        return new CommonIncome(id, name, comment, amount, category, status, userId);
+        CommonIncome commonIncome = new CommonIncome(id, name, comment, amount, category, status, userId);
+        addEvent(new IncomeCreatedEvent(commonIncome.identity));
+        return commonIncome;
+    }
+
+    public void delete() {
+        addEvent(new IncomeRemovedEvent(identity));
     }
 }

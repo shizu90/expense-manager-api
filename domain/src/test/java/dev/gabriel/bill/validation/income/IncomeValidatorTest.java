@@ -77,7 +77,7 @@ public class IncomeValidatorTest {
     void validatePaymentsDateTestCase() {
         RecurringIncome recurringIncome = populate();
         IIncomeValidator incomeValidator = new IncomeValidator();
-        String error = incomeValidator.validatePaymentsDate((LocalDate) recurringIncome.getPreviousPaymentDate().getAtomicValues().get(0), (LocalDate) recurringIncome.getNextPaymentDate().getAtomicValues().get(0));
+        String error = incomeValidator.validatePaymentsDate(recurringIncome.getPreviousPaymentDate(), recurringIncome.getNextPaymentDate());
 
         Assertions.assertNull(error);
     }
@@ -117,7 +117,7 @@ public class IncomeValidatorTest {
     void validateStartDateTestCase() {
         RecurringIncome recurringIncome = populate();
         IIncomeValidator incomeValidator = new IncomeValidator();
-        String error = incomeValidator.validateStartDate((LocalDate) recurringIncome.getStartDate().getAtomicValues().get(0));
+        String error = incomeValidator.validateStartDate(recurringIncome.getStartDate());
 
         Assertions.assertNull(error);
     }

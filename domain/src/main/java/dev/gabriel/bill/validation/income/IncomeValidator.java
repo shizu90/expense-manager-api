@@ -107,9 +107,9 @@ public class IncomeValidator extends DomainValidator implements IIncomeValidator
         validateUserId(income.getUserId());
         if(income instanceof IRecurringBill recurringBill) {
             validateDaysOccurrence(recurringBill.getDaysOccurrence());
-            validatePaymentsDate((LocalDate) recurringBill.getPreviousPaymentDate().getAtomicValues().get(0), (LocalDate) recurringBill.getNextPaymentDate().getAtomicValues().get(0));
+            validatePaymentsDate(recurringBill.getPreviousPaymentDate(), recurringBill.getNextPaymentDate());
             validateCycles(recurringBill.getCycles());
-            validateStartDate((LocalDate) recurringBill.getStartDate().getAtomicValues().get(0));
+            validateStartDate(recurringBill.getStartDate());
         }
         return errors;
     }

@@ -2,7 +2,8 @@ package dev.gabriel.bill.entities.income;
 
 import dev.gabriel.bill.entities.IRecurringBill;
 import dev.gabriel.bill.entities.BillStatus;
-import dev.gabriel.shared.valueobjects.CalendarDate;
+import dev.gabriel.bill.events.income.IncomeCreatedEvent;
+import dev.gabriel.bill.events.income.IncomeUpdatedEvent;
 import dev.gabriel.shared.valueobjects.Identity;
 import dev.gabriel.shared.valueobjects.Money;
 import lombok.Getter;
@@ -15,16 +16,16 @@ import java.time.temporal.ChronoUnit;
 @Setter
 public class RecurringIncome extends Income implements IRecurringBill {
     private Integer daysOccurrence;
-    private CalendarDate nextPaymentDate;
-    private CalendarDate previousPaymentDate;
-    private CalendarDate startDate;
+    private LocalDate nextPaymentDate;
+    private LocalDate previousPaymentDate;
+    private LocalDate startDate;
     private Long cycles;
 
     private RecurringIncome(String id, String name, String comment, Money amount, IncomeCategory category, Integer daysOccurrence, BillStatus status, Identity userId) {
         super(id, name, comment, amount, category, status, userId);
         this.daysOccurrence = daysOccurrence;
-        this.startDate = CalendarDate.create(getCreatedAt());
-        this.nextPaymentDate = startDate.addDays(daysOccurrence);
+        this.startDate = createdAt.toLocalDate();
+        this.nextPaymentDate = startDate.plusDays(daysOccurrence);
         this.previousPaymentDate = startDate;
         this.cycles = 0L;
     }
@@ -32,18 +33,22 @@ public class RecurringIncome extends Income implements IRecurringBill {
     private RecurringIncome(String id, String name, String comment, Money amount, IncomeCategory category, Integer daysOccurrence, BillStatus status, Identity userId, LocalDate startDate) {
         super(id, name, comment, amount, category, status, userId);
         this.daysOccurrence = daysOccurrence;
-        this.startDate = CalendarDate.create(startDate);
+        this.startDate = startDate;
         this.previousPaymentDate = this.startDate;
-        this.nextPaymentDate = this.startDate.addDays(daysOccurrence);
+        this.nextPaymentDate = this.startDate.plusDays(daysOccurrence);
         this.cycles = 0L;
     }
 
     public static RecurringIncome create(String id, String name, String comment, Money amount, IncomeCategory category, Integer daysOccurrence, BillStatus status, Identity userId) {
-        return new RecurringIncome(id, name, comment, amount, category, daysOccurrence, status, userId);
+        RecurringIncome recurringIncome = new RecurringIncome(id, name, comment, amount, category, daysOccurrence, status, userId);
+        addEvent(new IncomeCreatedEvent(recurringIncome.identity));
+        return recurringIncome;
     }
 
     public static RecurringIncome create(String id, String name, String comment, Money amount, IncomeCategory category, Integer daysOccurrence, BillStatus status, Identity userId, LocalDate startDate) {
-        return new RecurringIncome(id, name, comment, amount, category, daysOccurrence, status, userId, startDate);
+        RecurringIncome recurringIncome = new RecurringIncome(id, name, comment, amount, category, daysOccurrence, status, userId, startDate);
+        addEvent(new IncomeCreatedEvent(recurringIncome.identity));
+        return recurringIncome;
     }
 
     public void checkPayments(LocalDate paymentDate) {
@@ -51,20 +56,22 @@ public class RecurringIncome extends Income implements IRecurringBill {
         if(cycles < newCycles) {
             updateStatus(BillStatus.UNPAID);
         }else updateStatus(BillStatus.PAID);
+        addEvent(new IncomeUpdatedEvent(identity));
     }
 
     public void nextPayment(LocalDate paymentDate) {
         long newCycles = countCycles(paymentDate);
         long days = daysOccurrence * newCycles;
-        CalendarDate lastPaymentDate = startDate.addDays(days);
+        LocalDate lastPaymentDate = startDate.plusDays(days);
         previousPaymentDate = lastPaymentDate;
-        nextPaymentDate = lastPaymentDate.addDays(daysOccurrence);
+        nextPaymentDate = lastPaymentDate.plusDays(daysOccurrence);
         cycles = newCycles;
         updateStatus(BillStatus.PAID);
+        addEvent(new IncomeUpdatedEvent(identity));
     }
 
     private long countCycles(LocalDate date) {
-        long days = ChronoUnit.DAYS.between((LocalDate) startDate.getAtomicValues().get(0), date);
+        long days = ChronoUnit.DAYS.between(startDate, date);
 
         long newCycles;
         if(cycles > 1L) {

@@ -107,9 +107,9 @@ public class ExpenseValidator extends DomainValidator implements IExpenseValidat
         validateUserId(expense.getUserId());
         if(expense instanceof IRecurringBill recurringBill) {
             validateDaysOccurrence(recurringBill.getDaysOccurrence());
-            validatePaymentsDate((LocalDate) recurringBill.getPreviousPaymentDate().getAtomicValues().get(0), (LocalDate) recurringBill.getNextPaymentDate().getAtomicValues().get(0));
+            validatePaymentsDate(recurringBill.getPreviousPaymentDate(), recurringBill.getNextPaymentDate());
             validateCycles(recurringBill.getCycles());
-            validateStartDate((LocalDate) recurringBill.getStartDate().getAtomicValues().get(0));
+            validateStartDate(recurringBill.getStartDate());
         }
         return errors;
     }

@@ -14,7 +14,7 @@ public abstract class Bill extends AggregateRoot {
     protected Identity userId;
 
     public Bill(String id, String name, String comment, Money amount, BillStatus status, Identity userId) {
-        super(id);
+        super(Identity.create(id));
         this.name = name;
         this.comment = comment;
         this.amount = amount;

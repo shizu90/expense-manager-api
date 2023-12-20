@@ -4,12 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.0</version>
+    </parent>
+
     <groupId>dev.gabriel</groupId>
     <artifactId>expensemanager</artifactId>
     <version>1.0.0</version>
     <name>Expense Manager API</name>
     <description>Expense Manager Rest API for expense manager app.</description>
-    <packaging>pom</packaging>
 
     <modules>
         <module>domain</module>
@@ -17,6 +22,8 @@
         <module>infrastructure</module>
         <module>presentation</module>
     </modules>
+
+    <packaging>pom</packaging>
 
     <properties>
         <project.encoding>UTF-8</project.encoding>
@@ -30,19 +37,6 @@
         <mockito.version>5.3.1</mockito.version>
         <assertj.version>3.24.2</assertj.version>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>mvnrepository</id>
-            <url>http://repo1.maven.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
