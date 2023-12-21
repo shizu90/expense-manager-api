@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-public class Money extends ValueObject {
+public class Money extends ValueObject implements Comparable<Money> {
     private final BigDecimal value;
     private final CurrencyType currency;
 
@@ -34,8 +34,9 @@ public class Money extends ValueObject {
         return new Money(this.value.multiply(BigDecimal.valueOf(value)), this.currency);
     }
 
-    public boolean isGreater(Money other) {
-        return value.compareTo(other.value) >= 0;
+    @Override
+    public int compareTo(Money other) {
+        return value.compareTo(other.value);
     }
 
     @Override

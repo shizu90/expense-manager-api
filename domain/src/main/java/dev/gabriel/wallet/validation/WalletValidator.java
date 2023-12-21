@@ -46,7 +46,7 @@ public class WalletValidator extends DomainValidator implements IWalletValidator
     @Override
     public String validateInitialBalance(Money initialBalance) {
         String errorLabel = "Initial balance must not be smaller than 0.";
-        if(initialBalance == null || !initialBalance.isGreater(Money.create(BigDecimal.ZERO, CurrencyType.BRL))) {
+        if(initialBalance == null || initialBalance.compareTo(Money.create(BigDecimal.ZERO, CurrencyType.BRL)) < 0) {
             errors.add(errorLabel);
             return errorLabel;
         }else return null;

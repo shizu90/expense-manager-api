@@ -5,24 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d000b209-e205-4894-a9ea-f86bc8cb3114" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/valueobjects/CreatedAt.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/events/TransactionRemovedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/valueobjects/BillId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/valueobjects/ExpenseId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/valueobjects/IncomeId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/events/IDomainEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/valueobjects/DomainEventId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/valueobjects/TransactionId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserActivatedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/valueobjects/UserConfigurationId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/valueobjects/UserId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/ExpensePaidEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/IncomeReceivedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/valueobjects/WalletId.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/domain/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/domain/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/domain/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/domain/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/Bill.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/Bill.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/IRecurringBill.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/IRecurringBill.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/expense/CommonExpense.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/expense/CommonExpense.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/expense/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/expense/Expense.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/expense/RecurringExpense.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/expense/RecurringExpense.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/income/CommonIncome.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/income/CommonIncome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/income/Income.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/income/Income.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/income/RecurringIncome.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/entities/income/RecurringIncome.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/expense/ExpenseCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/expense/ExpenseCreatedEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/expense/ExpenseRemovedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/expense/ExpenseRemovedEvent.java" afterDir="false" />
@@ -30,15 +32,14 @@
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/income/IncomeCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/income/IncomeCreatedEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/income/IncomeRemovedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/income/IncomeRemovedEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/income/IncomeUpdatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/income/IncomeUpdatedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/validation/expense/ExpenseValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/validation/expense/ExpenseValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/validation/income/IncomeValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/validation/income/IncomeValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/entities/AggregateRoot.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/entities/AggregateRoot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/entities/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/events/DomainEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/events/DomainEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/valueobjects/CalendarDate.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/valueobjects/Identity.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/valueobjects/Identity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/valueobjects/Money.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/valueobjects/Money.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/entities/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/entities/Transaction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/events/TransactionCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/events/TransactionCreatedEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/events/TransactionRemovedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/events/TransactionRemovedEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/entities/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/entities/UserConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/entities/UserConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserCreatedEvent.java" afterDir="false" />
@@ -48,25 +49,15 @@
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletCreatedEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletRemovedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletRemovedEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletUpdatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletUpdatedEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/validation/WalletValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/validation/WalletValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/entities/expense/CommonExpenseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/entities/expense/CommonExpenseTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/entities/expense/RecurringExpenseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/entities/expense/RecurringExpenseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/entities/income/CommonIncomeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/entities/income/CommonIncomeTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/entities/income/RecurringIncomeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/entities/income/RecurringIncomeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/validation/expense/ExpenseValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/validation/expense/ExpenseValidatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/validation/income/IncomeValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/validation/income/IncomeValidatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/shared/valueobjects/CalendarDateTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentation/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentation/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentation/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/presentation/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/shared/valueobjects/IdentityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/shared/valueobjects/IdentityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/transaction/entities/TransactionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/transaction/entities/TransactionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/user/entities/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/user/entities/UserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/wallet/entities/WalletTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/wallet/entities/WalletTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +67,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -95,20 +87,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "21",
-    "last_opened_file_path": "C:/Users/giraf/expense-manager-api/expensemanager",
-    "onboarding.tips.debug.path": "C:/Users/giraf/expense-manager-api/expensemanager/src/main/java/dev/gabriel/Main.java"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;21&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/giraf/expense-manager-api/expensemanager/application/src/main/java/dev/gabriel/wallet&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/giraf/expense-manager-api/expensemanager/src/main/java/dev/gabriel/Main.java&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\giraf\expense-manager-api\expensemanager" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\application\src\main\java\dev\gabriel\wallet" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\application\src\main\java\dev\gabriel\user" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\application\src\main\java\dev\gabriel\transaction" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\application\src\main\java\dev\gabriel\shared" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\presentation\src\test\java\dev\gabriel" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\giraf\expense-manager-api\expensemanager\domain\src\test\java\dev\gabriel" />
@@ -117,23 +113,75 @@
       <recent name="C:\Users\giraf\expense-manager-api\expensemanager\src" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="dev.gabriel.Main" />
-      <module name="expensemanager" />
+  <component name="RunManager" selected="JUnit.gabriel in domain">
+    <configuration name="TransactionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="domain" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dev.gabriel.*" />
+          <option name="PATTERN" value="dev.gabriel.transaction.entities.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="dev.gabriel.transaction.entities" />
+      <option name="MAIN_CLASS_NAME" value="dev.gabriel.transaction.entities.TransactionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="domain" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.gabriel.user.entities.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dev.gabriel.user.entities" />
+      <option name="MAIN_CLASS_NAME" value="dev.gabriel.user.entities.UserTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WalletTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="domain" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.gabriel.wallet.entities.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dev.gabriel.wallet.entities" />
+      <option name="MAIN_CLASS_NAME" value="dev.gabriel.wallet.entities.WalletTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="gabriel in domain" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="domain" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/domain/src/test/java/dev/gabriel" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="validation in domain (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="domain" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/wallet/validation" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.gabriel in domain" />
+        <item itemvalue="JUnit.TransactionTest" />
+        <item itemvalue="JUnit.validation in domain (2)" />
+        <item itemvalue="JUnit.WalletTest" />
+        <item itemvalue="JUnit.UserTest" />
       </list>
     </recent_temporary>
   </component>

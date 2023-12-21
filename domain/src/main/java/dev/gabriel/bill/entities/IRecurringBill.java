@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public interface IRecurringBill {
     void nextPayment(LocalDate date);
-    void checkPayments(LocalDate date);
+    void checkNewPayments(LocalDate date);
     LocalDate getNextPaymentDate();
     LocalDate getPreviousPaymentDate();
     LocalDate getStartDate();

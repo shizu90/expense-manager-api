@@ -13,11 +13,11 @@ public class CommonExpense extends Expense {
 
     public static CommonExpense create(String id, String name, String comment, Money amount, ExpenseCategory category, BillStatus status, Identity userId) {
         CommonExpense commonExpense = new CommonExpense(id, name, comment, amount, category, status, userId);
-        addEvent(new ExpenseCreatedEvent(commonExpense.identity));
+        commonExpense.addEvent(new ExpenseCreatedEvent(commonExpense));
         return commonExpense;
     }
 
-    public void delete() {
-        addEvent(new ExpenseRemovedEvent(identity));
+    public void remove() {
+        addEvent(new ExpenseRemovedEvent(this));
     }
 }

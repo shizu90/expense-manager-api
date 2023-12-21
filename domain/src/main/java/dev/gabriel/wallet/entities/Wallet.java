@@ -1,16 +1,17 @@
 package dev.gabriel.wallet.entities;
 
-import dev.gabriel.bill.entities.expense.CommonExpense;
-import dev.gabriel.bill.entities.expense.RecurringExpense;
-import dev.gabriel.bill.entities.income.CommonIncome;
-import dev.gabriel.bill.entities.income.RecurringIncome;
-import dev.gabriel.bill.entities.BillStatus;
+import dev.gabriel.bill.entities.IRecurringBill;
+import dev.gabriel.bill.entities.expense.Expense;
+import dev.gabriel.bill.entities.income.Income;
 import dev.gabriel.shared.exceptions.InsufficientFundsException;
 import dev.gabriel.shared.entities.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Identity;
 import dev.gabriel.shared.valueobjects.Money;
+import dev.gabriel.wallet.events.ExpensePaidEvent;
+import dev.gabriel.wallet.events.IncomeReceivedEvent;
 import dev.gabriel.wallet.events.WalletCreatedEvent;
 import dev.gabriel.wallet.events.WalletUpdatedEvent;
+import dev.gabriel.wallet.valueobjects.WalletId;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class Wallet extends AggregateRoot {
     private LocalDate lastBalanceUpdate;
 
     private Wallet(String id, String name, String comment, Money balance, Identity userId) {
-        super(Identity.create(id));
+        super(WalletId.create(id));
         this.name = name;
         this.comment = comment;
         this.balance = balance;
@@ -36,61 +37,50 @@ public class Wallet extends AggregateRoot {
 
     public static Wallet create(String id, Money balance, String name, String comment, Identity userId) {
         Wallet wallet = new Wallet(id, name, comment, balance, userId);
-        addEvent(new WalletCreatedEvent(wallet.identity));
+        wallet.addEvent(new WalletCreatedEvent(wallet));
         return wallet;
     }
 
     public void rename(String name) {
         this.name = name;
+        addEvent(new WalletUpdatedEvent(this));
     }
 
     public void changeComment(String comment) {
         this.comment = comment;
+        addEvent(new WalletUpdatedEvent(this));
     }
 
-    public void addAmount(Money amount) {
-        balance = balance.add(amount);
+    public void changeBalance(Money amount) {
+        balance = amount;
+        addEvent(new WalletUpdatedEvent(this));
     }
 
-    public void payCommonExpense(CommonExpense commonExpense) {
-        Money commonExpenseAmount = commonExpense.getAmount();
-
-        if(!balance.isGreater(commonExpenseAmount)) {
-            throw new InsufficientFundsException("Cant pay that expense with current wallet.");
-        }
-
-        commonExpense.updateStatus(BillStatus.PAID);
-        balance = balance.subtract(commonExpense.getAmount());
-        lastBalanceUpdate = LocalDate.now();
-        addEvent(new WalletUpdatedEvent(identity));
+    @Override
+    public WalletId getId() {
+        return (WalletId) id;
     }
 
-    public void receiveCommonIncomePayment(CommonIncome commonIncome) {
-        balance.add(commonIncome.getAmount());
-        commonIncome.updateStatus(BillStatus.PAID);
-        lastBalanceUpdate = LocalDate.now();
-        addEvent(new WalletUpdatedEvent(identity));
+    public void payExpense(Expense expense) {
+        Money total;
+        if(expense instanceof IRecurringBill recurringBill) {
+            recurringBill.nextPayment(LocalDate.now());
+            total = expense.getAmount().multiply(recurringBill.getCycles());
+        }else total = expense.getAmount();
+
+        if(balance.compareTo(total) < 0) throw new InsufficientFundsException("Wallet don't have the necessary funds to pay it.");
+        balance = balance.subtract(total);
+        addEvent(new ExpensePaidEvent(this, expense.getId()));
     }
 
-    public void payRecurringExpenseCycles(RecurringExpense recurringExpense) {
-        recurringExpense.nextPayment(LocalDate.now());
-        Money recurringExpenseTotalAmount = recurringExpense.getAmount().multiply(recurringExpense.getCycles());
+    public void receiveIncome(Income income) {
+        Money total;
+        if(income instanceof IRecurringBill recurringBill) {
+            recurringBill.nextPayment(LocalDate.now());
+            total = income.getAmount().multiply(recurringBill.getCycles());
+        }else total = income.getAmount();
 
-        if(!balance.isGreater(recurringExpenseTotalAmount)) {
-            throw new InsufficientFundsException("Cant pay expense with current wallet.");
-        }
-
-        recurringExpense.updateStatus(BillStatus.PAID);
-        balance.subtract(recurringExpenseTotalAmount);
-        lastBalanceUpdate = LocalDate.now();
-        addEvent(new WalletUpdatedEvent(identity));
-    }
-
-    public void receiveRecurringIncomePaymentCycles(RecurringIncome recurringIncome) {
-        Money recurringIncomeTotalAmount = recurringIncome.getAmount().multiply(recurringIncome.getCycles());
-        recurringIncome.updateStatus(BillStatus.PAID);
-        balance = balance.add(recurringIncomeTotalAmount);
-        lastBalanceUpdate = LocalDate.now();
-        addEvent(new WalletUpdatedEvent(identity));
+        balance = balance.add(total);
+        addEvent(new IncomeReceivedEvent(this, income.getId()));
     }
  }

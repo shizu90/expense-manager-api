@@ -13,11 +13,11 @@ public class CommonIncome extends Income {
 
     public static CommonIncome create(String id, String name, String comment, Money amount, IncomeCategory category, BillStatus status, Identity userId) {
         CommonIncome commonIncome = new CommonIncome(id, name, comment, amount, category, status, userId);
-        addEvent(new IncomeCreatedEvent(commonIncome.identity));
+        commonIncome.addEvent(new IncomeCreatedEvent(commonIncome));
         return commonIncome;
     }
 
-    public void delete() {
-        addEvent(new IncomeRemovedEvent(identity));
+    public void remove() {
+        addEvent(new IncomeRemovedEvent(this));
     }
 }

@@ -3,6 +3,7 @@ package dev.gabriel.bill.entities.income;
 import dev.gabriel.bill.entities.IRecurringBill;
 import dev.gabriel.bill.entities.BillStatus;
 import dev.gabriel.bill.events.income.IncomeCreatedEvent;
+import dev.gabriel.bill.events.income.IncomeRemovedEvent;
 import dev.gabriel.bill.events.income.IncomeUpdatedEvent;
 import dev.gabriel.shared.valueobjects.Identity;
 import dev.gabriel.shared.valueobjects.Money;
@@ -41,39 +42,24 @@ public class RecurringIncome extends Income implements IRecurringBill {
 
     public static RecurringIncome create(String id, String name, String comment, Money amount, IncomeCategory category, Integer daysOccurrence, BillStatus status, Identity userId) {
         RecurringIncome recurringIncome = new RecurringIncome(id, name, comment, amount, category, daysOccurrence, status, userId);
-        addEvent(new IncomeCreatedEvent(recurringIncome.identity));
+        recurringIncome.addEvent(new IncomeCreatedEvent(recurringIncome));
         return recurringIncome;
     }
 
     public static RecurringIncome create(String id, String name, String comment, Money amount, IncomeCategory category, Integer daysOccurrence, BillStatus status, Identity userId, LocalDate startDate) {
         RecurringIncome recurringIncome = new RecurringIncome(id, name, comment, amount, category, daysOccurrence, status, userId, startDate);
-        addEvent(new IncomeCreatedEvent(recurringIncome.identity));
+        recurringIncome.addEvent(new IncomeCreatedEvent(recurringIncome));
         return recurringIncome;
     }
 
-    public void checkPayments(LocalDate paymentDate) {
-        long newCycles = countCycles(paymentDate);
-        if(cycles < newCycles) {
-            updateStatus(BillStatus.UNPAID);
-        }else updateStatus(BillStatus.PAID);
-        addEvent(new IncomeUpdatedEvent(identity));
-    }
-
-    public void nextPayment(LocalDate paymentDate) {
-        long newCycles = countCycles(paymentDate);
-        long days = daysOccurrence * newCycles;
-        LocalDate lastPaymentDate = startDate.plusDays(days);
-        previousPaymentDate = lastPaymentDate;
-        nextPaymentDate = lastPaymentDate.plusDays(daysOccurrence);
-        cycles = newCycles;
-        updateStatus(BillStatus.PAID);
-        addEvent(new IncomeUpdatedEvent(identity));
+    public void remove() {
+        addEvent(new IncomeRemovedEvent(this));
     }
 
     private long countCycles(LocalDate date) {
         long days = ChronoUnit.DAYS.between(startDate, date);
-
         long newCycles;
+
         if(cycles > 1L) {
             newCycles = (long) Math.floor((double) days / daysOccurrence) - cycles;
         }else newCycles = (long) Math.floor((double) days / daysOccurrence);
@@ -85,5 +71,30 @@ public class RecurringIncome extends Income implements IRecurringBill {
         }
 
         return newCycles;
+    }
+
+    private void updatePaymentDates(LocalDate date, Long cycles) {
+        previousPaymentDate = startDate.plusDays(cycles * daysOccurrence);
+        nextPaymentDate = previousPaymentDate.plusDays(daysOccurrence);
+    }
+
+    public void checkNewPayments(LocalDate paymentDate) {
+        long newCycles = countCycles(paymentDate);
+
+        updatePaymentDates(paymentDate, newCycles);
+        if(cycles < newCycles) {
+            updateStatus(BillStatus.UNPAID);
+        }else updateStatus(BillStatus.PAID);
+    }
+
+    public void nextPayment(LocalDate paymentDate) {
+        long newCycles = countCycles(paymentDate);
+        long days = daysOccurrence * newCycles;
+        LocalDate lastPaymentDate = startDate.plusDays(days);
+
+        previousPaymentDate = lastPaymentDate;
+        nextPaymentDate = lastPaymentDate.plusDays(daysOccurrence);
+        cycles = newCycles;
+        updateStatus(BillStatus.PAID);
     }
 }

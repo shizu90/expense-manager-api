@@ -42,43 +42,24 @@ public class RecurringExpense extends Expense implements IRecurringBill {
 
     public static RecurringExpense create(String id, String name, String comment, Money amount, ExpenseCategory category, Integer daysOccurrence, BillStatus status, Identity userId) {
         RecurringExpense recurringExpense = new RecurringExpense(id, name, comment, amount, category, daysOccurrence, status, userId);
-        addEvent(new ExpenseCreatedEvent(recurringExpense.identity));
+        recurringExpense.addEvent(new ExpenseCreatedEvent(recurringExpense));
         return recurringExpense;
     }
 
     public static RecurringExpense create(String id, String name, String comment, Money amount, ExpenseCategory category, Integer daysOccurrence, BillStatus status, Identity userId, LocalDate startDate) {
         RecurringExpense recurringExpense = new RecurringExpense(id, name, comment, amount, category, daysOccurrence, status, userId, startDate);
-        addEvent(new ExpenseCreatedEvent(recurringExpense.identity));
+        recurringExpense.addEvent(new ExpenseCreatedEvent(recurringExpense));
         return recurringExpense;
     }
 
-    public void delete() {
-        addEvent(new ExpenseRemovedEvent(identity));
-    }
-
-    public void checkPayments(LocalDate paymentDate) {
-        long newCycles = countCycles(paymentDate);
-        if(cycles < newCycles) {
-            updateStatus(BillStatus.UNPAID);
-        }else updateStatus(BillStatus.PAID);
-        addEvent(new ExpenseUpdatedEvent(identity));
-    }
-
-    public void nextPayment(LocalDate paymentDate) {
-        long newCycles = countCycles(paymentDate);
-        long days = daysOccurrence * newCycles;
-        LocalDate lastPaymentDate = startDate.plusDays(days);
-        previousPaymentDate = lastPaymentDate;
-        nextPaymentDate = lastPaymentDate.plusDays(daysOccurrence);
-        cycles = newCycles;
-        updateStatus(BillStatus.PAID);
-        addEvent(new ExpenseUpdatedEvent(identity));
+    public void remove() {
+        addEvent(new ExpenseRemovedEvent(this));
     }
 
     private long countCycles(LocalDate date) {
         long days = ChronoUnit.DAYS.between(startDate, date);
-
         long newCycles;
+
         if(cycles > 1L) {
             newCycles = (long) Math.floor((double) days / daysOccurrence) - cycles;
         }else newCycles = (long) Math.floor((double) days / daysOccurrence);
@@ -90,5 +71,30 @@ public class RecurringExpense extends Expense implements IRecurringBill {
         }
 
         return newCycles;
+    }
+
+    private void updatePaymentDates(LocalDate date, Long cycles) {
+        previousPaymentDate = startDate.plusDays(cycles * daysOccurrence);
+        nextPaymentDate = previousPaymentDate.plusDays(daysOccurrence);
+    }
+
+    public void checkNewPayments(LocalDate paymentDate) {
+        long newCycles = countCycles(paymentDate);
+
+        updatePaymentDates(paymentDate, newCycles);
+        if(cycles < newCycles) {
+            updateStatus(BillStatus.UNPAID);
+        }else updateStatus(BillStatus.PAID);
+    }
+
+    public void nextPayment(LocalDate paymentDate) {
+        long newCycles = countCycles(paymentDate);
+        long days = daysOccurrence * newCycles;
+        LocalDate lastPaymentDate = startDate.plusDays(days);
+
+        previousPaymentDate = lastPaymentDate;
+        nextPaymentDate = lastPaymentDate.plusDays(daysOccurrence);
+        cycles = newCycles;
+        updateStatus(BillStatus.PAID);
     }
 }
