@@ -9,15 +9,15 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public class CreatedAt extends ValueObject {
+public class UpdatedAt extends ValueObject {
     private final Instant value;
 
-    private CreatedAt(Instant value) {
+    private UpdatedAt(Instant value) {
         this.value = value;
     }
 
-    public static CreatedAt create(Instant value) {
-        return new CreatedAt(value);
+    public static UpdatedAt create(Instant value) {
+        return new UpdatedAt(value);
     }
 
     public LocalDate toLocalDate() {

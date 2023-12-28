@@ -1,6 +1,9 @@
 package dev.gabriel.shared.exceptions;
 
-public class DataValidationException extends DomainException {
+import lombok.Getter;
+
+@Getter
+public abstract class DataValidationException extends DomainException {
     public DataValidationException(String message) {
         super(message);
     }

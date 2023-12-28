@@ -1,10 +1,11 @@
 package dev.gabriel.shared.valueobjects;
 
-import dev.gabriel.shared.entities.ValueObject;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public abstract class Identity extends ValueObject {
     protected final String value;
     protected Identity(String value) {

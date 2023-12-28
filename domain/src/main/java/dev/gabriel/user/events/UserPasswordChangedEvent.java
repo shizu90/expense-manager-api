@@ -5,9 +5,8 @@ import dev.gabriel.user.valueobjects.UserId;
 
 import java.time.Instant;
 
-public class UserCreatedEvent extends DomainEvent {
-
-    public UserCreatedEvent(UserId userId) {
+public class UserPasswordChangedEvent extends DomainEvent {
+    public UserPasswordChangedEvent(UserId userId) {
         super(userId, Instant.now());
     }
 }
