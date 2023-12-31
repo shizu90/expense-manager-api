@@ -2,6 +2,7 @@ package dev.gabriel.billgroup.models;
 
 import dev.gabriel.bill.models.Bill;
 import dev.gabriel.billgroup.events.*;
+import dev.gabriel.billgroup.exceptions.BillGroupAlreadyDeletedException;
 import dev.gabriel.billgroup.exceptions.BillItemAlreadyAddedException;
 import dev.gabriel.billgroup.valueobjects.BillGroupComment;
 import dev.gabriel.billgroup.valueobjects.BillGroupId;
@@ -72,8 +73,13 @@ public class BillGroup extends AggregateRoot {
     }
 
     public void delete() {
-        clearBills();
-        raiseEvent(new BillGroupDeletedEvent(getId()));
+        if(isDeleted) {
+            throw new BillGroupAlreadyDeletedException(getId().getValue());
+        }else {
+            clearBills();
+            isDeleted = true;
+            raiseEvent(new BillGroupDeletedEvent(getId()));
+        }
     }
 
     @Override

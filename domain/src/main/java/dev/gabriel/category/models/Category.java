@@ -3,6 +3,7 @@ package dev.gabriel.category.models;
 import dev.gabriel.category.events.CategoryCreatedEvent;
 import dev.gabriel.category.events.CategoryDeletedEvent;
 import dev.gabriel.category.events.CategoryRenamedEvent;
+import dev.gabriel.category.exceptions.CategoryAlreadyDeletedException;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.category.valueobjects.CategoryName;
 import dev.gabriel.shared.models.AggregateRoot;
@@ -36,7 +37,12 @@ public class Category extends AggregateRoot {
     }
 
     public void delete() {
-        raiseEvent(new CategoryDeletedEvent(getId()));
+        if(isDeleted) {
+            throw new CategoryAlreadyDeletedException(getId().getValue());
+        }else {
+            isDeleted = true;
+            raiseEvent(new CategoryDeletedEvent(getId()));
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package dev.gabriel.recurringbill.models;
 
 import dev.gabriel.recurringbill.events.*;
 import dev.gabriel.recurringbill.exceptions.AlreadyPaidAllPeriodsException;
+import dev.gabriel.recurringbill.exceptions.RecurringBillAlreadyDeletedException;
 import dev.gabriel.recurringbill.valueobjects.DaysRecurrence;
 import dev.gabriel.recurringbill.valueobjects.Period;
 import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
@@ -80,7 +81,12 @@ public class RecurringBill extends AggregateRoot {
     }
 
     public void delete() {
-        raiseEvent(new RecurringBillDeletedEvent(getId()));
+        if(isDeleted) {
+            throw new RecurringBillAlreadyDeletedException(getId().getValue());
+        }else {
+            isDeleted = true;
+            raiseEvent(new RecurringBillDeletedEvent(getId()));
+        }
     }
 
     @Override

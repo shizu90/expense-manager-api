@@ -5,6 +5,7 @@ import dev.gabriel.shared.valueobjects.UpdatedAt;
 import dev.gabriel.user.events.*;
 import dev.gabriel.user.exceptions.UserAlreadyActivatedException;
 import dev.gabriel.user.exceptions.UserAlreadyDeactivatedException;
+import dev.gabriel.user.exceptions.UserAlreadyDeletedException;
 import dev.gabriel.user.valueobjects.Email;
 import dev.gabriel.user.valueobjects.Password;
 import dev.gabriel.user.valueobjects.UserId;
@@ -67,6 +68,15 @@ public class User extends AggregateRoot {
         }else {
             isActive = false;
             raiseEvent(new UserDeactivatedEvent(getId()));
+        }
+    }
+
+    public void delete() {
+        if(isDeleted) {
+            throw new UserAlreadyDeletedException(getId().getValue());
+        }else {
+            isDeleted = true;
+            raiseEvent(new UserDeletedEvent(getId()));
         }
     }
 

@@ -19,5 +19,5 @@ public interface IBillRepository extends IDomainRepository {
     List<Bill> findByUserIdAndTypeAndStatus(UserId userId, BillType type, BillStatus status);
     List<Bill> findByUserIdAndRecurringBillId(UserId userId, RecurringBillId recurringBillId);
     Bill save(Bill bill);
-    void deleteById(UserId userId);
+    void deleteById(BillId userId);
 }

@@ -1,6 +1,7 @@
 package dev.gabriel.bill.models;
 
 import dev.gabriel.bill.events.*;
+import dev.gabriel.bill.exceptions.BillAlreadyDeletedException;
 import dev.gabriel.bill.exceptions.BillAlreadyPaidException;
 import dev.gabriel.bill.valueobjects.BillComment;
 import dev.gabriel.bill.valueobjects.BillId;
@@ -87,7 +88,12 @@ public class Bill extends AggregateRoot {
     }
 
     public void delete() {
-        raiseEvent(new BillDeletedEvent(getId()));
+        if (isDeleted) {
+            throw new BillAlreadyDeletedException(getId().getValue());
+        } else {
+            isDeleted = true;
+            raiseEvent(new BillDeletedEvent(getId()));
+        }
     }
 
     @Override

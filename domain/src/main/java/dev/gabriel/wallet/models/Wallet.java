@@ -5,6 +5,7 @@ import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.shared.valueobjects.UpdatedAt;
 import dev.gabriel.user.valueobjects.UserId;
 import dev.gabriel.wallet.events.*;
+import dev.gabriel.wallet.exceptions.WalletAlreadyDeletedException;
 import dev.gabriel.wallet.valueobjects.WalletDescription;
 import dev.gabriel.wallet.valueobjects.WalletId;
 import dev.gabriel.wallet.valueobjects.WalletName;
@@ -82,7 +83,12 @@ public class Wallet extends AggregateRoot {
     }
 
     public void delete() {
-        raiseEvent(new WalletDeletedEvent(getId()));
+        if(isDeleted) {
+            throw new WalletAlreadyDeletedException(getId().getValue());
+        }else {
+            isDeleted = true;
+            raiseEvent(new WalletDeletedEvent(getId()));
+        }
     }
 
     @Override

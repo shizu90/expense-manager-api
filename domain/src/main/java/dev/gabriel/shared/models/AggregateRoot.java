@@ -15,12 +15,14 @@ public abstract class AggregateRoot extends Entity {
     protected CreatedAt createdAt;
     protected UpdatedAt updatedAt;
     protected List<DomainEvent> events;
+    protected Boolean isDeleted;
 
     protected AggregateRoot(Identity id) {
         super(id);
         this.createdAt = CreatedAt.create(Instant.now());
         this.updatedAt = UpdatedAt.create(Instant.now());
         this.events = new ArrayList<>();
+        this.isDeleted = false;
     }
 
     protected void raiseEvent(DomainEvent domainEvent) {

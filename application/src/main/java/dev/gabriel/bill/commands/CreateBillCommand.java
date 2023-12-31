@@ -1,6 +1,7 @@
 package dev.gabriel.bill.commands;
 
 import dev.gabriel.bill.models.BillType;
+import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.commands.ICommand;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.valueobjects.UserId;
@@ -16,4 +17,5 @@ public class CreateBillCommand implements ICommand {
     private CurrencyCode currencyCode;
     private BillType type;
     private UserId userId;
+    private RecurringBillId recurringBillId;
 }

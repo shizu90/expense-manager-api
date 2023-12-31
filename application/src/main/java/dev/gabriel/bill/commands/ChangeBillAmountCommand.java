@@ -4,8 +4,10 @@ import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.shared.commands.ICommand;
 import lombok.Getter;
 
+import java.math.BigDecimal;
+
 @Getter
-public class RenameBillCommand implements ICommand {
+public class ChangeBillAmountCommand implements ICommand {
     private BillId billId;
-    private String name;
+    private BigDecimal amount;
 }

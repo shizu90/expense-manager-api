@@ -5,6 +5,7 @@ import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.transaction.events.TransactionCreatedEvent;
 import dev.gabriel.transaction.events.TransactionDeletedEvent;
+import dev.gabriel.transaction.exceptions.TransactionAlreadyDeletedException;
 import dev.gabriel.transaction.valueobjects.TransactionId;
 import dev.gabriel.wallet.valueobjects.WalletId;
 import lombok.Getter;
@@ -29,7 +30,12 @@ public class Transaction extends AggregateRoot {
     }
 
     public void delete() {
-        raiseEvent(new TransactionDeletedEvent(getId()));
+        if(isDeleted) {
+            throw new TransactionAlreadyDeletedException(getId().getValue());
+        }else {
+            isDeleted = true;
+            raiseEvent(new TransactionDeletedEvent(getId()));
+        }
     }
 
     @Override
