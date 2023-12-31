@@ -1,6 +1,6 @@
 package dev.gabriel.shared.valueobjects;
 
-public enum CurrencyType {
+public enum CurrencyCode {
     USD,
     EUR,
     BRL

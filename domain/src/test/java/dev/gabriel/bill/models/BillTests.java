@@ -1,14 +1,11 @@
 package dev.gabriel.bill.models;
 
-import dev.gabriel.bill.events.BillCommentEditedEvent;
-import dev.gabriel.bill.events.BillCreatedEvent;
-import dev.gabriel.bill.events.BillPaidEvent;
-import dev.gabriel.bill.events.BillRenamedEvent;
+import dev.gabriel.bill.events.*;
 import dev.gabriel.bill.exceptions.BillAlreadyPaidException;
 import dev.gabriel.bill.exceptions.BillValidationException;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Currency;
-import dev.gabriel.shared.valueobjects.CurrencyType;
+import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.valueobjects.UserId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -19,14 +16,16 @@ import java.util.UUID;
 
 public class BillTests {
     Bill populate() {
-        return Bill.create(UUID.randomUUID().toString(),
+        return Bill.create(
+                UUID.randomUUID().toString(),
                 "Name",
                 "Comment",
-                Currency.create(BigDecimal.valueOf(10.0), CurrencyType.BRL),
+                Currency.create(BigDecimal.valueOf(20.0), CurrencyCode.BRL),
                 BillStatus.UNPAID,
                 BillType.IN,
-                UserId.create(UUID.randomUUID().toString())
-                );
+                UserId.create(UUID.randomUUID().toString()),
+                null
+        );
     }
 
     @Test
@@ -74,6 +73,24 @@ public class BillTests {
         Assertions.assertThrows(BillValidationException.class, () -> {
             bill.editComment(null);
         });
+    }
+
+    @Test
+    @DisplayName("Change bill amount test case: success")
+    void changeBillAmountTestCaseSuccess() {
+        Bill bill = populate();
+        bill.changeAmount(BigDecimal.valueOf(80.0));
+
+        Assertions.assertInstanceOf(BillAmountChangedEvent.class, bill.getEvents().get(1));
+    }
+
+    @Test
+    @DisplayName("Change bill currency code test case: success")
+    void changeBillCurrencyCodeTestCaseSuccess() {
+        Bill bill = populate();
+        bill.changeCurrencyCode(CurrencyCode.EUR);
+
+        Assertions.assertInstanceOf(BillCurrencyCodeChangedEvent.class, bill.getEvents().get(1));
     }
 
     @Test

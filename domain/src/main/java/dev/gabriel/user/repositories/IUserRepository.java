@@ -2,13 +2,16 @@ package dev.gabriel.user.repositories;
 
 import dev.gabriel.shared.repositories.IDomainRepository;
 import dev.gabriel.user.models.User;
+import dev.gabriel.user.valueobjects.Email;
+import dev.gabriel.user.valueobjects.UserId;
 
 import java.util.Optional;
 
 public interface IUserRepository extends IDomainRepository {
-    Optional<User> findById(String id);
-    boolean existsByEmail(String email);
+    Optional<User> findById(UserId userId);
+    boolean exists(UserId userId);
+    boolean existsByEmail(Email email);
     User save(User user);
-    void deleteById(String id);
+    void deleteById(UserId userId);
 }
 

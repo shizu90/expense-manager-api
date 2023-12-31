@@ -1,6 +1,5 @@
 package dev.gabriel.billgroup.models;
 
-import dev.gabriel.bill.exceptions.BillValidationException;
 import dev.gabriel.bill.models.Bill;
 import dev.gabriel.bill.models.BillStatus;
 import dev.gabriel.bill.models.BillType;
@@ -9,7 +8,7 @@ import dev.gabriel.billgroup.exceptions.BillGroupValidationException;
 import dev.gabriel.billgroup.exceptions.BillItemAlreadyAddedException;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Currency;
-import dev.gabriel.shared.valueobjects.CurrencyType;
+import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.valueobjects.UserId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -28,10 +27,11 @@ public class BillGroupTests {
                 UUID.randomUUID().toString(),
                 "Name",
                 "Comment",
-                Currency.create(BigDecimal.valueOf(20.0), CurrencyType.BRL),
+                Currency.create(BigDecimal.valueOf(20.0), CurrencyCode.BRL),
                 BillStatus.UNPAID,
                 BillType.IN,
-                userId
+                userId,
+                null
         );
     }
 

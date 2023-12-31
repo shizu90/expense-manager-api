@@ -10,29 +10,29 @@ import java.util.List;
 @Getter
 public class Currency extends ValueObject implements Comparable<Currency> {
     private final BigDecimal value;
-    private final CurrencyType currencyType;
+    private final CurrencyCode currencyCode;
 
-    private Currency(BigDecimal value, CurrencyType currency) {
+    private Currency(BigDecimal value, CurrencyCode currency) {
         this.value = value;
-        this.currencyType = currency;
+        this.currencyCode = currency;
     }
 
-    public static Currency create(BigDecimal value, CurrencyType currency) {
+    public static Currency create(BigDecimal value, CurrencyCode currency) {
         return new Currency(value, currency);
     }
 
     public Currency add(Currency other) {
-        if(!other.currencyType.equals(this.currencyType)) throw new DifferentCurrencyTypeException("Given currency type is different.");
-        return new Currency(value.add(other.value), this.currencyType);
+        if(!other.currencyCode.equals(this.currencyCode)) throw new DifferentCurrencyTypeException("Given currency type is different.");
+        return new Currency(value.add(other.value), this.currencyCode);
     }
 
     public Currency subtract(Currency other) {
-        if(!other.currencyType.equals(this.currencyType)) throw new DifferentCurrencyTypeException("Given currency type is different.");
-        return new Currency(value.subtract(other.value), this.currencyType);
+        if(!other.currencyCode.equals(this.currencyCode)) throw new DifferentCurrencyTypeException("Given currency type is different.");
+        return new Currency(value.subtract(other.value), this.currencyCode);
     }
 
     public Currency multiply(double value) {
-        return new Currency(this.value.multiply(BigDecimal.valueOf(value)), this.currencyType);
+        return new Currency(this.value.multiply(BigDecimal.valueOf(value)), this.currencyCode);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class Currency extends ValueObject implements Comparable<Currency> {
 
     @Override
     public List<Object> getAtomicValues() {
-        return Arrays.asList(new Object[] {value, currencyType});
+        return Arrays.asList(new Object[] {value, currencyCode});
     }
 }

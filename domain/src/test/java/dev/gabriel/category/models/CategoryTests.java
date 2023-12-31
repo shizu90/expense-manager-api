@@ -2,7 +2,6 @@ package dev.gabriel.category.models;
 
 import dev.gabriel.category.events.CategoryCreatedEvent;
 import dev.gabriel.category.events.CategoryDeletedEvent;
-import dev.gabriel.category.events.CategoryImageChangedEvent;
 import dev.gabriel.category.events.CategoryRenamedEvent;
 import dev.gabriel.category.exceptions.CategoryValidationException;
 import dev.gabriel.shared.models.AggregateRoot;
@@ -15,7 +14,7 @@ import java.util.UUID;
 
 public class CategoryTests {
     Category populate() {
-        return Category.create(UUID.randomUUID().toString(), "Food", "https://www.image.com", UserId.create(UUID.randomUUID().toString()));
+        return Category.create(UUID.randomUUID().toString(), "Food", UserId.create(UUID.randomUUID().toString()));
     }
 
     @Test
@@ -44,15 +43,6 @@ public class CategoryTests {
         Assertions.assertThrows(CategoryValidationException.class, () -> {
             category.rename(null);
         });
-    }
-
-    @Test
-    @DisplayName("Change category image test case: success")
-    void changeCategoryImageTestCaseSuccess() {
-        Category category = populate();
-        category.changeImage("https://www.newimage.com");
-
-        Assertions.assertInstanceOf(CategoryImageChangedEvent.class, category.getEvents().get(1));
     }
 
     @Test

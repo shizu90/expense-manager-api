@@ -2,6 +2,7 @@ package dev.gabriel.transaction.models;
 
 import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.shared.models.AggregateRoot;
+import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.transaction.events.TransactionCreatedEvent;
 import dev.gabriel.transaction.events.TransactionDeletedEvent;
 import dev.gabriel.transaction.valueobjects.TransactionId;
@@ -12,15 +13,17 @@ import lombok.Getter;
 public class Transaction extends AggregateRoot {
     private WalletId walletId;
     private BillId billId;
+    private Currency amount;
 
-    private Transaction(String id, WalletId walletId, BillId billId) {
+    private Transaction(String id, WalletId walletId, BillId billId, Currency amount) {
         super(TransactionId.create(id));
         this.walletId = walletId;
         this.billId = billId;
+        this.amount = amount;
     }
 
-    public static Transaction create(String id, WalletId walletId, BillId billId) {
-        Transaction transaction = new Transaction(id, walletId, billId);
+    public static Transaction create(String id, WalletId walletId, BillId billId, Currency amount) {
+        Transaction transaction = new Transaction(id, walletId, billId, amount);
         transaction.raiseEvent(new TransactionCreatedEvent(transaction.getId()));
         return transaction;
     }

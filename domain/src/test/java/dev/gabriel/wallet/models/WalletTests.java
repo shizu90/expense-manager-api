@@ -2,7 +2,7 @@ package dev.gabriel.wallet.models;
 
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Currency;
-import dev.gabriel.shared.valueobjects.CurrencyType;
+import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.valueobjects.UserId;
 import dev.gabriel.wallet.events.*;
 import dev.gabriel.wallet.exceptions.WalletValidationException;
@@ -19,7 +19,7 @@ public class WalletTests {
                 UUID.randomUUID().toString(),
                 "Name",
                 "Description",
-                Currency.create(BigDecimal.valueOf(500.0), CurrencyType.BRL),
+                Currency.create(BigDecimal.valueOf(500.0), CurrencyCode.BRL),
                 true,
                 UserId.create(UUID.randomUUID().toString()));
     }
@@ -95,7 +95,7 @@ public class WalletTests {
     @DisplayName("Add amount to wallet test case: success")
     void addAmountToWalletTestCaseSuccess() {
         Wallet wallet = populate();
-        wallet.addAmount(Currency.create(BigDecimal.valueOf(40.0), CurrencyType.BRL));
+        wallet.addAmount(Currency.create(BigDecimal.valueOf(40.0), CurrencyCode.BRL));
 
         Assertions.assertInstanceOf(WalletBalanceUpdatedEvent.class, wallet.getEvents().get(1));
         Assertions.assertEquals(BigDecimal.valueOf(540.0), wallet.getBalance().getValue());
@@ -105,7 +105,7 @@ public class WalletTests {
     @DisplayName("Subtract amount from wallet test case: success")
     void subtractAmountFromWalletTestCaseSuccess() {
         Wallet wallet = populate();
-        wallet.subtractAmount(Currency.create(BigDecimal.valueOf(200.0), CurrencyType.BRL));
+        wallet.subtractAmount(Currency.create(BigDecimal.valueOf(200.0), CurrencyCode.BRL));
 
         Assertions.assertInstanceOf(WalletBalanceUpdatedEvent.class, wallet.getEvents().get(1));
         Assertions.assertEquals(BigDecimal.valueOf(300.0), wallet.getBalance().getValue());
