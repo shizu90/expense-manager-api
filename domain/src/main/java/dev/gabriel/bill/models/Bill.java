@@ -11,7 +11,6 @@ import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
-import dev.gabriel.shared.valueobjects.UpdatedAt;
 import dev.gabriel.user.valueobjects.UserId;
 import lombok.Getter;
 
@@ -69,31 +68,31 @@ public class Bill extends AggregateRoot {
 
     public void rename(String name) {
         this.name = BillName.create(name);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BillRenamedEvent(getId()));
     }
 
     public void editComment(String comment) {
         this.comment = BillComment.create(comment);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BillCommentEditedEvent(getId()));
     }
 
     public void changeAmount(BigDecimal amount) {
         this.amount = Currency.create(amount, this.amount.getCurrencyCode());
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BillAmountChangedEvent(getId()));
     }
 
     public void changeCurrencyCode(CurrencyCode currencyCode) {
         this.amount = Currency.create(amount.getValue(), currencyCode);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BillCurrencyCodeChangedEvent(getId()));
     }
 
     public void changeCategory(CategoryId categoryId) {
         this.categoryId = categoryId;
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BillCategoryChangedEvent(getId()));
     }
 
@@ -103,7 +102,7 @@ public class Bill extends AggregateRoot {
         }
 
         this.status = BillStatus.PAID;
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BillPaidEvent(getId()));
         return amount;
     }

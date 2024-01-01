@@ -7,7 +7,6 @@ import dev.gabriel.category.exceptions.CategoryAlreadyDeletedException;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.category.valueobjects.CategoryName;
 import dev.gabriel.shared.models.AggregateRoot;
-import dev.gabriel.shared.valueobjects.UpdatedAt;
 import dev.gabriel.user.valueobjects.UserId;
 import lombok.Getter;
 
@@ -32,7 +31,7 @@ public class Category extends AggregateRoot {
 
     public void rename(String name) {
         this.name = CategoryName.create(name);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new CategoryRenamedEvent(getId()));
     }
 

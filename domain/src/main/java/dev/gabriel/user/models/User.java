@@ -2,7 +2,6 @@ package dev.gabriel.user.models;
 
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
-import dev.gabriel.shared.valueobjects.UpdatedAt;
 import dev.gabriel.user.events.*;
 import dev.gabriel.user.exceptions.UserAlreadyActivatedException;
 import dev.gabriel.user.exceptions.UserAlreadyDeactivatedException;
@@ -21,7 +20,7 @@ public class User extends AggregateRoot {
     private Username name;
     private Password password;
     private Boolean isActive;
-    private UserConfiguration userConfiguration;
+    private UserConfiguration configuration;
 
     private User(String id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
         super(UserId.create(id));
@@ -29,7 +28,7 @@ public class User extends AggregateRoot {
         this.name = Username.create(name);
         this.password = Password.create(password);
         this.isActive = true;
-        this.userConfiguration = UserConfiguration.create(id, defaultCurrencyCode, defaultUserLanguage);
+        this.configuration = UserConfiguration.create(id, defaultCurrencyCode, defaultUserLanguage);
     }
 
     public static User create(String id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
@@ -41,30 +40,30 @@ public class User extends AggregateRoot {
     public void rename(String name) {
         this.name = Username.create(name);
         raiseEvent(new UserRenamedEvent(getId()));
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
     }
 
     public void changeEmail(String email) {
         this.email = Email.create(email);
         raiseEvent(new UserEmailChangedEvent(getId()));
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
     }
 
     public void changePassword(String password) {
         this.password = Password.create(password);
         raiseEvent(new UserPasswordChangedEvent(getId()));
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
     }
 
     public void changeDefaultCurrencyCode(CurrencyCode currencyCode) {
-        this.userConfiguration.defaultCurrencyCode = currencyCode;
-        updatedAt = UpdatedAt.create(Instant.now());
+        this.configuration.defaultCurrencyCode = currencyCode;
+        updatedAt = Instant.now();
         raiseEvent(new UserDefaultCurrencyCodeChanged(getId()));
     }
 
     public void changeDefaultUserLanguage(UserLanguage userLanguage) {
-        this.userConfiguration.defaultUserLanguage = userLanguage;
-        updatedAt = UpdatedAt.create(Instant.now());
+        this.configuration.defaultUserLanguage = userLanguage;
+        updatedAt = Instant.now();
         raiseEvent(new UserDefaultLanguageChanged(getId()));
     }
 

@@ -1,13 +1,10 @@
 package dev.gabriel.user.events;
 
-import dev.gabriel.shared.events.DomainEvent;
 import dev.gabriel.user.valueobjects.UserId;
 
-import java.time.Instant;
-
-public class UserCreatedEvent extends DomainEvent {
+public class UserCreatedEvent extends UserEvent {
 
     public UserCreatedEvent(UserId userId) {
-        super(userId, Instant.now());
+        super(userId);
     }
 }

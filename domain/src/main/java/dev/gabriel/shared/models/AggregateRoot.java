@@ -1,9 +1,7 @@
 package dev.gabriel.shared.models;
 
 import dev.gabriel.shared.events.DomainEvent;
-import dev.gabriel.shared.valueobjects.CreatedAt;
 import dev.gabriel.shared.valueobjects.Identity;
-import dev.gabriel.shared.valueobjects.UpdatedAt;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -12,15 +10,15 @@ import java.util.List;
 
 @Getter
 public abstract class AggregateRoot extends Entity {
-    protected CreatedAt createdAt;
-    protected UpdatedAt updatedAt;
+    protected Instant createdAt;
+    protected Instant updatedAt;
     protected List<DomainEvent> events;
     protected Boolean isDeleted;
 
     protected AggregateRoot(Identity id) {
         super(id);
-        this.createdAt = CreatedAt.create(Instant.now());
-        this.updatedAt = UpdatedAt.create(Instant.now());
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
         this.events = new ArrayList<>();
         this.isDeleted = false;
     }

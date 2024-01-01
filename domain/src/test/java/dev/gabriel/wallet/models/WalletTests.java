@@ -22,6 +22,7 @@ public class WalletTests {
                 BigDecimal.valueOf(500.0),
                 CurrencyCode.BRL,
                 true,
+                WalletType.DEBIT_CARD,
                 UserId.create(UUID.randomUUID().toString()));
     }
 
@@ -88,6 +89,15 @@ public class WalletTests {
         wallet.updateBalance(BigDecimal.valueOf(700.0));
 
         Assertions.assertInstanceOf(WalletBalanceUpdatedEvent.class, wallet.getEvents().get(1));
+    }
+
+    @Test
+    @DisplayName("Change wallet type test case: success")
+    void changeWalletTypeTestCaseSuccess() {
+        Wallet wallet = populate();
+        wallet.changeType(WalletType.CASH);
+
+        Assertions.assertInstanceOf(WalletTypeChangedEvent.class, wallet.getEvents().get(1));
     }
 
     @Test

@@ -6,9 +6,11 @@ import dev.gabriel.recurringbill.exceptions.RecurringBillAlreadyDeletedException
 import dev.gabriel.recurringbill.valueobjects.DaysRecurrence;
 import dev.gabriel.recurringbill.valueobjects.Period;
 import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
+import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.models.AggregateRoot;
 import lombok.Getter;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -18,6 +20,7 @@ public class RecurringBill extends AggregateRoot {
     private Period totalPeriods;
     private Period paidPeriods;
     private LocalDate startDate;
+    private ReminderId reminderId;
 
     private RecurringBill(String id, Long daysRecurrence, Long totalPeriods, LocalDate startDate) {
         super(RecurringBillId.create(id));
@@ -25,6 +28,7 @@ public class RecurringBill extends AggregateRoot {
         this.startDate = startDate;
         this.totalPeriods = Period.create(totalPeriods);
         this.paidPeriods = Period.create(0L);
+        this.reminderId = null;
     }
 
     public static RecurringBill create(String id, Long daysRecurrence, Long totalPeriods, LocalDate startDate) {
@@ -35,16 +39,19 @@ public class RecurringBill extends AggregateRoot {
 
     public void changeDaysRecurrence(Long daysRecurrence) {
         this.daysRecurrence = DaysRecurrence.create(daysRecurrence);
+        updatedAt = Instant.now();
         raiseEvent(new RecurringBillDaysRecurrenceChangedEvent(getId()));
     }
 
     public void changeTotalPeriods(Long totalPeriods) {
         this.totalPeriods = Period.create(totalPeriods);
+        updatedAt = Instant.now();
         raiseEvent(new RecurringBillTotalPeriodsChangedEvent(getId()));
     }
 
     public void changeStartDate(LocalDate startDate) {
         this.startDate = startDate;
+        updatedAt = Instant.now();
         raiseEvent(new RecurringBillStartDateChangedEvent(getId()));
     }
 
@@ -78,6 +85,11 @@ public class RecurringBill extends AggregateRoot {
 
     public void restart() {
         paidPeriods = paidPeriods.decrement(paidPeriods.getValue());
+    }
+
+    public void setupReminder(ReminderId reminderId) {
+        this.reminderId = reminderId;
+        updatedAt = Instant.now();
     }
 
     public void delete() {

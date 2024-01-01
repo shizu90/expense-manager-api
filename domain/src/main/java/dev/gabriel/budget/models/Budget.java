@@ -10,7 +10,6 @@ import dev.gabriel.budget.valueobjects.BudgetName;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
-import dev.gabriel.shared.valueobjects.UpdatedAt;
 import dev.gabriel.user.valueobjects.UserId;
 import lombok.Getter;
 
@@ -48,19 +47,19 @@ public class Budget extends AggregateRoot {
 
     public void rename(String name) {
         this.name = BudgetName.create(name);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BudgetRenamedEvent(getId()));
     }
 
     public void editDescription(String description) {
         this.description = BudgetDescription.create(description);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BudgetDescriptionEditedEvent(getId()));
     }
 
     public void changeCurrencyCode(CurrencyCode currencyCode) {
         this.totalAmount = Currency.create(totalAmount.getValue(), currencyCode);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
     }
 
     public void addBill(Bill bill) {
@@ -70,13 +69,13 @@ public class Budget extends AggregateRoot {
         }
         totalAmount = totalAmount.add(bill.getAmount());
         bills.add(BudgetItem.create(UUID.randomUUID().toString(), bill.getId(), getId()));
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BudgetItemAddedEvent(getId()));
     }
 
     public void deleteBill(Bill bill) {
         bills.removeIf(item -> item.getBillId().equals(bill.getId()));
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new BudgetItemDeletedEvent(getId()));
     }
 

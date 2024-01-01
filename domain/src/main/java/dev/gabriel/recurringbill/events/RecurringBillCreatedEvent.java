@@ -1,12 +1,9 @@
 package dev.gabriel.recurringbill.events;
 
 import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
-import dev.gabriel.shared.events.DomainEvent;
 
-import java.time.Instant;
-
-public class RecurringBillCreatedEvent extends DomainEvent {
+public class RecurringBillCreatedEvent extends RecurringBillEvent {
     public RecurringBillCreatedEvent(RecurringBillId recurringBillId) {
-        super(recurringBillId, Instant.now());
+        super(recurringBillId);
     }
 }

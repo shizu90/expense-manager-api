@@ -3,7 +3,6 @@ package dev.gabriel.wallet.models;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
-import dev.gabriel.shared.valueobjects.UpdatedAt;
 import dev.gabriel.user.valueobjects.UserId;
 import dev.gabriel.wallet.events.*;
 import dev.gabriel.wallet.exceptions.WalletAlreadyDeletedException;
@@ -22,10 +21,19 @@ public class Wallet extends AggregateRoot {
     private Currency balance;
     private Currency initialBalance;
     private Boolean isPrincipal;
-    private UpdatedAt lastBalanceUpdate;
+    private Instant lastBalanceUpdate;
+    private WalletType type;
     private UserId userId;
 
-    private Wallet(String id, String name, String description, BigDecimal balance, CurrencyCode currencyCode, Boolean isPrincipal, UserId userId) {
+    private Wallet(String id,
+                   String name,
+                   String description,
+                   BigDecimal balance,
+                   CurrencyCode currencyCode,
+                   Boolean isPrincipal,
+                   WalletType type,
+                   UserId userId
+    ) {
         super(WalletId.create(id));
         this.name = WalletName.create(name);
         this.description = WalletDescription.create(description);
@@ -33,45 +41,61 @@ public class Wallet extends AggregateRoot {
         this.initialBalance = this.balance;
         this.isPrincipal = isPrincipal;
         this.lastBalanceUpdate = updatedAt;
+        this.type = type;
         this.userId = userId;
     }
 
-    public static Wallet create(String id, String name, String description, BigDecimal balance, CurrencyCode currencyCode, Boolean isPrincipal, UserId userId) {
-        Wallet wallet = new Wallet(id, name, description, balance, currencyCode, isPrincipal, userId);
+    public static Wallet create(String id,
+                                String name,
+                                String description,
+                                BigDecimal balance,
+                                CurrencyCode currencyCode,
+                                Boolean isPrincipal,
+                                WalletType type,
+                                UserId userId
+    ) {
+        Wallet wallet = new Wallet(id, name, description, balance, currencyCode, isPrincipal, type, userId);
         wallet.raiseEvent(new WalletCreatedEvent(wallet.getId()));
         return wallet;
     }
 
     public void rename(String name) {
         this.name = WalletName.create(name);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new WalletRenamedEvent(getId()));
     }
 
     public void editDescription(String description) {
         this.description = WalletDescription.create(description);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new WalletDescriptionEditedEvent(getId()));
     }
 
     public void changeCurrencyCode(CurrencyCode currencyCode) {
         this.balance = Currency.create(balance.getValue(), currencyCode);
         this.initialBalance = Currency.create(initialBalance.getValue(), currencyCode);
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         raiseEvent(new WalletCurrencyCodeChangedEvent(getId()));
     }
 
     public void updateBalance(BigDecimal balance) {
         this.balance = Currency.create(balance, this.balance.getCurrencyCode());
-        updatedAt = UpdatedAt.create(Instant.now());
+        updatedAt = Instant.now();
         lastBalanceUpdate = updatedAt;
         raiseEvent(new WalletBalanceUpdatedEvent(getId()));
+    }
+
+    public void changeType(WalletType type) {
+        this.type = type;
+        updatedAt = Instant.now();
+        lastBalanceUpdate = updatedAt;
+        raiseEvent(new WalletTypeChangedEvent(getId()));
     }
 
     public void markPrincipal() {
         if(!isPrincipal) {
             isPrincipal = true;
-            updatedAt = UpdatedAt.create(Instant.now());
+            updatedAt = Instant.now();
             raiseEvent(new WalletPrincipalMarkedEvent(getId()));
         }
     }
@@ -79,7 +103,7 @@ public class Wallet extends AggregateRoot {
     public void unmarkPrincipal() {
         if(isPrincipal) {
             isPrincipal = false;
-            updatedAt = UpdatedAt.create(Instant.now());
+            updatedAt = Instant.now();
             raiseEvent(new WalletPrincipalUnmarkedEvent(getId()));
         }
     }
