@@ -1,12 +1,12 @@
-package dev.gabriel.bill.models;
+package dev.gabriel.user.models;
 
-public enum BillStatus {
-    PAID("paid"),
-    UNPAID("unpaid");
+public enum UserLanguage {
+    PT_BR("pt_br"),
+    EN_US("en_us");
 
     private final String value;
 
-    BillStatus(String value) {
+    UserLanguage(String value) {
         this.value = value;
     }
 

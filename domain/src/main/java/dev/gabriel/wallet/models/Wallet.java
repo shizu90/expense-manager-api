@@ -2,6 +2,7 @@ package dev.gabriel.wallet.models;
 
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Currency;
+import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.shared.valueobjects.UpdatedAt;
 import dev.gabriel.user.valueobjects.UserId;
 import dev.gabriel.wallet.events.*;
@@ -11,6 +12,7 @@ import dev.gabriel.wallet.valueobjects.WalletId;
 import dev.gabriel.wallet.valueobjects.WalletName;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Getter
@@ -23,19 +25,19 @@ public class Wallet extends AggregateRoot {
     private UpdatedAt lastBalanceUpdate;
     private UserId userId;
 
-    private Wallet(String id, String name, String description, Currency balance, Boolean isPrincipal, UserId userId) {
+    private Wallet(String id, String name, String description, BigDecimal balance, CurrencyCode currencyCode, Boolean isPrincipal, UserId userId) {
         super(WalletId.create(id));
         this.name = WalletName.create(name);
         this.description = WalletDescription.create(description);
-        this.balance = balance;
-        this.initialBalance = balance;
+        this.balance = Currency.create(balance, currencyCode);
+        this.initialBalance = this.balance;
         this.isPrincipal = isPrincipal;
         this.lastBalanceUpdate = updatedAt;
         this.userId = userId;
     }
 
-    public static Wallet create(String id, String name, String description, Currency balance, Boolean isPrincipal, UserId userId) {
-        Wallet wallet = new Wallet(id, name, description, balance, isPrincipal, userId);
+    public static Wallet create(String id, String name, String description, BigDecimal balance, CurrencyCode currencyCode, Boolean isPrincipal, UserId userId) {
+        Wallet wallet = new Wallet(id, name, description, balance, currencyCode, isPrincipal, userId);
         wallet.raiseEvent(new WalletCreatedEvent(wallet.getId()));
         return wallet;
     }
@@ -52,15 +54,15 @@ public class Wallet extends AggregateRoot {
         raiseEvent(new WalletDescriptionEditedEvent(getId()));
     }
 
-    public void addAmount(Currency amount) {
-        this.balance = balance.add(amount);
+    public void changeCurrencyCode(CurrencyCode currencyCode) {
+        this.balance = Currency.create(balance.getValue(), currencyCode);
+        this.initialBalance = Currency.create(initialBalance.getValue(), currencyCode);
         updatedAt = UpdatedAt.create(Instant.now());
-        lastBalanceUpdate = updatedAt;
-        raiseEvent(new WalletBalanceUpdatedEvent(getId()));
+        raiseEvent(new WalletCurrencyCodeChangedEvent(getId()));
     }
 
-    public void subtractAmount(Currency amount) {
-        this.balance = balance.subtract(amount);
+    public void updateBalance(BigDecimal balance) {
+        this.balance = Currency.create(balance, this.balance.getCurrencyCode());
         updatedAt = UpdatedAt.create(Instant.now());
         lastBalanceUpdate = updatedAt;
         raiseEvent(new WalletBalanceUpdatedEvent(getId()));

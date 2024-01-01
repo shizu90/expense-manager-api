@@ -1,6 +1,7 @@
 package dev.gabriel.user.models;
 
 import dev.gabriel.shared.models.AggregateRoot;
+import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.shared.valueobjects.UpdatedAt;
 import dev.gabriel.user.events.*;
 import dev.gabriel.user.exceptions.UserAlreadyActivatedException;
@@ -20,17 +21,19 @@ public class User extends AggregateRoot {
     private Username name;
     private Password password;
     private Boolean isActive;
+    private UserConfiguration userConfiguration;
 
-    private User(String id, String email, String name, String password) {
+    private User(String id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
         super(UserId.create(id));
         this.email = Email.create(email);
         this.name = Username.create(name);
         this.password = Password.create(password);
         this.isActive = true;
+        this.userConfiguration = UserConfiguration.create(id, defaultCurrencyCode, defaultUserLanguage);
     }
 
-    public static User create(String id, String email, String name, String password) {
-        User user = new User(id, email, name, password);
+    public static User create(String id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
+        User user = new User(id, email, name, password, defaultCurrencyCode, defaultUserLanguage);
         user.raiseEvent(new UserCreatedEvent(user.getId()));
         return user;
     }
@@ -51,6 +54,18 @@ public class User extends AggregateRoot {
         this.password = Password.create(password);
         raiseEvent(new UserPasswordChangedEvent(getId()));
         updatedAt = UpdatedAt.create(Instant.now());
+    }
+
+    public void changeDefaultCurrencyCode(CurrencyCode currencyCode) {
+        this.userConfiguration.defaultCurrencyCode = currencyCode;
+        updatedAt = UpdatedAt.create(Instant.now());
+        raiseEvent(new UserDefaultCurrencyCodeChanged(getId()));
+    }
+
+    public void changeDefaultUserLanguage(UserLanguage userLanguage) {
+        this.userConfiguration.defaultUserLanguage = userLanguage;
+        updatedAt = UpdatedAt.create(Instant.now());
+        raiseEvent(new UserDefaultLanguageChanged(getId()));
     }
 
     public void activate() {

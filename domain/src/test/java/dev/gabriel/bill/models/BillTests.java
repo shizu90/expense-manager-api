@@ -3,8 +3,8 @@ package dev.gabriel.bill.models;
 import dev.gabriel.bill.events.*;
 import dev.gabriel.bill.exceptions.BillAlreadyPaidException;
 import dev.gabriel.bill.exceptions.BillValidationException;
+import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.models.AggregateRoot;
-import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.valueobjects.UserId;
 import org.junit.jupiter.api.Assertions;
@@ -20,10 +20,12 @@ public class BillTests {
                 UUID.randomUUID().toString(),
                 "Name",
                 "Comment",
-                Currency.create(BigDecimal.valueOf(20.0), CurrencyCode.BRL),
+                BigDecimal.valueOf(20.0),
+                CurrencyCode.BRL,
                 BillStatus.UNPAID,
                 BillType.IN,
                 UserId.create(UUID.randomUUID().toString()),
+                null,
                 null
         );
     }
@@ -91,6 +93,15 @@ public class BillTests {
         bill.changeCurrencyCode(CurrencyCode.EUR);
 
         Assertions.assertInstanceOf(BillCurrencyCodeChangedEvent.class, bill.getEvents().get(1));
+    }
+
+    @Test
+    @DisplayName("Change bill category test case: success")
+    void changeBillCategoryTestCaseSuccess() {
+        Bill bill = populate();
+        bill.changeCategory(CategoryId.create(UUID.randomUUID().toString()));
+
+        Assertions.assertInstanceOf(BillCategoryChangedEvent.class, bill.getEvents().get(1));
     }
 
     @Test

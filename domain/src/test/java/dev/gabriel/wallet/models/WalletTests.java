@@ -19,7 +19,8 @@ public class WalletTests {
                 UUID.randomUUID().toString(),
                 "Name",
                 "Description",
-                Currency.create(BigDecimal.valueOf(500.0), CurrencyCode.BRL),
+                BigDecimal.valueOf(500.0),
+                CurrencyCode.BRL,
                 true,
                 UserId.create(UUID.randomUUID().toString()));
     }
@@ -72,6 +73,24 @@ public class WalletTests {
     }
 
     @Test
+    @DisplayName("Change wallet currency code test case: success")
+    void changeWalletCurrencyCodeTestCaseSuccess() {
+        Wallet wallet = populate();
+        wallet.changeCurrencyCode(CurrencyCode.USD);
+
+        Assertions.assertInstanceOf(WalletCurrencyCodeChangedEvent.class, wallet.getEvents().get(1));
+    }
+
+    @Test
+    @DisplayName("Update wallet balance test case: success")
+    void updateWalletBalanceTestCaseSuccess() {
+        Wallet wallet = populate();
+        wallet.updateBalance(BigDecimal.valueOf(700.0));
+
+        Assertions.assertInstanceOf(WalletBalanceUpdatedEvent.class, wallet.getEvents().get(1));
+    }
+
+    @Test
     @DisplayName("Mark wallet as principal test case: success")
     void markWalletAsPrincipalTestCaseSuccess() {
         Wallet wallet = populate();
@@ -89,26 +108,6 @@ public class WalletTests {
         wallet.unmarkPrincipal();
 
         Assertions.assertInstanceOf(WalletPrincipalUnmarkedEvent.class, wallet.getEvents().get(1));
-    }
-
-    @Test
-    @DisplayName("Add amount to wallet test case: success")
-    void addAmountToWalletTestCaseSuccess() {
-        Wallet wallet = populate();
-        wallet.addAmount(Currency.create(BigDecimal.valueOf(40.0), CurrencyCode.BRL));
-
-        Assertions.assertInstanceOf(WalletBalanceUpdatedEvent.class, wallet.getEvents().get(1));
-        Assertions.assertEquals(BigDecimal.valueOf(540.0), wallet.getBalance().getValue());
-    }
-
-    @Test
-    @DisplayName("Subtract amount from wallet test case: success")
-    void subtractAmountFromWalletTestCaseSuccess() {
-        Wallet wallet = populate();
-        wallet.subtractAmount(Currency.create(BigDecimal.valueOf(200.0), CurrencyCode.BRL));
-
-        Assertions.assertInstanceOf(WalletBalanceUpdatedEvent.class, wallet.getEvents().get(1));
-        Assertions.assertEquals(BigDecimal.valueOf(300.0), wallet.getBalance().getValue());
     }
 
     @Test
