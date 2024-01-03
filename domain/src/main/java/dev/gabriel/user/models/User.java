@@ -3,8 +3,6 @@ package dev.gabriel.user.models;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.events.*;
-import dev.gabriel.user.exceptions.UserAlreadyActivatedException;
-import dev.gabriel.user.exceptions.UserAlreadyDeactivatedException;
 import dev.gabriel.user.exceptions.UserAlreadyDeletedException;
 import dev.gabriel.user.valueobjects.Email;
 import dev.gabriel.user.valueobjects.Password;
@@ -65,24 +63,6 @@ public class User extends AggregateRoot {
         this.configuration.defaultUserLanguage = userLanguage;
         updatedAt = Instant.now();
         raiseEvent(new UserDefaultLanguageChanged(getId()));
-    }
-
-    public void activate() {
-        if(isActive) {
-            throw new UserAlreadyActivatedException();
-        }else {
-            isActive = true;
-            raiseEvent(new UserActivatedEvent(getId()));
-        }
-    }
-
-    public void deactivate() {
-        if(!isActive) {
-            throw new UserAlreadyDeactivatedException();
-        }else {
-            isActive = false;
-            raiseEvent(new UserDeactivatedEvent(getId()));
-        }
     }
 
     public void delete() {

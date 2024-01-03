@@ -3,8 +3,7 @@ package dev.gabriel.user.models;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.events.*;
-import dev.gabriel.user.exceptions.UserAlreadyActivatedException;
-import dev.gabriel.user.exceptions.UserAlreadyDeactivatedException;
+import dev.gabriel.user.exceptions.UserAlreadyDeletedException;
 import dev.gabriel.user.exceptions.UserValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -109,41 +108,20 @@ public class UserTests {
     }
 
     @Test
-    @DisplayName("Activate user test case: success")
-    void activateUserTestCaseSuccess() {
+    @DisplayName("Delete user test case: success")
+    void deleteUserTestCaseSuccess() {
         User user = populate();
-        user.deactivate();
-        user.activate();
+        user.delete();
 
-        Assertions.assertInstanceOf(UserDeactivatedEvent.class, user.getEvents().get(1));
-        Assertions.assertInstanceOf(UserActivatedEvent.class, user.getEvents().get(2));
+        Assertions.assertInstanceOf(UserDeletedEvent.class, user.getEvents().get(1));
     }
 
     @Test
-    @DisplayName("Activate user test case: failed")
-    void activateUserTestCaseFailed() {
+    @DisplayName("Delete user test case: failed")
+    void deleteUserTestCaseFailed() {
         User user = populate();
-        user.deactivate();
-        user.activate();
+        user.delete();
 
-        Assertions.assertThrows(UserAlreadyActivatedException.class, user::activate);
-    }
-
-    @Test
-    @DisplayName("Deactivate user test case: success")
-    void deactivateUserTestCaseSuccess() {
-        User user = populate();
-        user.deactivate();
-
-        Assertions.assertInstanceOf(UserDeactivatedEvent.class, user.getEvents().get(1));
-    }
-
-    @Test
-    @DisplayName("Deactivate user test case: failed")
-    void deactivateUserTestCaseFailed() {
-        User user = populate();
-        user.deactivate();
-
-        Assertions.assertThrows(UserAlreadyDeactivatedException.class, user::deactivate);
+        Assertions.assertThrows(UserAlreadyDeletedException.class, user::delete);
     }
 }

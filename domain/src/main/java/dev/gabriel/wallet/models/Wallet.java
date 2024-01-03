@@ -20,7 +20,7 @@ public class Wallet extends AggregateRoot {
     private WalletDescription description;
     private Currency balance;
     private Currency initialBalance;
-    private Boolean isPrincipal;
+    private Boolean isMain;
     private Instant lastBalanceUpdate;
     private WalletType type;
     private UserId userId;
@@ -30,7 +30,7 @@ public class Wallet extends AggregateRoot {
                    String description,
                    BigDecimal balance,
                    CurrencyCode currencyCode,
-                   Boolean isPrincipal,
+                   Boolean isMain,
                    WalletType type,
                    UserId userId
     ) {
@@ -39,7 +39,7 @@ public class Wallet extends AggregateRoot {
         this.description = WalletDescription.create(description);
         this.balance = Currency.create(balance, currencyCode);
         this.initialBalance = this.balance;
-        this.isPrincipal = isPrincipal;
+        this.isMain = isMain;
         this.lastBalanceUpdate = updatedAt;
         this.type = type;
         this.userId = userId;
@@ -92,20 +92,10 @@ public class Wallet extends AggregateRoot {
         raiseEvent(new WalletTypeChangedEvent(getId()));
     }
 
-    public void markPrincipal() {
-        if(!isPrincipal) {
-            isPrincipal = true;
-            updatedAt = Instant.now();
-            raiseEvent(new WalletPrincipalMarkedEvent(getId()));
-        }
-    }
-
-    public void unmarkPrincipal() {
-        if(isPrincipal) {
-            isPrincipal = false;
-            updatedAt = Instant.now();
-            raiseEvent(new WalletPrincipalUnmarkedEvent(getId()));
-        }
+    public void setMain(Boolean isMain) {
+        this.isMain = isMain;
+        updatedAt = Instant.now();
+        raiseEvent(new WalletMainSetEvent(getId()));
     }
 
     public void delete() {

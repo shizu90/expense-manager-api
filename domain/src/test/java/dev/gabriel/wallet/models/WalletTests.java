@@ -1,7 +1,6 @@
 package dev.gabriel.wallet.models;
 
 import dev.gabriel.shared.models.AggregateRoot;
-import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.valueobjects.UserId;
 import dev.gabriel.wallet.events.*;
@@ -101,23 +100,12 @@ public class WalletTests {
     }
 
     @Test
-    @DisplayName("Mark wallet as principal test case: success")
+    @DisplayName("Set wallet test case: success")
     void markWalletAsPrincipalTestCaseSuccess() {
         Wallet wallet = populate();
-        wallet.unmarkPrincipal();
-        wallet.markPrincipal();
+        wallet.setMain(false);
 
-        Assertions.assertInstanceOf(WalletPrincipalUnmarkedEvent.class, wallet.getEvents().get(1));
-        Assertions.assertInstanceOf(WalletPrincipalMarkedEvent.class, wallet.getEvents().get(2));
-    }
-
-    @Test
-    @DisplayName("Unmark wallet as principal test case: success")
-    void unmarkWalletAsPrincipalTestCaseSuccess() {
-        Wallet wallet = populate();
-        wallet.unmarkPrincipal();
-
-        Assertions.assertInstanceOf(WalletPrincipalUnmarkedEvent.class, wallet.getEvents().get(1));
+        Assertions.assertInstanceOf(WalletMainSetEvent.class, wallet.getEvents().get(1));
     }
 
     @Test

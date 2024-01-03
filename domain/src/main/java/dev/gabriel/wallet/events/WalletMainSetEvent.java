@@ -5,8 +5,8 @@ import dev.gabriel.wallet.valueobjects.WalletId;
 
 import java.time.Instant;
 
-public class WalletPrincipalMarkedEvent extends DomainEvent {
-    public WalletPrincipalMarkedEvent(WalletId walletId) {
+public class WalletMainSetEvent extends DomainEvent {
+    public WalletMainSetEvent(WalletId walletId) {
         super(walletId, Instant.now());
     }
 }
