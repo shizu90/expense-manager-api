@@ -55,6 +55,18 @@ public class Reminder extends AggregateRoot {
         raiseEvent(new ReminderDescriptionEditedEvent(getId()));
     }
 
+    public void changeRecurrence(Long recurrence) {
+        this.recurrence = recurrence;
+        updatedAt = Instant.now();
+        raiseEvent(new ReminderRecurrenceChangedEvent(getId()));
+    }
+
+    public void changeMaxRuns(Long maxRuns) {
+        this.maxRuns = maxRuns;
+        updatedAt = Instant.now();
+        raiseEvent(new ReminderMaxRunsChangedEvent(getId()));
+    }
+
     public LocalDate getNextReminder() {
         return LocalDate.from(lastRun).plusDays(recurrence);
     }
