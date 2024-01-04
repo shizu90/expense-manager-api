@@ -1,9 +1,9 @@
-package dev.gabriel.transaction.handlers;
+package dev.gabriel.category.handlers;
 
 import dev.gabriel.category.models.Category;
 import dev.gabriel.category.repositories.ICategoryRepository;
 import dev.gabriel.shared.handlers.ICommandHandler;
-import dev.gabriel.transaction.commands.CreateCategoryCommand;
+import dev.gabriel.category.commands.CreateCategoryCommand;
 import dev.gabriel.user.exceptions.UserNotFoundException;
 import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;

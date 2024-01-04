@@ -1,11 +1,11 @@
-package dev.gabriel.transaction.handlers;
+package dev.gabriel.category.handlers;
 
 import dev.gabriel.category.exceptions.CategoryNotFoundException;
 import dev.gabriel.category.models.Category;
 import dev.gabriel.category.repositories.ICategoryRepository;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.handlers.ICommandHandler;
-import dev.gabriel.transaction.commands.DeleteCategoryCommand;
+import dev.gabriel.category.commands.DeleteCategoryCommand;
 
 public class DeleteCategoryCommandHandler implements ICommandHandler<Category, DeleteCategoryCommand> {
     private final ICategoryRepository categoryRepository;

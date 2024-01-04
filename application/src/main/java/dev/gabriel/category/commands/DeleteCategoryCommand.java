@@ -1,4 +1,4 @@
-package dev.gabriel.transaction.commands;
+package dev.gabriel.category.commands;
 
 import dev.gabriel.shared.commands.ICommand;
 import lombok.AllArgsConstructor;

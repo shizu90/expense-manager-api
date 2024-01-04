@@ -1,11 +1,11 @@
-package dev.gabriel.transaction.handlers;
+package dev.gabriel.category.handlers;
 
+import dev.gabriel.category.commands.RenameCategoryCommand;
 import dev.gabriel.category.exceptions.CategoryNotFoundException;
 import dev.gabriel.category.models.Category;
 import dev.gabriel.category.repositories.ICategoryRepository;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.handlers.ICommandHandler;
-import dev.gabriel.transaction.commands.RenameCategoryCommand;
 
 public class RenameCategoryCommandHandler implements ICommandHandler<Category, RenameCategoryCommand> {
     private final ICategoryRepository categoryRepository;
