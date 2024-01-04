@@ -1,14 +1,15 @@
 package dev.gabriel.budget.models;
 
 import dev.gabriel.bill.models.Bill;
-import dev.gabriel.bill.models.BillStatus;
 import dev.gabriel.bill.models.BillType;
 import dev.gabriel.budget.events.*;
 import dev.gabriel.budget.exceptions.BudgetValidationException;
 import dev.gabriel.budget.exceptions.BudgetItemAlreadyAddedException;
+import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.valueobjects.UserId;
+import dev.gabriel.wallet.valueobjects.WalletId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,11 +35,9 @@ public class BudgetTests {
                 "Comment",
                 BigDecimal.valueOf(20.0),
                 CurrencyCode.BRL,
-                BillStatus.UNPAID,
-                BillType.IN,
-                userId,
-                null,
-                null
+                BillType.INCOME,
+                WalletId.create(UUID.randomUUID().toString()),
+                CategoryId.create(UUID.randomUUID().toString())
         );
     }
 

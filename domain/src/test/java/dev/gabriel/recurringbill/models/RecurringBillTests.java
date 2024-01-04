@@ -1,13 +1,16 @@
 package dev.gabriel.recurringbill.models;
 
+import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.recurringbill.events.*;
-import dev.gabriel.recurringbill.exceptions.AlreadyPaidAllPeriodsException;
 import dev.gabriel.recurringbill.exceptions.RecurringBillValidationException;
 import dev.gabriel.shared.models.AggregateRoot;
+import dev.gabriel.shared.valueobjects.CurrencyCode;
+import dev.gabriel.wallet.valueobjects.WalletId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -15,9 +18,16 @@ public class RecurringBillTests {
     RecurringBill populate() {
         return RecurringBill.create(
                 UUID.randomUUID().toString(),
+                "Name",
+                "Comment",
+                BigDecimal.valueOf(10.0),
+                CurrencyCode.USD,
+                CategoryId.create(UUID.randomUUID().toString()),
+                RecurringBillType.INCOME,
+                WalletId.create(UUID.randomUUID().toString()),
                 2L,
                 20L,
-                LocalDate.of(2023, 12, 8)
+                LocalDate.of(2023, 12, 20)
         );
     }
 
@@ -28,6 +38,62 @@ public class RecurringBillTests {
 
         Assertions.assertInstanceOf(AggregateRoot.class, recurringBill);
         Assertions.assertInstanceOf(RecurringBillCreatedEvent.class, recurringBill.getEvents().get(0));
+    }
+
+    @Test
+    @DisplayName("Rename recurring bill test case: success")
+    void renameRecurringBillTestCaseSuccess() {
+        RecurringBill recurringBill = populate();
+        recurringBill.rename("CoolName");
+
+        Assertions.assertInstanceOf(RecurringBillRenamedEvent.class, recurringBill.getEvents().get(1));
+    }
+
+    @Test
+    @DisplayName("Rename recurring bill test case: failed")
+    void renameRecurringBillTestCaseFailed() {
+        RecurringBill recurringBill = populate();
+
+        Assertions.assertThrows(RecurringBillValidationException.class, () -> {
+            recurringBill.rename(null);
+        });
+    }
+
+    @Test
+    @DisplayName("Edit recurring bill comment test case: success")
+    void editRecurringBillCommentTestCaseSuccess() {
+        RecurringBill recurringBill = populate();
+        recurringBill.editComment("CoolComment");
+
+        Assertions.assertInstanceOf(RecurringBillCommentEditedEvent.class, recurringBill.getEvents().get(1));
+    }
+
+    @Test
+    @DisplayName("Edit recurring bill comment test case: failed")
+    void editRecurringBillCommentTestCaseFailed() {
+        RecurringBill recurringBill = populate();
+
+        Assertions.assertThrows(RecurringBillValidationException.class, () -> {
+            recurringBill.editComment(null);
+        });
+    }
+
+    @Test
+    @DisplayName("Change recurring bill currency code test case: success")
+    void changeRecurringBillCurrencyCodeTestCaseSuccess() {
+        RecurringBill recurringBill = populate();
+        recurringBill.changeCurrencyCode(CurrencyCode.EUR);
+
+        Assertions.assertInstanceOf(RecurringBillCurrencyCodeChangedEvent.class, recurringBill.getEvents().get(1));
+    }
+
+    @Test
+    @DisplayName("Change recurring bill category test case: success")
+    void changeRecurringBillCategoryTestCaseSuccess() {
+        RecurringBill recurringBill = populate();
+        recurringBill.changeCategory(CategoryId.create(UUID.randomUUID().toString()));
+
+        Assertions.assertInstanceOf(RecurringBillCategoryChangedEvent.class, recurringBill.getEvents().get(1));
     }
 
     @Test
@@ -78,51 +144,31 @@ public class RecurringBillTests {
     }
 
     @Test
-    @DisplayName("Pay periods test case: success")
-    void payPeriodsTestCaseSuccess() {
+    @DisplayName("Run recurring bill period test case: success")
+    void runRecurringBillPeriodTestCaseSuccess() {
         RecurringBill recurringBill = populate();
 
-        Assertions.assertEquals(0L, recurringBill.getPaidPeriods().getValue());
-        Assertions.assertEquals(LocalDate.of(2023, 12, 8), recurringBill.nextPaymentDate());
+        Assertions.assertEquals(LocalDate.of(2023, 12, 22), recurringBill.getNextPaymentDate());
+        Assertions.assertEquals(LocalDate.of(2023, 12, 20), recurringBill.getStartDate());
+        Assertions.assertEquals(1L, recurringBill.getCurrentPeriods().getValue());
 
-        recurringBill.payPeriods(1L);
+        recurringBill.execute(3L);
 
-        Assertions.assertEquals(1L, recurringBill.getPaidPeriods().getValue());
-        Assertions.assertEquals(LocalDate.of(2023, 12, 10), recurringBill.nextPaymentDate());
+        Assertions.assertEquals(4L, recurringBill.getCurrentPeriods().getValue());
+        Assertions.assertEquals(LocalDate.of(2023, 12, 28), recurringBill.getNextPaymentDate());
+        Assertions.assertInstanceOf(RecurringBillExecutedEvent.class, recurringBill.getEvents().get(1));
     }
 
     @Test
-    @DisplayName("Pay periods test case: failed")
-    void payPeriodsTestCaseFailed() {
+    @DisplayName("Restart recurring bill test case: success")
+    void restartRecurringBillTestCaseSuccess() {
         RecurringBill recurringBill = populate();
-        recurringBill.payPeriods(recurringBill.getTotalPeriods().getValue());
+        recurringBill.execute(20L);
 
-        Assertions.assertThrows(AlreadyPaidAllPeriodsException.class, () -> {
-            recurringBill.payPeriods(1L);
-        });
-    }
-
-    @Test
-    @DisplayName("Is period paid test case: success")
-    void isPeriodPaidTestCaseSuccess() {
-        RecurringBill recurringBill = populate();
-        boolean returnedValue = recurringBill.isPeriodPaid(LocalDate.of(2023, 12, 8));
-
-        Assertions.assertFalse(returnedValue);
-    }
-
-    @Test
-    @DisplayName("Restart periods test case: success")
-    void restartPeriodsTestCaseSuccess() {
-        RecurringBill recurringBill = populate();
-        recurringBill.payPeriods(recurringBill.getTotalPeriods().getValue());
-
-        Assertions.assertEquals(recurringBill.getTotalPeriods(), recurringBill.getPaidPeriods());
-
+        Assertions.assertEquals(20L, recurringBill.getCurrentPeriods().getValue());
         recurringBill.restart();
-
-        Assertions.assertNotEquals(recurringBill.getTotalPeriods(), recurringBill.getPaidPeriods());
-        Assertions.assertEquals(0L, recurringBill.getPaidPeriods().getValue());
+        Assertions.assertEquals(1L, recurringBill.getCurrentPeriods().getValue());
+        Assertions.assertInstanceOf(RecurringBillRestartedEvent.class, recurringBill.getEvents().get(2));
     }
 
     @Test

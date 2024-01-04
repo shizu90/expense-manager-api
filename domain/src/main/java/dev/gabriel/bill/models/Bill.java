@@ -2,16 +2,14 @@ package dev.gabriel.bill.models;
 
 import dev.gabriel.bill.events.*;
 import dev.gabriel.bill.exceptions.BillAlreadyDeletedException;
-import dev.gabriel.bill.exceptions.BillAlreadyPaidException;
 import dev.gabriel.bill.valueobjects.BillComment;
 import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.bill.valueobjects.BillName;
 import dev.gabriel.category.valueobjects.CategoryId;
-import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
-import dev.gabriel.user.valueobjects.UserId;
+import dev.gabriel.wallet.valueobjects.WalletId;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -22,32 +20,26 @@ public class Bill extends AggregateRoot {
     private BillName name;
     private BillComment comment;
     private Currency amount;
-    private BillStatus status;
     private BillType type;
-    private UserId userId;
+    private WalletId walletId;
     private CategoryId categoryId;
-    private RecurringBillId recurrenceId;
 
     private Bill(String id,
                  String name,
                  String comment,
                  BigDecimal amount,
                  CurrencyCode currencyCode,
-                 BillStatus status,
                  BillType type,
-                 UserId userId,
-                 CategoryId categoryId,
-                 RecurringBillId recurrenceId
+                 WalletId walletId,
+                 CategoryId categoryId
     ) {
         super(BillId.create(id));
         this.name = BillName.create(name);
         this.comment = BillComment.create(comment);
         this.amount = Currency.create(amount, currencyCode);
-        this.status = status;
         this.type = type;
-        this.userId = userId;
+        this.walletId = walletId;
         this.categoryId = categoryId;
-        this.recurrenceId = recurrenceId;
     }
 
     public static Bill create(String id,
@@ -55,13 +47,11 @@ public class Bill extends AggregateRoot {
                               String comment,
                               BigDecimal amount,
                               CurrencyCode currencyCode,
-                              BillStatus status,
                               BillType type,
-                              UserId userId,
-                              CategoryId categoryId,
-                              RecurringBillId recurrenceId
+                              WalletId walletId,
+                              CategoryId categoryId
     ) {
-        Bill bill = new Bill(id, name, comment, amount, currencyCode, status, type, userId, categoryId, recurrenceId);
+        Bill bill = new Bill(id, name, comment, amount, currencyCode, type, walletId, categoryId);
         bill.raiseEvent(new BillCreatedEvent(bill.getId()));
         return bill;
     }
@@ -96,15 +86,10 @@ public class Bill extends AggregateRoot {
         raiseEvent(new BillCategoryChangedEvent(getId()));
     }
 
-    public Currency pay() {
-        if(this.status.equals(BillStatus.PAID)) {
-            throw new BillAlreadyPaidException();
-        }
-
-        this.status = BillStatus.PAID;
+    public void changeType(BillType type) {
+        this.type = type;
         updatedAt = Instant.now();
-        raiseEvent(new BillPaidEvent(getId()));
-        return amount;
+        raiseEvent(new BillTypeChangedEvent(getId()));
     }
 
     public void delete() {

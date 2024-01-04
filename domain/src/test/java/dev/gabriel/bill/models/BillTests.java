@@ -1,12 +1,12 @@
 package dev.gabriel.bill.models;
 
 import dev.gabriel.bill.events.*;
-import dev.gabriel.bill.exceptions.BillAlreadyPaidException;
 import dev.gabriel.bill.exceptions.BillValidationException;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.valueobjects.UserId;
+import dev.gabriel.wallet.valueobjects.WalletId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,12 +21,10 @@ public class BillTests {
                 "Name",
                 "Comment",
                 BigDecimal.valueOf(20.0),
-                CurrencyCode.BRL,
-                BillStatus.UNPAID,
-                BillType.IN,
-                UserId.create(UUID.randomUUID().toString()),
-                null,
-                null
+                CurrencyCode.USD,
+                BillType.EXPENSE,
+                WalletId.create(UUID.randomUUID().toString()),
+                CategoryId.create(UUID.randomUUID().toString())
         );
     }
 
@@ -102,23 +100,5 @@ public class BillTests {
         bill.changeCategory(CategoryId.create(UUID.randomUUID().toString()));
 
         Assertions.assertInstanceOf(BillCategoryChangedEvent.class, bill.getEvents().get(1));
-    }
-
-    @Test
-    @DisplayName("Pay bill test case: success")
-    void payBillTestCaseSuccess() {
-        Bill bill = populate();
-        bill.pay();
-
-        Assertions.assertInstanceOf(BillPaidEvent.class, bill.getEvents().get(1));
-    }
-
-    @Test
-    @DisplayName("Pay bill test case: failed")
-    void payBillTestCaseFailed() {
-        Bill bill = populate();
-        bill.pay();
-
-        Assertions.assertThrows(BillAlreadyPaidException.class, bill::pay);
     }
 }

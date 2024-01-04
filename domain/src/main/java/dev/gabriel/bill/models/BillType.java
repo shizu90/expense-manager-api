@@ -1,8 +1,10 @@
 package dev.gabriel.bill.models;
 
+import dev.gabriel.bill.exceptions.BillValidationException;
+
 public enum BillType {
-    IN("in"),
-    OUT("out");
+    INCOME("income"),
+    EXPENSE("expense");
 
     private final String value;
 
@@ -13,5 +15,13 @@ public enum BillType {
     @Override
     public String toString() {
         return value;
+    }
+
+    public static BillType getConstant(String value) {
+        return switch(value) {
+            case "income" -> BillType.INCOME;
+            case "expense" -> BillType.EXPENSE;
+            default -> throw new BillValidationException("Type", "Not a valid type.");
+        };
     }
 }

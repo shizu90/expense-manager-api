@@ -26,7 +26,6 @@ public class Budget extends AggregateRoot {
     private BudgetDescription description;
     private UserId userId;
     private List<BudgetItem> bills;
-    private Boolean finished;
     private Currency totalAmount;
 
     private Budget(String id, String name, String description, CurrencyCode currencyCode, UserId userId) {
@@ -35,7 +34,6 @@ public class Budget extends AggregateRoot {
         this.description = BudgetDescription.create(description);
         this.userId = userId;
         this.bills = new ArrayList<>();
-        this.finished = false;
         this.totalAmount = Currency.create(BigDecimal.ZERO, currencyCode);
     }
 
