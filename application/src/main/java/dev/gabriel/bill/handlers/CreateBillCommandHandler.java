@@ -47,6 +47,15 @@ public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBil
                 category.getId()
         );
 
-        return billRepository.save(bill);
+        if(bill.getType().equals(BillType.EXPENSE)) {
+            wallet.updateBalance(wallet.getBalance().subtract(bill.getAmount()).getValue());
+        }else {
+            wallet.updateBalance(wallet.getBalance().add(bill.getAmount()).getValue());
+        }
+
+        walletRepository.save(wallet);
+        billRepository.save(bill);
+
+        return bill;
     }
 }

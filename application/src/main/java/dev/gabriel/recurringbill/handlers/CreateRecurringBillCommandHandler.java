@@ -9,7 +9,7 @@ import dev.gabriel.recurringbill.models.RecurringBill;
 import dev.gabriel.recurringbill.models.RecurringBillType;
 import dev.gabriel.recurringbill.repositories.IRecurringBillRepository;
 import dev.gabriel.reminder.models.Reminder;
-import dev.gabriel.reminder.repositories.IReminderRepository;
+import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.wallet.exceptions.WalletNotFoundException;
@@ -22,17 +22,14 @@ import java.util.UUID;
 public class CreateRecurringBillCommandHandler implements ICommandHandler<RecurringBill, CreateRecurringBillCommand> {
     private final IRecurringBillRepository recurringBillRepository;
     private final IWalletRepository walletRepository;
-    private final IReminderRepository reminderRepository;
     private final ICategoryRepository categoryRepository;
 
     public CreateRecurringBillCommandHandler(IRecurringBillRepository recurringBillRepository,
                                              IWalletRepository walletRepository,
-                                             IReminderRepository reminderRepository,
                                              ICategoryRepository categoryRepository
     ) {
         this.recurringBillRepository = recurringBillRepository;
         this.walletRepository = walletRepository;
-        this.reminderRepository = reminderRepository;
         this.categoryRepository = categoryRepository;
     }
 
@@ -58,21 +55,17 @@ public class CreateRecurringBillCommandHandler implements ICommandHandler<Recurr
                 command.getStartDate()
         );
 
-        Reminder reminder = Reminder.create(
-                UUID.randomUUID().toString(),
-                command.getName() + " reminder",
-                command.getComment(),
-                command.getDaysRecurrence(),
-                command.getTotalPeriods(),
-                wallet.getUserId()
-        );
+        if(recurringBill.getType().equals(RecurringBillType.EXPENSE)) {
+            wallet.updateBalance(wallet.getBalance().subtract(recurringBill.getAmount()).getValue());
+        }else {
+            wallet.updateBalance(wallet.getBalance().add(recurringBill.getAmount()).getValue());
+        }
 
-        recurringBill.setupReminder(reminder.getId());
+        recurringBill.setupReminder(ReminderId.create(command.getReminderId()));
 
-        reminder.start();
+        walletRepository.save(wallet);
+        recurringBill = recurringBillRepository.save(recurringBill);
 
-        reminderRepository.save(reminder);
-
-        return recurringBillRepository.save(recurringBill);
+        return recurringBill;
     }
 }

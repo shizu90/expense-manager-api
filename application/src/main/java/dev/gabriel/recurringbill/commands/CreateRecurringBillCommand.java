@@ -17,6 +17,7 @@ public class CreateRecurringBillCommand implements ICommand {
     private String type;
     private String categoryId;
     private String walletId;
+    private String reminderId;
     private Long daysRecurrence;
     private Long totalPeriods;
     private LocalDate startDate;

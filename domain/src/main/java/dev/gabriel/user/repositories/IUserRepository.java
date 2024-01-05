@@ -9,9 +9,7 @@ import java.util.Optional;
 
 public interface IUserRepository extends IDomainRepository {
     Optional<User> findById(UserId userId);
-    boolean exists(UserId userId);
     boolean existsByEmail(Email email);
     User save(User user);
-    void deleteById(UserId userId);
 }
 

@@ -4,7 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d000b209-e205-4894-a9ea-f86bc8cb3114" name="Changes" comment="" />
+    <list default="true" id="d000b209-e205-4894-a9ea-f86bc8cb3114" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/repositories/IBillRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/repositories/IBillRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/repositories/IBudgetRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/repositories/IBudgetRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/repositories/ICategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/repositories/ICategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/repositories/IRecurringBillRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/repositories/IRecurringBillRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/repositories/IReminderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/repositories/IReminderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/events/TransactionCreatedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/events/TransactionDeletedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/events/TransactionEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/exceptions/TransactionAlreadyDeletedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/models/Transaction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/repositories/ITransactionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/transaction/valueobjects/TransactionId.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/repositories/IUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/repositories/IUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/repositories/IWalletRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/repositories/IWalletRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/transaction/models/TransactionTests.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,24 +52,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;21&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/giraf/expense-manager-api/expensemanager/application/src/main/java/dev/gabriel/reminder&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/giraf/expense-manager-api/expensemanager/src/main/java/dev/gabriel/Main.java&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "21",
+    "last_opened_file_path": "C:/Users/giraf/expense-manager-api/expensemanager/infrastructure/src/main/java/dev/gabriel/budget",
+    "onboarding.tips.debug.path": "C:/Users/giraf/expense-manager-api/expensemanager/src/main/java/dev/gabriel/Main.java"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\application\src\main\java\dev\gabriel\reminder" />
-      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\application\src\main\java\dev\gabriel\recurringbill" />
-      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\application\src\main\java\dev\gabriel\billgroup" />
-      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\application\src\main\java\dev\gabriel\wallet" />
-      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\application\src\main\java\dev\gabriel\transaction" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\infrastructure\src\main\java\dev\gabriel\budget" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\infrastructure\src\main\java\dev\gabriel\recurringbill" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\infrastructure\src\main\java\dev\gabriel\reminder" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\infrastructure\src\main\java\dev\gabriel\transaction" />
+      <recent name="C:\Users\giraf\expense-manager-api\expensemanager\infrastructure\src\main\java\dev\gabriel\user" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\giraf\expense-manager-api\expensemanager\domain\src\test\java\dev\gabriel" />
