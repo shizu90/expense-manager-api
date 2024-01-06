@@ -6,7 +6,7 @@ import dev.gabriel.shared.events.DomainEvent;
 import java.time.Instant;
 
 public class BillEvent extends DomainEvent {
-    protected BillEvent(BillId billId) {
-        super(billId, Instant.now());
+    protected BillEvent(BillId billId, Long version) {
+        super(billId, version, Instant.now());
     }
 }

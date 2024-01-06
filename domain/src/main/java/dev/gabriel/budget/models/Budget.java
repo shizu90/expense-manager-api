@@ -27,37 +27,30 @@ public class Budget extends AggregateRoot {
     private UserId userId;
     private List<BudgetItem> bills;
     private Currency totalAmount;
+    private Boolean isDeleted;
 
     private Budget(String id, String name, String description, CurrencyCode currencyCode, UserId userId) {
         super(BudgetId.create(id));
-        this.name = BudgetName.create(name);
-        this.description = BudgetDescription.create(description);
-        this.userId = userId;
-        this.bills = new ArrayList<>();
-        this.totalAmount = Currency.create(BigDecimal.ZERO, currencyCode);
+        raiseEvent(new BudgetCreatedEvent(
+                BudgetId.create(id),
+                getNextVersion(),
+                BudgetName.create(name),
+                BudgetDescription.create(description),
+                userId,
+                Currency.create(BigDecimal.ZERO, currencyCode))
+        );
     }
 
     public static Budget create(String id, String name, String comment, CurrencyCode currencyCode, UserId userId) {
-        Budget billGroup = new Budget(id, name, comment, currencyCode, userId);
-        billGroup.raiseEvent(new BudgetCreatedEvent(billGroup.getId()));
-        return billGroup;
+        return new Budget(id, name, comment, currencyCode, userId);
     }
 
     public void rename(String name) {
-        this.name = BudgetName.create(name);
-        updatedAt = Instant.now();
-        raiseEvent(new BudgetRenamedEvent(getId()));
+        raiseEvent(new BudgetRenamedEvent(getId(), getNextVersion(), BudgetName.create(name)));
     }
 
     public void editDescription(String description) {
-        this.description = BudgetDescription.create(description);
-        updatedAt = Instant.now();
-        raiseEvent(new BudgetDescriptionEditedEvent(getId()));
-    }
-
-    public void changeCurrencyCode(CurrencyCode currencyCode) {
-        this.totalAmount = Currency.create(totalAmount.getValue(), currencyCode);
-        updatedAt = Instant.now();
+        raiseEvent(new BudgetDescriptionEditedEvent(getId(), getNextVersion(), BudgetDescription.create(description)));
     }
 
     public void addBill(Bill bill) {
@@ -65,20 +58,15 @@ public class Budget extends AggregateRoot {
         if(alreadyInBill.isPresent()) {
             throw new BudgetItemAlreadyAddedException();
         }
-        totalAmount = totalAmount.add(bill.getAmount());
-        bills.add(BudgetItem.create(UUID.randomUUID().toString(), bill.getId(), getId()));
-        updatedAt = Instant.now();
-        raiseEvent(new BudgetItemAddedEvent(getId()));
+        raiseEvent(new BudgetItemAddedEvent(getId(), getNextVersion(), bill.getId(), bill.getAmount()));
     }
 
     public void deleteBill(Bill bill) {
-        bills.removeIf(item -> item.getBillId().equals(bill.getId()));
-        updatedAt = Instant.now();
-        raiseEvent(new BudgetItemDeletedEvent(getId()));
+        raiseEvent(new BudgetItemDeletedEvent(getId(), getNextVersion(), bill.getId(), bill.getAmount()));
     }
 
     public void clearBills() {
-        bills.clear();
+        raiseEvent(new BudgetItemsClearedEvent(getId(), getNextVersion()));
     }
 
     public void delete() {
@@ -86,9 +74,44 @@ public class Budget extends AggregateRoot {
             throw new BudgetAlreadyDeletedException(getId().getValue());
         }else {
             clearBills();
-            isDeleted = true;
-            raiseEvent(new BudgetDeletedEvent(getId()));
+            raiseEvent(new BudgetDeletedEvent(getId(), getNextVersion()));
         }
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(BudgetCreatedEvent event) {
+        this.name = event.getName();
+        this.description = event.getDescription();
+        this.totalAmount = event.getTotalAmount();
+        this.bills = new ArrayList<>();
+        this.isDeleted = false;
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(BudgetRenamedEvent event) {
+        this.name = event.getName();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(BudgetDescriptionEditedEvent event) {
+        this.description = event.getDescription();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(BudgetItemAddedEvent event) {
+        this.totalAmount = totalAmount.add(event.getAmount());
+        bills.add(BudgetItem.create(UUID.randomUUID().toString(), event.getBillId(), getId()));
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(BudgetItemDeletedEvent event) {
+        this.totalAmount = totalAmount.subtract(event.getAmount());
+        bills.removeIf(item -> item.getBillId().equals(event.getBillId()));
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(BudgetDeletedEvent event) {
+        this.isDeleted = true;
     }
 
     @Override

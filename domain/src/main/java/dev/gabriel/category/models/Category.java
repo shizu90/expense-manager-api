@@ -10,38 +10,53 @@ import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.user.valueobjects.UserId;
 import lombok.Getter;
 
-import java.time.Instant;
-
 @Getter
 public class Category extends AggregateRoot {
     private CategoryName name;
     private UserId userId;
+    private Boolean isDeleted;
 
     private Category(String id, String name, UserId userId) {
         super(CategoryId.create(id));
-        this.name = CategoryName.create(name);
-        this.userId = userId;
+        raiseEvent(new CategoryCreatedEvent(
+                CategoryId.create(id),
+                getNextVersion(),
+                CategoryName.create(name),
+                userId)
+        );
     }
 
     public static Category create(String id, String name, UserId userId) {
-        Category category = new Category(id, name, userId);
-        category.raiseEvent(new CategoryCreatedEvent(category.getId()));
-        return category;
+        return new Category(id, name, userId);
     }
 
     public void rename(String name) {
-        this.name = CategoryName.create(name);
-        updatedAt = Instant.now();
-        raiseEvent(new CategoryRenamedEvent(getId()));
+        raiseEvent(new CategoryRenamedEvent(getId(), getNextVersion(), CategoryName.create(name)));
     }
 
     public void delete() {
         if(isDeleted) {
             throw new CategoryAlreadyDeletedException(getId().getValue());
         }else {
-            isDeleted = true;
-            raiseEvent(new CategoryDeletedEvent(getId()));
+            raiseEvent(new CategoryDeletedEvent(getId(), getNextVersion()));
         }
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(CategoryCreatedEvent event) {
+        this.name = event.getName();
+        this.userId = event.getUserId();
+        this.isDeleted = false;
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(CategoryRenamedEvent event) {
+        this.name = event.getName();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(CategoryDeletedEvent event) {
+        this.isDeleted = true;
     }
 
     @Override

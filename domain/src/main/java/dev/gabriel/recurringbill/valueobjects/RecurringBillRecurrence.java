@@ -8,21 +8,21 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public class DaysRecurrence extends ValueObject {
+public class RecurringBillRecurrence extends ValueObject {
     private final Long value;
 
-    private DaysRecurrence(Long value) {
+    private RecurringBillRecurrence(Long value) {
         validate(value);
         this.value = value;
     }
 
-    public static DaysRecurrence create(Long value) {
-        return new DaysRecurrence(value);
+    public static RecurringBillRecurrence create(Long value) {
+        return new RecurringBillRecurrence(value);
     }
 
     private void validate(Long value) {
         if(value == null || value <= 0L) {
-            throw new RecurringBillValidationException("Days Recurrence", "Days recurrence must be greater than 0.");
+            throw new RecurringBillValidationException("Recurrence", "Recurrence must be greater than 0.");
         }
     }
 

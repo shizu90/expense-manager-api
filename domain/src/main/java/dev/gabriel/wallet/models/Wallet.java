@@ -12,7 +12,6 @@ import dev.gabriel.wallet.valueobjects.WalletName;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 
 @Getter
 public class Wallet extends AggregateRoot {
@@ -20,29 +19,31 @@ public class Wallet extends AggregateRoot {
     private WalletDescription description;
     private Currency balance;
     private Currency initialBalance;
-    private Boolean isMain;
-    private Instant lastBalanceUpdate;
+    private Boolean main;
     private WalletType type;
     private UserId userId;
+    private Boolean isDeleted;
 
     private Wallet(String id,
                    String name,
                    String description,
                    BigDecimal balance,
                    CurrencyCode currencyCode,
-                   Boolean isMain,
+                   Boolean main,
                    WalletType type,
                    UserId userId
     ) {
         super(WalletId.create(id));
-        this.name = WalletName.create(name);
-        this.description = WalletDescription.create(description);
-        this.balance = Currency.create(balance, currencyCode);
-        this.initialBalance = this.balance;
-        this.isMain = isMain;
-        this.lastBalanceUpdate = updatedAt;
-        this.type = type;
-        this.userId = userId;
+        raiseEvent(new WalletCreatedEvent(
+                WalletId.create(id),
+                getNextVersion(),
+                WalletName.create(name),
+                WalletDescription.create(description),
+                Currency.create(balance, currencyCode),
+                main,
+                type,
+                userId)
+        );
     }
 
     public static Wallet create(String id,
@@ -50,61 +51,79 @@ public class Wallet extends AggregateRoot {
                                 String description,
                                 BigDecimal balance,
                                 CurrencyCode currencyCode,
-                                Boolean isPrincipal,
+                                Boolean main,
                                 WalletType type,
                                 UserId userId
     ) {
-        Wallet wallet = new Wallet(id, name, description, balance, currencyCode, isPrincipal, type, userId);
-        wallet.raiseEvent(new WalletCreatedEvent(wallet.getId()));
-        return wallet;
+        return new Wallet(id, name, description, balance, currencyCode, main, type, userId);
     }
 
     public void rename(String name) {
-        this.name = WalletName.create(name);
-        updatedAt = Instant.now();
-        raiseEvent(new WalletRenamedEvent(getId()));
+        raiseEvent(new WalletRenamedEvent(getId(), getNextVersion(), WalletName.create(name)));
     }
 
     public void editDescription(String description) {
-        this.description = WalletDescription.create(description);
-        updatedAt = Instant.now();
-        raiseEvent(new WalletDescriptionEditedEvent(getId()));
+        raiseEvent(new WalletDescriptionEditedEvent(getId(), getNextVersion(), WalletDescription.create(description)));
     }
 
-    public void changeCurrencyCode(CurrencyCode currencyCode) {
-        this.balance = Currency.create(balance.getValue(), currencyCode);
-        this.initialBalance = Currency.create(initialBalance.getValue(), currencyCode);
-        updatedAt = Instant.now();
-        raiseEvent(new WalletCurrencyCodeChangedEvent(getId()));
-    }
-
-    public void updateBalance(BigDecimal balance) {
-        this.balance = Currency.create(balance, this.balance.getCurrencyCode());
-        updatedAt = Instant.now();
-        lastBalanceUpdate = updatedAt;
-        raiseEvent(new WalletBalanceUpdatedEvent(getId()));
+    public void updateBalance(Currency balance) {
+        raiseEvent(new WalletBalanceUpdatedEvent(getId(), getNextVersion(), balance));
     }
 
     public void changeType(WalletType type) {
-        this.type = type;
-        updatedAt = Instant.now();
-        lastBalanceUpdate = updatedAt;
-        raiseEvent(new WalletTypeChangedEvent(getId()));
+        raiseEvent(new WalletTypeChangedEvent(getId(), getNextVersion(), type));
     }
 
-    public void setMain(Boolean isMain) {
-        this.isMain = isMain;
-        updatedAt = Instant.now();
-        raiseEvent(new WalletMainSetEvent(getId()));
+    public void setMain(Boolean main) {
+        raiseEvent(new WalletMainSetEvent(getId(), getNextVersion(), main));
     }
 
     public void delete() {
         if(isDeleted) {
             throw new WalletAlreadyDeletedException(getId().getValue());
-        }else {
-            isDeleted = true;
-            raiseEvent(new WalletDeletedEvent(getId()));
-        }
+        }else raiseEvent(new WalletDeletedEvent(getId(), getNextVersion()));
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(WalletCreatedEvent event) {
+        this.name = event.getName();
+        this.description = event.getDescription();
+        this.balance = event.getBalance();
+        this.initialBalance = event.getBalance();
+        this.userId = event.getUserId();
+        this.main = event.getMain();
+        this.type = event.getType();
+        this.isDeleted = false;
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(WalletRenamedEvent event) {
+        this.name = event.getName();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(WalletDescriptionEditedEvent event) {
+        this.description = event.getDescription();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(WalletBalanceUpdatedEvent event) {
+        this.balance = event.getBalance();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(WalletTypeChangedEvent event) {
+        this.type = event.getType();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(WalletMainSetEvent event) {
+        this.main = event.getMain();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(WalletDeletedEvent event) {
+        this.isDeleted = true;
     }
 
     @Override

@@ -6,7 +6,7 @@ import dev.gabriel.shared.events.DomainEvent;
 import java.time.Instant;
 
 public class RecurringBillEvent extends DomainEvent {
-    protected RecurringBillEvent(RecurringBillId recurringBillId) {
-        super(recurringBillId, Instant.now());
+    protected RecurringBillEvent(RecurringBillId recurringBillId, Long version) {
+        super(recurringBillId, version, Instant.now());
     }
 }

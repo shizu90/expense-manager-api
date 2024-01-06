@@ -6,7 +6,7 @@ import dev.gabriel.shared.events.DomainEvent;
 import java.time.Instant;
 
 public class CategoryEvent extends DomainEvent {
-    protected CategoryEvent(CategoryId categoryId) {
-        super(categoryId, Instant.now());
+    protected CategoryEvent(CategoryId categoryId, Long version) {
+        super(categoryId, version, Instant.now());
     }
 }

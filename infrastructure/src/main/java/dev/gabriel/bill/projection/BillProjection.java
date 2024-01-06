@@ -19,6 +19,7 @@ import java.time.Instant;
 public class BillProjection extends AggregateRootProjection {
     @Id
     private String id;
+    private String name;
     private String comment;
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
@@ -30,7 +31,7 @@ public class BillProjection extends AggregateRootProjection {
     @ManyToOne
     private WalletProjection wallet;
 
-    public BillProjection(String id, String comment, BigDecimal amount, CurrencyCode currencyCode, BillType type, CategoryProjection category, WalletProjection wallet) {
+    public BillProjection(String id, String name, String comment, BigDecimal amount, CurrencyCode currencyCode, BillType type, CategoryProjection category, WalletProjection wallet) {
         super(Instant.now(), Instant.now(), false);
         this.id = id;
         this.comment = comment;

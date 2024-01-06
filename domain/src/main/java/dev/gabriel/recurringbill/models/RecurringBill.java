@@ -12,7 +12,6 @@ import dev.gabriel.wallet.valueobjects.WalletId;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
 
 @Getter
@@ -23,11 +22,12 @@ public class RecurringBill extends AggregateRoot {
     private CategoryId categoryId;
     private RecurringBillType type;
     private WalletId walletId;
-    private DaysRecurrence daysRecurrence;
+    private RecurringBillRecurrence recurrence;
     private Period totalPeriods;
     private Period currentPeriods;
     private LocalDate startDate;
     private ReminderId reminderId;
+    private Boolean isDeleted;
 
     private RecurringBill(String id,
                           String name,
@@ -37,22 +37,26 @@ public class RecurringBill extends AggregateRoot {
                           CategoryId categoryId,
                           RecurringBillType type,
                           WalletId walletId,
-                          Long daysRecurrence,
+                          ReminderId reminderId,
+                          Long recurrence,
                           Long totalPeriods,
                           LocalDate startDate
     ) {
         super(RecurringBillId.create(id));
-        this.name = RecurringBillName.create(name);
-        this.comment = RecurringBillComment.create(comment);
-        this.amount = Currency.create(amount, currencyCode);
-        this.categoryId = categoryId;
-        this.type = type;
-        this.walletId = walletId;
-        this.daysRecurrence = DaysRecurrence.create(daysRecurrence);
-        this.startDate = startDate;
-        this.totalPeriods = Period.create(totalPeriods);
-        this.currentPeriods = Period.create(1L);
-        this.reminderId = null;
+        raiseEvent(new RecurringBillCreatedEvent(
+                RecurringBillId.create(id),
+                getNextVersion(),
+                RecurringBillName.create(name),
+                RecurringBillComment.create(comment),
+                Currency.create(amount, currencyCode),
+                type,
+                categoryId,
+                walletId,
+                Period.create(totalPeriods),
+                RecurringBillRecurrence.create(recurrence),
+                startDate,
+                reminderId)
+        );
     }
 
     public static RecurringBill create(String id,
@@ -63,103 +67,138 @@ public class RecurringBill extends AggregateRoot {
                                        CategoryId categoryId,
                                        RecurringBillType type,
                                        WalletId walletId,
-                                       Long daysRecurrence,
+                                       ReminderId reminderId,
+                                       Long recurrence,
                                        Long totalPeriods,
                                        LocalDate startDate
     ) {
-        RecurringBill recurringBill = new RecurringBill(
-                id, name, comment, amount, currencyCode, categoryId, type, walletId, daysRecurrence, totalPeriods, startDate
-        );
-        recurringBill.raiseEvent(new RecurringBillCreatedEvent(recurringBill.getId()));
-        return recurringBill;
+        return new RecurringBill(id, name, comment, amount, currencyCode, categoryId, type, walletId, reminderId, recurrence, totalPeriods, startDate);
     }
 
     public void rename(String name) {
-        this.name = RecurringBillName.create(name);
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillRenamedEvent(getId()));
+        raiseEvent(new RecurringBillRenamedEvent(getId(), getNextVersion(), RecurringBillName.create(name)));
     }
 
     public void editComment(String comment) {
-        this.comment = RecurringBillComment.create(comment);
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillCommentEditedEvent(getId()));
+        raiseEvent(new RecurringBillCommentEditedEvent(getId(), getNextVersion(), RecurringBillComment.create(comment)));
     }
 
-    public void changeCurrencyCode(CurrencyCode currencyCode) {
-        amount = Currency.create(amount.getValue(), currencyCode);
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillCurrencyCodeChangedEvent(getId()));
+    public void changeAmount(Currency amount) {
+        raiseEvent(new RecurringBillAmountChangedEvent(getId(), getNextVersion(), amount));
     }
 
     public void changeCategory(CategoryId categoryId) {
-        this.categoryId = categoryId;
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillCategoryChangedEvent(getId()));
-    }
-
-    public void changeAmount(BigDecimal amount) {
-        this.amount = Currency.create(amount, this.amount.getCurrencyCode());
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillAmountChangedEvent(getId()));
+        raiseEvent(new RecurringBillCategoryChangedEvent(getId(), getNextVersion(), categoryId));
     }
 
     public void changeType(RecurringBillType type) {
-        this.type = type;
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillTypeChangedEvent(getId()));
+        raiseEvent(new RecurringBillTypeChangedEvent(getId(), getNextVersion(), type));
     }
 
-    public void changeDaysRecurrence(Long daysRecurrence) {
-        this.daysRecurrence = DaysRecurrence.create(daysRecurrence);
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillDaysRecurrenceChangedEvent(getId()));
+    public void changeRecurrence(Long recurrence) {
+        raiseEvent(new RecurringBillRecurrenceChangedEvent(getId(), getNextVersion(), RecurringBillRecurrence.create(recurrence)));
     }
 
     public void changeTotalPeriods(Long totalPeriods) {
-        this.totalPeriods = Period.create(totalPeriods);
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillTotalPeriodsChangedEvent(getId()));
+        raiseEvent(new RecurringBillTotalPeriodsChangedEvent(getId(), getNextVersion(), Period.create(totalPeriods)));
     }
 
     public void changeStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillStartDateChangedEvent(getId()));
+        raiseEvent(new RecurringBillStartDateChangedEvent(getId(), getNextVersion(), startDate));
     }
 
     public LocalDate getNextPaymentDate() {
-        return startDate.plusDays((currentPeriods.getValue() * daysRecurrence.getValue()));
+        return startDate.plusDays((currentPeriods.getValue() * recurrence.getValue()));
     }
 
     public void execute(Long numberOfPeriods) {
         long diffPeriods = totalPeriods.getValue() - currentPeriods.getValue();
         if(numberOfPeriods > diffPeriods) {
-            currentPeriods = currentPeriods.increment(diffPeriods);
-        }else currentPeriods = currentPeriods.increment(numberOfPeriods);
-
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillExecutedEvent(getId()));
+            raiseEvent(new RecurringBillExecutedEvent(getId(), getNextVersion(), currentPeriods.increment(diffPeriods)));
+        }else raiseEvent(new RecurringBillExecutedEvent(getId(), getNextVersion(), currentPeriods.increment(numberOfPeriods)));
     }
 
     public void restart() {
-        currentPeriods = currentPeriods.decrement(currentPeriods.getValue() - 1);
-        updatedAt = Instant.now();
-        raiseEvent(new RecurringBillRestartedEvent(getId()));
-    }
-
-    public void setupReminder(ReminderId reminderId) {
-        this.reminderId = reminderId;
-        updatedAt = Instant.now();
+        raiseEvent(new RecurringBillRestartedEvent(getId(), getNextVersion()));
     }
 
     public void delete() {
         if(isDeleted) {
             throw new RecurringBillAlreadyDeletedException(getId().getValue());
         }else {
-            isDeleted = true;
-            raiseEvent(new RecurringBillDeletedEvent(getId()));
+            raiseEvent(new RecurringBillDeletedEvent(getId(), getNextVersion()));
         }
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillCreatedEvent event) {
+        this.name = event.getName();
+        this.comment = event.getComment();
+        this.amount = event.getAmount();
+        this.type = event.getType();
+        this.categoryId = event.getCategoryId();
+        this.walletId = event.getWalletId();
+        this.reminderId = event.getReminderId();
+        this.totalPeriods = event.getTotalPeriods();
+        this.recurrence = event.getRecurrence();
+        this.startDate = event.getStartDate();
+        this.currentPeriods = Period.create(1L);
+        this.isDeleted = false;
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillRenamedEvent event) {
+        this.name = event.getName();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillCommentEditedEvent event) {
+        this.comment = event.getComment();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillAmountChangedEvent event) {
+        this.amount = event.getAmount();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillTypeChangedEvent event) {
+        this.type = event.getType();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillCategoryChangedEvent event) {
+        this.categoryId = event.getCategoryId();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillTotalPeriodsChangedEvent event) {
+        this.totalPeriods = event.getTotalPeriods();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillRecurrenceChangedEvent event) {
+        this.recurrence = event.getRecurrence();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillStartDateChangedEvent event) {
+        this.startDate = event.getStartDate();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillExecutedEvent event) {
+        this.currentPeriods = event.getCurrentPeriods();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillRestartedEvent event) {
+        this.currentPeriods = Period.create(1L);
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(RecurringBillDeletedEvent event) {
+        this.isDeleted = true;
     }
 
     @Override

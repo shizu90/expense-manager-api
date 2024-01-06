@@ -2,11 +2,16 @@ package dev.gabriel.wallet.events;
 
 import dev.gabriel.shared.events.DomainEvent;
 import dev.gabriel.wallet.valueobjects.WalletId;
+import lombok.Getter;
 
 import java.time.Instant;
 
+@Getter
 public class WalletMainSetEvent extends DomainEvent {
-    public WalletMainSetEvent(WalletId walletId) {
-        super(walletId, Instant.now());
+    private final Boolean main;
+
+    public WalletMainSetEvent(WalletId walletId, Long version, Boolean main) {
+        super(walletId, version, Instant.now());
+        this.main = main;
     }
 }

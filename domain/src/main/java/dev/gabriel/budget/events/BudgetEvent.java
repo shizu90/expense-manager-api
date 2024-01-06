@@ -6,7 +6,7 @@ import dev.gabriel.shared.events.DomainEvent;
 import java.time.Instant;
 
 public class BudgetEvent extends DomainEvent {
-    protected BudgetEvent(BudgetId budgetId) {
-        super(budgetId, Instant.now());
+    protected BudgetEvent(BudgetId budgetId, Long version) {
+        super(budgetId, version, Instant.now());
     }
 }

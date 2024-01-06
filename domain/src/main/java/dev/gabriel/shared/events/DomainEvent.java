@@ -7,11 +7,13 @@ import java.time.Instant;
 
 @Getter
 public abstract class DomainEvent implements IDomainEvent{
-    private final Identity id;
-    private final Instant raisedAt;
+    private final Identity aggregateId;
+    private final Long version;
+    private final Instant timestamp;
 
-    public DomainEvent(Identity id, Instant raisedAt) {
-        this.id = id;
-        this.raisedAt = raisedAt;
+    public DomainEvent(Identity aggregateId, Long version, Instant timestamp) {
+        this.aggregateId = aggregateId;
+        this.version = version;
+        this.timestamp = timestamp;
     }
 }

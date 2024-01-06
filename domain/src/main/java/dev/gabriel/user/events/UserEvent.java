@@ -6,7 +6,7 @@ import dev.gabriel.user.valueobjects.UserId;
 import java.time.Instant;
 
 public class UserEvent extends DomainEvent {
-    protected UserEvent(UserId userId) {
-        super(userId, Instant.now());
+    protected UserEvent(UserId userId, Long version) {
+        super(userId, version, Instant.now());
     }
 }

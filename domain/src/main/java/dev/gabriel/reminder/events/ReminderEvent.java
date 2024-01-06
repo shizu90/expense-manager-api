@@ -6,7 +6,7 @@ import dev.gabriel.shared.events.DomainEvent;
 import java.time.Instant;
 
 public class ReminderEvent extends DomainEvent {
-    protected ReminderEvent(ReminderId reminderId) {
-        super(reminderId, Instant.now());
+    protected ReminderEvent(ReminderId reminderId, Long version) {
+        super(reminderId, version, Instant.now());
     }
 }

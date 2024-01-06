@@ -3,6 +3,7 @@ package dev.gabriel.budget.projection;
 import dev.gabriel.shared.projection.AggregateRootProjection;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.models.User;
+import dev.gabriel.user.projection.UserProjection;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,7 @@ public class BudgetProjection extends AggregateRootProjection {
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
     @ManyToOne
-    private User owner;
+    private UserProjection owner;
     @OneToMany(mappedBy = "budget")
     private List<BudgetItemProjection> bills;
 
