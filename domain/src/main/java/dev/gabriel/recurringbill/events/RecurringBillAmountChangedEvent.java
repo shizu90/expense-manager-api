@@ -1,14 +1,14 @@
 package dev.gabriel.recurringbill.events;
 
-import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
-import dev.gabriel.shared.valueobjects.Currency;
 import lombok.Getter;
+
+import java.math.BigDecimal;
 
 @Getter
 public class RecurringBillAmountChangedEvent extends RecurringBillEvent {
-    private final Currency amount;
+    private final BigDecimal amount;
 
-    public RecurringBillAmountChangedEvent(RecurringBillId recurringBillId, Long version, Currency amount) {
+    public RecurringBillAmountChangedEvent(String recurringBillId, Long version, BigDecimal amount) {
         super(recurringBillId, version);
         this.amount = amount;
     }

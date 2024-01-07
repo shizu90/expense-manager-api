@@ -12,7 +12,6 @@ public class CategoryName extends ValueObject {
     private final String value;
 
     private CategoryName(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class CategoryName extends ValueObject {
         return new CategoryName(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || value.length() > 64) {
             throw new CategoryValidationException("Name", "Name must have between 1 and 64 characters.");
         }

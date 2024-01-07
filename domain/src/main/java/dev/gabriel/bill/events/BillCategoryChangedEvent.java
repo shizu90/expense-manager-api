@@ -1,14 +1,12 @@
 package dev.gabriel.bill.events;
 
-import dev.gabriel.bill.valueobjects.BillId;
-import dev.gabriel.category.valueobjects.CategoryId;
 import lombok.Getter;
 
 @Getter
 public class BillCategoryChangedEvent extends BillEvent {
-    private final CategoryId categoryId;
+    private final String categoryId;
 
-    public BillCategoryChangedEvent(BillId billId, Long version, CategoryId categoryId) {
+    public BillCategoryChangedEvent(String billId, Long version, String categoryId) {
         super(billId, version);
         this.categoryId = categoryId;
     }

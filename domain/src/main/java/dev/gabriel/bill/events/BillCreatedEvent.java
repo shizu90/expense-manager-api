@@ -1,28 +1,36 @@
 package dev.gabriel.bill.events;
 
 import dev.gabriel.bill.models.BillType;
-import dev.gabriel.bill.valueobjects.BillComment;
-import dev.gabriel.bill.valueobjects.BillId;
-import dev.gabriel.bill.valueobjects.BillName;
-import dev.gabriel.category.valueobjects.CategoryId;
-import dev.gabriel.shared.valueobjects.Currency;
-import dev.gabriel.wallet.valueobjects.WalletId;
+import dev.gabriel.shared.valueobjects.CurrencyCode;
 import lombok.Getter;
+
+import java.math.BigDecimal;
 
 @Getter
 public class BillCreatedEvent extends BillEvent {
-    private final BillName name;
-    private final BillComment comment;
-    private final Currency amount;
+    private final String name;
+    private final String comment;
+    private final BigDecimal amount;
+    private final CurrencyCode currencyCode;
     private final BillType type;
-    private final WalletId walletId;
-    private final CategoryId categoryId;
+    private final String walletId;
+    private final String categoryId;
 
-    public BillCreatedEvent(BillId billId, Long version, BillName name, BillComment comment, Currency amount, BillType type, WalletId walletId, CategoryId categoryId) {
+    public BillCreatedEvent(String billId,
+                            Long version,
+                            String name,
+                            String comment,
+                            BigDecimal amount,
+                            CurrencyCode currencyCode,
+                            BillType type,
+                            String walletId,
+                            String categoryId
+    ) {
         super(billId, version);
         this.name = name;
         this.comment = comment;
         this.amount = amount;
+        this.currencyCode = currencyCode;
         this.type = type;
         this.walletId = walletId;
         this.categoryId = categoryId;

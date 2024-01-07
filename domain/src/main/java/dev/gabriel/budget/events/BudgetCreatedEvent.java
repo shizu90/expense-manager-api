@@ -1,24 +1,20 @@
 package dev.gabriel.budget.events;
 
-import dev.gabriel.budget.valueobjects.BudgetDescription;
-import dev.gabriel.budget.valueobjects.BudgetId;
-import dev.gabriel.budget.valueobjects.BudgetName;
-import dev.gabriel.shared.valueobjects.Currency;
-import dev.gabriel.user.valueobjects.UserId;
+import dev.gabriel.shared.valueobjects.CurrencyCode;
 import lombok.Getter;
 
 @Getter
 public class BudgetCreatedEvent extends BudgetEvent {
-    private final BudgetName name;
-    private final BudgetDescription description;
-    private final UserId userId;
-    private final Currency totalAmount;
+    private final String name;
+    private final String description;
+    private final String userId;
+    private final CurrencyCode currencyCode;
 
-    public BudgetCreatedEvent(BudgetId budgetId, Long version, BudgetName name, BudgetDescription description, UserId userId, Currency totalAmount) {
+    public BudgetCreatedEvent(String budgetId, Long version, String name, String description, String userId, CurrencyCode currencyCode) {
         super(budgetId, version);
         this.name = name;
         this.description = description;
         this.userId = userId;
-        this.totalAmount = totalAmount;
+        this.currencyCode = currencyCode;
     }
 }

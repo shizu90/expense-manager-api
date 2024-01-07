@@ -36,15 +36,18 @@ public class Bill extends AggregateRoot {
                  CategoryId categoryId
     ) {
         super(BillId.create(id));
+        BillName.validate(name);
+        BillComment.validate(comment);
         raiseEvent(new BillCreatedEvent(
-                BillId.create(id),
+                id,
                 getNextVersion(),
-                BillName.create(name),
-                BillComment.create(comment),
-                Currency.create(amount, currencyCode),
+                name,
+                comment,
+                amount,
+                currencyCode,
                 type,
-                walletId,
-                categoryId
+                walletId.getValue(),
+                categoryId.getValue()
         ));
     }
 
@@ -69,60 +72,76 @@ public class Bill extends AggregateRoot {
     }
 
     public void rename(String name) {
-        raiseEvent(new BillRenamedEvent(getId(), getNextVersion(), BillName.create(name)));
+        BillName.validate(name);
+        raiseEvent(new BillRenamedEvent(getId().getValue(), getNextVersion(), name));
     }
 
     public void editComment(String comment) {
-        raiseEvent(new BillCommentEditedEvent(getId(), getNextVersion(), BillComment.create(comment)));
+        BillComment.validate(comment);
+        raiseEvent(new BillCommentEditedEvent(getId().getValue(), getNextVersion(), comment));
     }
 
-    public void changeAmount(Currency amount) {
-        raiseEvent(new BillAmountChangedEvent(getId(), getNextVersion(), amount));
+    public void changeAmount(BigDecimal amount) {
+        raiseEvent(new BillAmountChangedEvent(getId().getValue(), getNextVersion(), amount));
+    }
+
+    public void changeCurrencyCode(CurrencyCode currencyCode) {
+        raiseEvent(new BillCurrencyCodeChangedEvent(getId().getValue(), getNextVersion(), currencyCode));
     }
 
     public void changeCategory(CategoryId categoryId) {
-        raiseEvent(new BillCategoryChangedEvent(getId(), getNextVersion(), categoryId));
+        raiseEvent(new BillCategoryChangedEvent(getId().getValue(), getNextVersion(), categoryId.getValue()));
     }
 
     public void changeType(BillType type) {
-        raiseEvent(new BillTypeChangedEvent(getId(), getNextVersion(), type));
+        raiseEvent(new BillTypeChangedEvent(getId().getValue(), getNextVersion(), type));
     }
 
     public void delete() {
         if (isDeleted) {
             throw new BillAlreadyDeletedException(getId().getValue());
-        } else raiseEvent(new BillDeletedEvent(getId(), getNextVersion()));
+        } else raiseEvent(new BillDeletedEvent(getId().getValue(), getNextVersion()));
     }
 
     @SuppressWarnings("unused")
     private void apply(BillCreatedEvent event) {
-        this.name = event.getName();
-        this.comment = event.getComment();
-        this.amount = event.getAmount();
+        this.name = BillName.create(event.getName());
+        this.comment = BillComment.create(event.getComment());
+        this.amount = Currency.create(event.getAmount(), event.getCurrencyCode());
         this.type = event.getType();
-        this.categoryId = event.getCategoryId();
-        this.walletId = event.getWalletId();
+        this.categoryId = CategoryId.create(event.getCategoryId());
+        this.walletId = WalletId.create(event.getWalletId());
         this.isDeleted = false;
     }
 
     @SuppressWarnings("unused")
     private void apply(BillRenamedEvent event) {
-        this.name = event.getName();
+        this.name = BillName.create(event.getName());
     }
 
     @SuppressWarnings("unused")
     private void apply(BillCommentEditedEvent event) {
-        this.comment = event.getComment();
+        this.comment = BillComment.create(event.getComment());
     }
 
     @SuppressWarnings("unused")
     private void apply(BillAmountChangedEvent event) {
-        this.amount = event.getAmount();
+        this.amount = Currency.create(event.getAmount(), amount.getCurrencyCode());
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(BillCurrencyCodeChangedEvent event) {
+        this.amount = Currency.create(amount.getValue(), event.getCurrencyCode());
     }
 
     @SuppressWarnings("unused")
     private void apply(BillTypeChangedEvent event) {
         this.type = event.getType();
+    }
+
+    @SuppressWarnings("unused")
+    private void apply(BillCategoryChangedEvent event) {
+        this.categoryId = CategoryId.create(event.getCategoryId());
     }
 
     @SuppressWarnings("unused")

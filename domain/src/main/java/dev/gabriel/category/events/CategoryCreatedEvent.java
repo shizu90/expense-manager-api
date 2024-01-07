@@ -1,16 +1,13 @@
 package dev.gabriel.category.events;
 
-import dev.gabriel.category.valueobjects.CategoryId;
-import dev.gabriel.category.valueobjects.CategoryName;
-import dev.gabriel.user.valueobjects.UserId;
 import lombok.Getter;
 
 @Getter
 public class CategoryCreatedEvent extends CategoryEvent {
-    private final CategoryName name;
-    private final UserId userId;
+    private final String name;
+    private final String userId;
 
-    public CategoryCreatedEvent(CategoryId categoryId, Long version, CategoryName name, UserId userId) {
+    public CategoryCreatedEvent(String categoryId, Long version, String name, String userId) {
         super(categoryId, version);
         this.name = name;
         this.userId = userId;

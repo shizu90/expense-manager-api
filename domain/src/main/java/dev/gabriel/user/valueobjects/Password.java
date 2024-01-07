@@ -12,7 +12,6 @@ public class Password extends ValueObject {
     private final String value;
 
     private Password(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class Password extends ValueObject {
         return new Password(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || value.length() < 6 || value.length() > 24) {
             throw new UserValidationException("Password", "Password must have between 6 and 24 characters.");
         }

@@ -1,17 +1,16 @@
 package dev.gabriel.reminder.models;
 
 import dev.gabriel.reminder.events.*;
-import dev.gabriel.reminder.exceptions.ReminderAlreadyDeletedException;
-import dev.gabriel.reminder.exceptions.ReminderAlreadyStartedException;
-import dev.gabriel.reminder.exceptions.ReminderAlreadyStoppedException;
-import dev.gabriel.reminder.exceptions.ReminderReachedMaxRunsException;
+import dev.gabriel.reminder.exceptions.*;
 import dev.gabriel.reminder.valueobjects.*;
+import dev.gabriel.shared.events.DomainEvent;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.user.valueobjects.UserId;
 import lombok.Getter;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class Reminder extends AggregateRoot {
@@ -20,71 +19,87 @@ public class Reminder extends AggregateRoot {
     private ReminderRecurrence recurrence;
     private ReminderRun maxRuns;
     private ReminderRun currentRuns;
-    private Boolean isRunning;
-    private Instant lastRun;
+    private Boolean started;
+    private LocalDate lastRun;
     private UserId userId;
     private Boolean isDeleted;
 
     private Reminder(String id, String name, String description, Long recurrence, Long maxRuns, UserId userId) {
         super(ReminderId.create(id));
+        ReminderName.validate(name);
+        ReminderDescription.validate(description);
+        ReminderRecurrence.validate(recurrence, maxRuns);
+        ReminderRun.validate(maxRuns, recurrence);
         raiseEvent(new ReminderCreatedEvent(
-                ReminderId.create(id),
+                id,
                 getNextVersion(),
-                ReminderName.create(name),
-                ReminderDescription.create(description),
-                ReminderRecurrence.create(recurrence),
-                ReminderRun.create(maxRuns),
-                ReminderRun.create(1L),
-                userId
+                name,
+                description,
+                recurrence,
+                maxRuns,
+                userId.getValue()
         ));
+    }
+
+    private Reminder(String id, List<DomainEvent> events) {
+        super(ReminderId.create(id), events);
     }
 
     public static Reminder create(String id, String name, String description, Long recurrence, Long maxRuns, UserId userId) {
         return new Reminder(id, name, description, recurrence, maxRuns, userId);
     }
 
+    public static Reminder create(String id, List<DomainEvent> events) {
+        return new Reminder(id, events);
+    }
+
     public void rename(String name) {
-        raiseEvent(new ReminderRenamedEvent(getId(), getNextVersion(), ReminderName.create(name)));
+        ReminderName.validate(name);
+        raiseEvent(new ReminderRenamedEvent(getId().getValue(), getNextVersion(), name));
     }
 
     public void editDescription(String description) {
-        raiseEvent(new ReminderDescriptionEditedEvent(getId(), getNextVersion(), ReminderDescription.create(description)));
+        ReminderDescription.validate(description);
+        raiseEvent(new ReminderDescriptionEditedEvent(getId().getValue(), getNextVersion(), description));
     }
 
     public void changeRecurrence(Long recurrence) {
-        raiseEvent(new ReminderRecurrenceChangedEvent(getId(), getNextVersion(), ReminderRecurrence.create(recurrence)));
+        ReminderRecurrence.validate(recurrence, maxRuns.getValue());
+        raiseEvent(new ReminderRecurrenceChangedEvent(getId().getValue(), getNextVersion(), recurrence));
     }
 
     public void changeMaxRuns(Long maxRuns) {
-        raiseEvent(new ReminderMaxRunsChangedEvent(getId(), getNextVersion(), ReminderRun.create(maxRuns)));
+        ReminderRun.validate(maxRuns, recurrence.getValue());
+        raiseEvent(new ReminderMaxRunsChangedEvent(getId().getValue(), getNextVersion(), maxRuns));
     }
 
     public LocalDate getNextReminder() {
-        return LocalDate.from(lastRun).plusDays(recurrence.getValue());
+        return lastRun.plusDays(recurrence.getValue());
     }
 
     public void start() {
-        if(isRunning) throw new ReminderAlreadyStartedException();
+        if(started) throw new ReminderAlreadyStartedException();
 
-        raiseEvent(new ReminderStartedEvent(getId(), getNextVersion()));
+        raiseEvent(new ReminderStartedEvent(getId().getValue(), getNextVersion()));
     }
 
     public void run() {
+        if(!started) throw new ReminderNotStartedException();
         if(currentRuns.equals(maxRuns)) throw new ReminderReachedMaxRunsException();
 
-        raiseEvent(new ReminderRanEvent(getId(), getNextVersion()));
+        raiseEvent(new ReminderRanEvent(getId().getValue(), getNextVersion()));
 
-        if(currentRuns.increment(1L).equals(maxRuns)) stop();
+        if(currentRuns.equals(maxRuns)) stop();
     }
 
     public void stop() {
-        if(!isRunning) throw new ReminderAlreadyStoppedException();
+        if(!started) throw new ReminderAlreadyStoppedException();
 
-        raiseEvent(new ReminderStoppedEvent(getId(), getNextVersion()));
+        raiseEvent(new ReminderStoppedEvent(getId().getValue(), getNextVersion()));
     }
 
     public void restart() {
-        raiseEvent(new ReminderRestartedEvent(getId(), getNextVersion()));
+        raiseEvent(new ReminderRestartedEvent(getId().getValue(), getNextVersion()));
         start();
     }
 
@@ -92,45 +107,46 @@ public class Reminder extends AggregateRoot {
         if(isDeleted) {
             throw new ReminderAlreadyDeletedException();
         }else {
-            raiseEvent(new ReminderDeletedEvent(getId(), getNextVersion()));
+            raiseEvent(new ReminderDeletedEvent(getId().getValue(), getNextVersion()));
         }
     }
 
     @SuppressWarnings("unused")
     private void apply(ReminderCreatedEvent event) {
-        this.name = event.getName();
-        this.description = event.getDescription();
-        this.maxRuns = event.getMaxRuns();
-        this.recurrence = event.getRecurrence();
-        this.userId = event.getUserId();
-        this.currentRuns = event.getCurrentRuns();
+        this.name = ReminderName.create(event.getName());
+        this.description = ReminderDescription.create(event.getDescription());
+        this.maxRuns = ReminderRun.create(event.getMaxRuns());
+        this.recurrence = ReminderRecurrence.create(event.getRecurrence());
+        this.userId = UserId.create(event.getUserId());
+        this.currentRuns = ReminderRun.create(1L);
+        this.started = false;
         this.isDeleted = false;
-        this.lastRun = Instant.now();
+        this.lastRun = LocalDate.now();
     }
 
     @SuppressWarnings("unused")
     private void apply(ReminderRenamedEvent event) {
-        this.name = event.getName();
+        this.name = ReminderName.create(event.getName());
     }
 
     @SuppressWarnings("unused")
     private void apply(ReminderDescriptionEditedEvent event) {
-        this.description = event.getDescription();
+        this.description = ReminderDescription.create(event.getDescription());
     }
 
     @SuppressWarnings("unused")
     private void apply(ReminderRecurrenceChangedEvent event) {
-        this.recurrence = event.getRecurrence();
+        this.recurrence = ReminderRecurrence.create(event.getRecurrence());
     }
 
     @SuppressWarnings("unused")
     private void apply(ReminderMaxRunsChangedEvent event) {
-        this.maxRuns = event.getMaxRuns();
+        this.maxRuns = ReminderRun.create(event.getMaxRuns());
     }
 
     @SuppressWarnings("unused")
     private void apply(ReminderStartedEvent event) {
-        this.isRunning = true;
+        this.started = true;
     }
 
     @SuppressWarnings("unused")
@@ -140,7 +156,7 @@ public class Reminder extends AggregateRoot {
 
     @SuppressWarnings("unused")
     private void apply(ReminderStoppedEvent event) {
-        this.isRunning = false;
+        this.started = false;
     }
 
     @SuppressWarnings("unused")
@@ -150,7 +166,7 @@ public class Reminder extends AggregateRoot {
 
     @SuppressWarnings("unused")
     private void apply(ReminderDeletedEvent event) {
-        this.isRunning = true;
+        this.isDeleted = true;
     }
 
     @Override

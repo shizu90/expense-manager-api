@@ -1,14 +1,14 @@
 package dev.gabriel.wallet.events;
 
-import dev.gabriel.shared.valueobjects.Currency;
-import dev.gabriel.wallet.valueobjects.WalletId;
 import lombok.Getter;
+
+import java.math.BigDecimal;
 
 @Getter
 public class WalletBalanceUpdatedEvent extends WalletEvent {
-    private final Currency balance;
+    private final BigDecimal balance;
 
-    public WalletBalanceUpdatedEvent(WalletId walletId, Long version, Currency balance) {
+    public WalletBalanceUpdatedEvent(String walletId, Long version, BigDecimal balance) {
         super(walletId, version);
         this.balance = balance;
     }

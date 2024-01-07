@@ -1,14 +1,12 @@
 package dev.gabriel.user.events;
 
-import dev.gabriel.user.valueobjects.Password;
-import dev.gabriel.user.valueobjects.UserId;
 import lombok.Getter;
 
 @Getter
 public class UserPasswordChangedEvent extends UserEvent {
-    private final Password password;
+    private final String password;
 
-    public UserPasswordChangedEvent(UserId userId, Long version, Password password) {
+    public UserPasswordChangedEvent(String userId, Long version, String password) {
         super(userId, version);
         this.password = password;
     }

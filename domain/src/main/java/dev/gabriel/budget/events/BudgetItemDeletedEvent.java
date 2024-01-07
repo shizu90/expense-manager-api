@@ -1,18 +1,20 @@
 package dev.gabriel.budget.events;
 
-import dev.gabriel.bill.valueobjects.BillId;
-import dev.gabriel.budget.valueobjects.BudgetId;
-import dev.gabriel.shared.valueobjects.Currency;
+import dev.gabriel.shared.valueobjects.CurrencyCode;
 import lombok.Getter;
+
+import java.math.BigDecimal;
 
 @Getter
 public class BudgetItemDeletedEvent extends BudgetEvent {
-    private final BillId billId;
-    private final Currency amount;
+    private final String billId;
+    private final BigDecimal amount;
+    private final CurrencyCode currencyCode;
 
-    public BudgetItemDeletedEvent(BudgetId budgetId, Long version, BillId billId, Currency amount) {
+    public BudgetItemDeletedEvent(String budgetId, Long version, String billId, BigDecimal amount, CurrencyCode currencyCode) {
         super(budgetId, version);
         this.billId = billId;
         this.amount = amount;
+        this.currencyCode = currencyCode;
     }
 }

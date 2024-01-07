@@ -1,14 +1,12 @@
 package dev.gabriel.bill.events;
 
-import dev.gabriel.bill.valueobjects.BillComment;
-import dev.gabriel.bill.valueobjects.BillId;
 import lombok.Getter;
 
 @Getter
 public class BillCommentEditedEvent extends BillEvent {
-    private final BillComment comment;
+    private final String comment;
 
-    public BillCommentEditedEvent(BillId billId, Long version, BillComment comment) {
+    public BillCommentEditedEvent(String billId, Long version, String comment) {
         super(billId, version);
         this.comment = comment;
     }

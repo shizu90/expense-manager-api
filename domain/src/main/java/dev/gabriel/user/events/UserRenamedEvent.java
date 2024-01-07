@@ -1,14 +1,12 @@
 package dev.gabriel.user.events;
 
-import dev.gabriel.user.valueobjects.UserId;
-import dev.gabriel.user.valueobjects.Username;
 import lombok.Getter;
 
 @Getter
 public class UserRenamedEvent extends UserEvent {
-    private final Username name;
+    private final String name;
 
-    public UserRenamedEvent(UserId userId, Long version, Username name) {
+    public UserRenamedEvent(String userId, Long version, String name) {
         super(userId, version);
         this.name = name;
     }

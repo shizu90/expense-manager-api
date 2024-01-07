@@ -12,7 +12,6 @@ public class WalletName extends ValueObject {
     private final String value;
 
     private WalletName(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class WalletName extends ValueObject {
         return new WalletName(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || value.length() > 255) {
             throw new WalletValidationException("Name", "Name must have between 1 and 255 characters.");
         }

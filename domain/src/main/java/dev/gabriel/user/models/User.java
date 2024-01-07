@@ -1,14 +1,14 @@
 package dev.gabriel.user.models;
 
+import dev.gabriel.shared.events.DomainEvent;
 import dev.gabriel.shared.models.AggregateRoot;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.events.*;
 import dev.gabriel.user.exceptions.UserAlreadyDeletedException;
-import dev.gabriel.user.valueobjects.Email;
-import dev.gabriel.user.valueobjects.Password;
-import dev.gabriel.user.valueobjects.UserId;
-import dev.gabriel.user.valueobjects.Username;
+import dev.gabriel.user.valueobjects.*;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 public class User extends AggregateRoot {
@@ -20,69 +20,83 @@ public class User extends AggregateRoot {
 
     private User(String id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
         super(UserId.create(id));
+        Email.validate(email);
+        Username.validate(name);
+        Password.validate(password);
         raiseEvent(new UserCreatedEvent(
-                UserId.create(id),
+                id,
                 getNextVersion(),
-                Username.create(name),
-                Email.create(email),
-                Password.create(password),
+                name,
+                email,
+                password,
                 defaultCurrencyCode,
-                defaultUserLanguage)
-        );
+                defaultUserLanguage
+        ));
+    }
+
+    private User(String id, List<DomainEvent> events) {
+        super(UserId.create(id), events);
     }
 
     public static User create(String id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
         return new User(id, email, name, password, defaultCurrencyCode, defaultUserLanguage);
     }
 
+    public static User create(String id, List<DomainEvent> events) {
+        return new User(id, events);
+    }
+
     public void rename(String name) {
-        raiseEvent(new UserRenamedEvent(getId(), getNextVersion(), Username.create(name)));
+        Username.validate(name);
+        raiseEvent(new UserRenamedEvent(getId().getValue(), getNextVersion(), name));
     }
 
     public void changeEmail(String email) {
-        raiseEvent(new UserEmailChangedEvent(getId(), getNextVersion(), Email.create(email)));
+        Email.validate(email);
+        raiseEvent(new UserEmailChangedEvent(getId().getValue(), getNextVersion(), email));
     }
 
     public void changePassword(String password) {
-        raiseEvent(new UserPasswordChangedEvent(getId(), getNextVersion(), Password.create(password)));
+        Password.validate(password);
+        raiseEvent(new UserPasswordChangedEvent(getId().getValue(), getNextVersion(), password));
     }
 
     public void changeDefaultCurrencyCode(CurrencyCode currencyCode) {
-        raiseEvent(new UserDefaultCurrencyCodeChangedEvent(getId(), getNextVersion(), currencyCode));
+        raiseEvent(new UserDefaultCurrencyCodeChangedEvent(getId().getValue(), getNextVersion(), currencyCode));
     }
 
     public void changeDefaultUserLanguage(UserLanguage userLanguage) {
-        raiseEvent(new UserDefaultLanguageChangedEvent(getId(), getNextVersion(), userLanguage));
+        raiseEvent(new UserDefaultLanguageChangedEvent(getId().getValue(), getNextVersion(), userLanguage));
     }
 
     public void delete() {
         if(isDeleted) {
             throw new UserAlreadyDeletedException(getId().getValue());
-        }else raiseEvent(new UserDeletedEvent(getId(), getNextVersion()));
+        }else raiseEvent(new UserDeletedEvent(getId().getValue(), getNextVersion()));
     }
 
     @SuppressWarnings("unused")
     private void apply(UserCreatedEvent event) {
-        this.name = event.getUsername();
-        this.email = event.getEmail();
-        this.password = event.getPassword();
-        this.configuration = UserConfiguration.create(event.getAggregateId().getValue(), event.getDefaultCurrencyCode(), event.getDefaultLanguage());
+        this.name = Username.create(event.getUsername());
+        this.email = Email.create(event.getEmail());
+        this.password = Password.create(event.getPassword());
+        this.configuration = UserConfiguration.create(event.getAggregateId(), event.getDefaultCurrencyCode(), event.getDefaultLanguage());
         this.isDeleted = false;
     }
 
     @SuppressWarnings("unused")
     private void apply(UserRenamedEvent event) {
-        this.name = event.getName();
+        this.name = Username.create(event.getName());
     }
 
     @SuppressWarnings("unused")
     private void apply(UserEmailChangedEvent event) {
-        this.email = event.getEmail();
+        this.email = Email.create(event.getEmail());
     }
 
     @SuppressWarnings("unused")
     private void apply(UserPasswordChangedEvent event) {
-        this.password = event.getPassword();
+        this.password = Password.create(event.getPassword());
     }
 
     @SuppressWarnings("unused")

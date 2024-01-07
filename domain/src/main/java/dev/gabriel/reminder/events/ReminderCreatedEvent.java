@@ -1,33 +1,28 @@
 package dev.gabriel.reminder.events;
 
-import dev.gabriel.reminder.valueobjects.*;
-import dev.gabriel.user.valueobjects.UserId;
 import lombok.Getter;
 
 @Getter
 public class ReminderCreatedEvent extends ReminderEvent {
-    private final ReminderName name;
-    private final ReminderDescription description;
-    private final ReminderRecurrence recurrence;
-    private final ReminderRun maxRuns;
-    private final ReminderRun currentRuns;
-    private final UserId userId;
+    private final String name;
+    private final String description;
+    private final Long recurrence;
+    private final Long maxRuns;
+    private final String userId;
 
-    public ReminderCreatedEvent(ReminderId reminderId,
+    public ReminderCreatedEvent(String reminderId,
                                 Long version,
-                                ReminderName name,
-                                ReminderDescription description,
-                                ReminderRecurrence recurrence,
-                                ReminderRun maxRuns,
-                                ReminderRun currentRuns,
-                                UserId userId
+                                String name,
+                                String description,
+                                Long recurrence,
+                                Long maxRuns,
+                                String userId
     ) {
         super(reminderId, version);
         this.name = name;
         this.description = description;
         this.recurrence = recurrence;
         this.maxRuns = maxRuns;
-        this.currentRuns = currentRuns;
         this.userId = userId;
     }
 }

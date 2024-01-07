@@ -12,7 +12,6 @@ public class Email extends ValueObject {
     private final String value;
 
     private Email(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class Email extends ValueObject {
         return new Email(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || !value.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             throw new UserValidationException("Email", "Not a valid email address.");
         }

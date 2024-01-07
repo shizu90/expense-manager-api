@@ -12,7 +12,6 @@ public class BillComment extends ValueObject {
     private final String value;
 
     private BillComment(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class BillComment extends ValueObject {
         return new BillComment(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || value.length() > 1510) {
             throw new BillValidationException("Comment", "Comment must have between 0 and 1510 characters.");
         }

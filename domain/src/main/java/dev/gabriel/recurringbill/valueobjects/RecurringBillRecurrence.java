@@ -12,7 +12,6 @@ public class RecurringBillRecurrence extends ValueObject {
     private final Long value;
 
     private RecurringBillRecurrence(Long value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,9 +19,16 @@ public class RecurringBillRecurrence extends ValueObject {
         return new RecurringBillRecurrence(value);
     }
 
-    private void validate(Long value) {
+    public static void validate(Long value) {
         if(value == null || value <= 0L) {
             throw new RecurringBillValidationException("Recurrence", "Recurrence must be greater than 0.");
+        }
+    }
+
+    public static void validate(Long value, Long maxPeriods) {
+        validate(value);
+        if(value > maxPeriods) {
+            throw new RecurringBillValidationException("Recurrence", "Recurrence must be smaller than max runs.");
         }
     }
 

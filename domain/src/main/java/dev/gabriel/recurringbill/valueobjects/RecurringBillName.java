@@ -2,15 +2,16 @@ package dev.gabriel.recurringbill.valueobjects;
 
 import dev.gabriel.recurringbill.exceptions.RecurringBillValidationException;
 import dev.gabriel.shared.valueobjects.ValueObject;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public class RecurringBillName extends ValueObject {
     private final String value;
 
     private RecurringBillName(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -18,7 +19,7 @@ public class RecurringBillName extends ValueObject {
         return new RecurringBillName(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || value.isEmpty() || value.length() > 255) {
             throw new RecurringBillValidationException("Name", "Name must have between 1 and 255 characters.");
         }

@@ -12,7 +12,6 @@ public class Username extends ValueObject {
     private final String value;
 
     private Username(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class Username extends ValueObject {
         return new Username(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || value.length() < 3 || value.length() > 128) {
             throw new UserValidationException("Username", "Name must have between 3 and 128 characters.");
         }

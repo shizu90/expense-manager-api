@@ -12,7 +12,6 @@ public class BudgetName extends ValueObject {
     private final String value;
 
     private BudgetName(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class BudgetName extends ValueObject {
         return new BudgetName(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || value.length() < 3 || value.length() > 255) {
             throw new BudgetValidationException("Name", "Name must have between 3 and 255 characters.");
         }

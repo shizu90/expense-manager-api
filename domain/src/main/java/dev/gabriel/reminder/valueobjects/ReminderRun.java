@@ -12,7 +12,6 @@ public class ReminderRun extends ValueObject {
     private final Long value;
 
     private ReminderRun(Long value) {
-        validate(value);
         this.value = value;
     }
 
@@ -24,9 +23,16 @@ public class ReminderRun extends ValueObject {
         return new ReminderRun(value + n);
     }
 
-    private void validate(Long value) {
+    public static void validate(Long value) {
         if(value == null || value < 0L) {
             throw new ReminderValidationException("Run", "Run must not be smaller than 0.");
+        }
+    }
+
+    public static void validate(Long value, Long recurrence) {
+        validate(value);
+        if(value < recurrence) {
+            throw new ReminderValidationException("Max runs", "Max runs must be greater than recurrence");
         }
     }
 

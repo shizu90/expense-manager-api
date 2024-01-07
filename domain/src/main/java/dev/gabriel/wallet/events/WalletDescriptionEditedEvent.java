@@ -1,14 +1,12 @@
 package dev.gabriel.wallet.events;
 
-import dev.gabriel.wallet.valueobjects.WalletDescription;
-import dev.gabriel.wallet.valueobjects.WalletId;
 import lombok.Getter;
 
 @Getter
 public class WalletDescriptionEditedEvent extends WalletEvent {
-    private final WalletDescription description;
+    private final String description;
 
-    public WalletDescriptionEditedEvent(WalletId walletId, Long version, WalletDescription description) {
+    public WalletDescriptionEditedEvent(String walletId, Long version, String description) {
         super(walletId, version);
         this.description = description;
     }

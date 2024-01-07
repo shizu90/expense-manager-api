@@ -1,14 +1,12 @@
 package dev.gabriel.reminder.events;
 
-import dev.gabriel.reminder.valueobjects.ReminderDescription;
-import dev.gabriel.reminder.valueobjects.ReminderId;
 import lombok.Getter;
 
 @Getter
 public class ReminderDescriptionEditedEvent extends ReminderEvent {
-    private final ReminderDescription description;
+    private final String description;
 
-    public ReminderDescriptionEditedEvent(ReminderId reminderId, Long version, ReminderDescription description) {
+    public ReminderDescriptionEditedEvent(String reminderId, Long version, String description) {
         super(reminderId, version);
         this.description = description;
     }

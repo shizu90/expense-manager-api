@@ -1,14 +1,14 @@
 package dev.gabriel.bill.events;
 
-import dev.gabriel.bill.valueobjects.BillId;
-import dev.gabriel.shared.valueobjects.Currency;
 import lombok.Getter;
+
+import java.math.BigDecimal;
 
 @Getter
 public class BillAmountChangedEvent extends BillEvent {
-    private final Currency amount;
+    private final BigDecimal amount;
 
-    public BillAmountChangedEvent(BillId billId, Long version, Currency amount) {
+    public BillAmountChangedEvent(String billId, Long version, BigDecimal amount) {
         super(billId, version);
         this.amount = amount;
     }

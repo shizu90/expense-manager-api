@@ -12,7 +12,6 @@ public class WalletDescription extends ValueObject {
     private final String value;
 
     private WalletDescription(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class WalletDescription extends ValueObject {
         return new WalletDescription(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || value.length() > 1510) {
             throw new WalletValidationException("Description", "Description must have between 0 and 1510 characters.");
         }

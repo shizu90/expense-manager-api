@@ -12,7 +12,6 @@ public class BillName extends ValueObject {
     private final String value;
 
     private BillName(String value) {
-        validate(value);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class BillName extends ValueObject {
         return new BillName(value);
     }
 
-    private void validate(String value) {
+    public static void validate(String value) {
         if(value == null || value.isEmpty() || value.length() > 255) {
             throw new BillValidationException("Name", "Name must have between 3 and 255 characters.");
         }
