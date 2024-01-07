@@ -6,20 +6,35 @@ import dev.gabriel.bill.models.Bill;
 import dev.gabriel.bill.repositories.IBillRepository;
 import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import dev.gabriel.shared.services.CurrencyConversionService;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
+
+import java.math.BigDecimal;
 
 public class ChangeBillCurrencyCodeCommandHandler implements ICommandHandler<Bill, ChangeBillCurrencyCodeCommand> {
     private final IBillRepository billRepository;
+    private final CurrencyConversionService currencyConversionService;
 
-    public ChangeBillCurrencyCodeCommandHandler(IBillRepository billRepository) {
+    public ChangeBillCurrencyCodeCommandHandler(IBillRepository billRepository, CurrencyConversionService currencyConversionService) {
         this.billRepository = billRepository;
+        this.currencyConversionService = currencyConversionService;
     }
 
     @Override
     public Bill execute(ChangeBillCurrencyCodeCommand command) {
         Bill bill = billRepository.findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
-        bill.changeCurrencyCode(CurrencyCode.valueOf(command.getCurrencyCode()));
+        CurrencyCode currencyCode = CurrencyCode.getConstant(command.getCurrencyCode());
 
+        if(!bill.getAmount().getCurrencyCode().equals(currencyCode)) {
+            BigDecimal convertedAmount = currencyConversionService.convert(bill.getAmount(), currencyCode);
+
+            bill.changeCurrencyCode(currencyCode);
+            bill.changeAmount(convertedAmount);
+
+            return billRepository.save(bill);
+        }
+
+        bill.changeCurrencyCode(CurrencyCode.valueOf(command.getCurrencyCode()));
         return billRepository.save(bill);
     }
 }

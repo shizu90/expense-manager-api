@@ -9,26 +9,32 @@ import dev.gabriel.category.models.Category;
 import dev.gabriel.category.repositories.ICategoryRepository;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import dev.gabriel.shared.services.CurrencyConversionService;
+import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.wallet.exceptions.WalletNotFoundException;
 import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import dev.gabriel.wallet.valueobjects.WalletId;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBillCommand> {
     private final IBillRepository billRepository;
     private final IWalletRepository walletRepository;
     private final ICategoryRepository categoryRepository;
+    private final CurrencyConversionService currencyConversionService;
 
     public CreateBillCommandHandler(IBillRepository billRepository,
                                     IWalletRepository walletRepository,
-                                    ICategoryRepository categoryRepository
+                                    ICategoryRepository categoryRepository,
+                                    CurrencyConversionService currencyConversionService
     ) {
         this.billRepository = billRepository;
         this.walletRepository = walletRepository;
         this.categoryRepository = categoryRepository;
+        this.currencyConversionService = currencyConversionService;
     }
 
     @Override
@@ -47,10 +53,18 @@ public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBil
                 category.getId()
         );
 
+        BigDecimal amountToDiscount = bill.getAmount().getValue();
+
+        if(!bill.getAmount().getCurrencyCode().equals(wallet.getBalance().getCurrencyCode())) {
+            amountToDiscount = currencyConversionService.convert(bill.getAmount(), wallet.getBalance().getCurrencyCode());
+        }
+
         if(bill.getType().equals(BillType.EXPENSE)) {
-            wallet.updateBalance(wallet.getBalance().subtract(bill.getAmount()).getValue());
+            wallet.updateBalance(wallet.getBalance()
+                    .subtract(Currency.create(amountToDiscount, wallet.getBalance().getCurrencyCode())).getValue());
         }else {
-            wallet.updateBalance(wallet.getBalance().add(bill.getAmount()).getValue());
+            wallet.updateBalance(wallet.getBalance()
+                    .add(Currency.create(amountToDiscount, wallet.getBalance().getCurrencyCode())).getValue());
         }
 
         walletRepository.save(wallet);
