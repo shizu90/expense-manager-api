@@ -135,6 +135,7 @@ public class BudgetTests {
 
         Assertions.assertInstanceOf(BudgetItemAddedEvent.class, budget.getEvents().get(1));
         Assertions.assertEquals(1, budget.getBills().size());
+        Assertions.assertEquals(BigDecimal.valueOf(40.0), budget.getTotalAmount().getValue());
     }
 
     @Test
@@ -166,6 +167,7 @@ public class BudgetTests {
         budget.deleteBill(bill);
         Assertions.assertInstanceOf(BudgetItemDeletedEvent.class, budget.getEvents().get(2));
         Assertions.assertEquals(0, budget.getBills().size());
+        Assertions.assertEquals(BigDecimal.valueOf(0.0), budget.getTotalAmount().getValue());
     }
 
     @Test

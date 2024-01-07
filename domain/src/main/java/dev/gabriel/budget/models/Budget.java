@@ -1,6 +1,7 @@
 package dev.gabriel.budget.models;
 
 import dev.gabriel.bill.models.Bill;
+import dev.gabriel.bill.models.BillType;
 import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.budget.events.*;
 import dev.gabriel.budget.exceptions.BudgetAlreadyDeletedException;
@@ -81,7 +82,8 @@ public class Budget extends AggregateRoot {
                 getNextVersion(),
                 bill.getId().getValue(),
                 bill.getAmount().getValue(),
-                bill.getAmount().getCurrencyCode()
+                bill.getAmount().getCurrencyCode(),
+                bill.getType()
         ));
     }
 
@@ -96,7 +98,8 @@ public class Budget extends AggregateRoot {
                 getNextVersion(),
                 bill.getId().getValue(),
                 bill.getAmount().getValue(),
-                bill.getAmount().getCurrencyCode()
+                bill.getAmount().getCurrencyCode(),
+                bill.getType()
         ));
     }
 
@@ -140,13 +143,21 @@ public class Budget extends AggregateRoot {
 
     @SuppressWarnings("unused")
     private void apply(BudgetItemAddedEvent event) {
-        this.totalAmount = totalAmount.add(Currency.create(event.getAmount(), event.getCurrencyCode()));
+        if(event.getType().equals(BillType.EXPENSE)) {
+            this.totalAmount = totalAmount.add(Currency.create(event.getAmount(), event.getCurrencyCode()));
+        }else {
+            this.totalAmount = totalAmount.subtract(Currency.create(event.getAmount(), event.getCurrencyCode()));
+        }
         bills.add(BudgetItem.create(UUID.randomUUID().toString(), BillId.create(event.getBillId()), getId()));
     }
 
     @SuppressWarnings("unused")
     private void apply(BudgetItemDeletedEvent event) {
-        this.totalAmount = totalAmount.subtract(Currency.create(event.getAmount(), event.getCurrencyCode()));
+        if(event.getType().equals(BillType.EXPENSE)) {
+            this.totalAmount = totalAmount.subtract(Currency.create(event.getAmount(), event.getCurrencyCode()));
+        }else {
+            this.totalAmount = totalAmount.add(Currency.create(event.getAmount(), event.getCurrencyCode()));
+        }
         bills.removeIf(item -> item.getBillId().equals(BillId.create(event.getBillId())));
     }
 

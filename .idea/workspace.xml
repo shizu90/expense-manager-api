@@ -5,106 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d000b209-e205-4894-a9ea-f86bc8cb3114" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillCurrencyCodeChangedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetCurrencyCodeChangedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/exceptions/BudgetItemNotPresentException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillCurrencyCodeChangedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/exceptions/ReminderNotStartedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletCurrencyCodeChangedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/budget/models/BudgetTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/category/models/CategoryTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/recurringbill/models/RecurringBillTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/reminder/models/ReminderTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/user/models/UserTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/wallet/models/WalletTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillAmountChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillAmountChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillCategoryChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillCategoryChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillCommentEditedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillCommentEditedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillCreatedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillDeletedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillDeletedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillRenamedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillRenamedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillTypeChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/events/BillTypeChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/models/Bill.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/models/Bill.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/valueobjects/BillComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/valueobjects/BillComment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/valueobjects/BillName.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/valueobjects/BillName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetCreatedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetDeletedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetDeletedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetDescriptionEditedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetDescriptionEditedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetItemAddedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetItemAddedEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetItemDeletedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetItemDeletedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetItemsClearedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetItemsClearedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetRenamedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/events/BudgetRenamedEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/models/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/models/Budget.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/valueobjects/BudgetDescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/valueobjects/BudgetDescription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/valueobjects/BudgetName.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/valueobjects/BudgetName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/events/CategoryCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/events/CategoryCreatedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/events/CategoryDeletedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/events/CategoryDeletedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/events/CategoryEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/events/CategoryEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/events/CategoryRenamedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/events/CategoryRenamedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/models/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/models/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/valueobjects/CategoryName.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/valueobjects/CategoryName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillAmountChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillAmountChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillCategoryChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillCategoryChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillCommentEditedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillCommentEditedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillCreatedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillDeletedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillDeletedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillExecutedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillExecutedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillRecurrenceChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillRecurrenceChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillRenamedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillRenamedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillRestartedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillRestartedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillStartDateChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillStartDateChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillTotalPeriodsChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillMaxPeriodsChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillTypeChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/events/RecurringBillTypeChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/models/RecurringBill.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/models/RecurringBill.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/valueobjects/Period.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/valueobjects/RecurringBillPeriod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/valueobjects/RecurringBillComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/valueobjects/RecurringBillComment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/valueobjects/RecurringBillName.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/valueobjects/RecurringBillName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/valueobjects/RecurringBillRecurrence.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/valueobjects/RecurringBillRecurrence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderCreatedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderDeletedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderDeletedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderDescriptionEditedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderDescriptionEditedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderMaxRunsChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderMaxRunsChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderRanEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderRanEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderRecurrenceChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderRecurrenceChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderRenamedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderRenamedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderRestartedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderRestartedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderStartedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderStartedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderStoppedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/events/ReminderStoppedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/models/Reminder.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/models/Reminder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/valueobjects/ReminderDescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/valueobjects/ReminderDescription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/valueobjects/ReminderName.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/valueobjects/ReminderName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/valueobjects/ReminderRecurrence.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/valueobjects/ReminderRecurrence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/valueobjects/ReminderRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/valueobjects/ReminderRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/events/DomainEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/shared/events/DomainEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserCreatedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserDefaultCurrencyCodeChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserDefaultCurrencyCodeChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserDefaultLanguageChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserDefaultLanguageChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserDeletedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserDeletedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserEmailChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserEmailChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserPasswordChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserPasswordChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserRenamedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/events/UserRenamedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/valueobjects/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/valueobjects/Email.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/valueobjects/Password.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/valueobjects/Password.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/valueobjects/Username.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/valueobjects/Username.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletBalanceUpdatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletBalanceUpdatedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletCreatedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletDeletedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletDeletedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletDescriptionEditedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletDescriptionEditedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletMainSetEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletMainSetEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletRenamedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletRenamedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletTypeChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/events/WalletTypeChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/models/Wallet.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/models/Wallet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/valueobjects/WalletDescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/valueobjects/WalletDescription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/valueobjects/WalletName.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/valueobjects/WalletName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/models/BillTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/bill/models/BillTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/budget/models/BudgetTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/test/java/dev/gabriel/budget/models/BudgetTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +70,7 @@
       <recent name="dev.gabriel.shared.valueobjects" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.gabriel in domain">
+  <component name="RunManager" selected="JUnit.BudgetTests">
     <configuration name="BillTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="domain" />
       <extension name="coverage">
@@ -182,6 +86,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="BudgetTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="domain" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.gabriel.budget.models.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dev.gabriel.budget.models" />
+      <option name="MAIN_CLASS_NAME" value="dev.gabriel.budget.models.BudgetTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CategoryTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="domain" />
       <extension name="coverage">
@@ -192,21 +111,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="dev.gabriel.category.models" />
       <option name="MAIN_CLASS_NAME" value="dev.gabriel.category.models.CategoryTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="domain" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="dev.gabriel.user.models.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="dev.gabriel.user.models" />
-      <option name="MAIN_CLASS_NAME" value="dev.gabriel.user.models.UserTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -237,11 +141,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.BudgetTests" />
         <item itemvalue="JUnit.gabriel in domain" />
         <item itemvalue="JUnit.BillTests" />
         <item itemvalue="JUnit.CategoryTests" />
         <item itemvalue="JUnit.WalletTests" />
-        <item itemvalue="JUnit.UserTests" />
       </list>
     </recent_temporary>
   </component>
