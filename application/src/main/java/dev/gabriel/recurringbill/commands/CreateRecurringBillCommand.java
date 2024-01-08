@@ -1,6 +1,6 @@
 package dev.gabriel.recurringbill.commands;
 
-import dev.gabriel.shared.commands.ICommand;
+import dev.gabriel.shared.commands.Command;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
-public class CreateRecurringBillCommand implements ICommand {
+public class CreateRecurringBillCommand extends Command {
     private String name;
     private String comment;
     private BigDecimal amount;

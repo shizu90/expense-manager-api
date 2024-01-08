@@ -13,9 +13,11 @@ import dev.gabriel.budget.valueobjects.BudgetId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import dev.gabriel.shared.services.CurrencyConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+@Component
 public class AddBudgetItemCommandHandler implements ICommandHandler<Budget, AddBudgetItemCommand> {
     private final IBudgetRepository budgetRepository;
     private final IBillRepository billRepository;
@@ -55,5 +57,10 @@ public class AddBudgetItemCommandHandler implements ICommandHandler<Budget, AddB
         budget.updateTotalAmount(budgetAmount);
 
         return budgetRepository.save(budget);
+    }
+
+    @Override
+    public Class<AddBudgetItemCommand> getCommandType() {
+        return AddBudgetItemCommand.class;
     }
 }

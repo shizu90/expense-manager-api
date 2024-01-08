@@ -8,7 +8,9 @@ import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeRecurringBillCurrencyCodeCommandHandler implements ICommandHandler<RecurringBill, ChangeRecurringBillCurrencyCodeCommand> {
     private final IRecurringBillRepository recurringBillRepository;
 
@@ -24,5 +26,10 @@ public class ChangeRecurringBillCurrencyCodeCommandHandler implements ICommandHa
         recurringBill.changeCurrencyCode(CurrencyCode.getConstant(command.getCurrencyCode()));
 
         return recurringBillRepository.save(recurringBill);
+    }
+
+    @Override
+    public Class<ChangeRecurringBillCurrencyCodeCommand> getCommandType() {
+        return ChangeRecurringBillCurrencyCodeCommand.class;
     }
 }

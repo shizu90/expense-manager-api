@@ -7,7 +7,9 @@ import dev.gabriel.budget.repositories.IBudgetRepository;
 import dev.gabriel.budget.valueobjects.BudgetId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EditBudgetDescriptionCommandHandler implements ICommandHandler<Budget, EditBudgetDescriptionCommand> {
     private final IBudgetRepository budgetRepository;
 
@@ -23,5 +25,10 @@ public class EditBudgetDescriptionCommandHandler implements ICommandHandler<Budg
         budget.editDescription(command.getDescription());
 
         return budgetRepository.save(budget);
+    }
+
+    @Override
+    public Class<EditBudgetDescriptionCommand> getCommandType() {
+        return EditBudgetDescriptionCommand.class;
     }
 }

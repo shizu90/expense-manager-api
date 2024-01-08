@@ -7,7 +7,9 @@ import dev.gabriel.recurringbill.repositories.IRecurringBillRepository;
 import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RestartRecurringBillCommandHandler implements ICommandHandler<RecurringBill, RestartRecurringBillCommand> {
     private final IRecurringBillRepository recurringBillRepository;
 
@@ -23,5 +25,10 @@ public class RestartRecurringBillCommandHandler implements ICommandHandler<Recur
         recurringBill.restart();
 
         return recurringBillRepository.save(recurringBill);
+    }
+
+    @Override
+    public Class<RestartRecurringBillCommand> getCommandType() {
+        return RestartRecurringBillCommand.class;
     }
 }

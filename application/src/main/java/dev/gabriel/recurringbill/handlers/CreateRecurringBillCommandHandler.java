@@ -21,11 +21,13 @@ import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import dev.gabriel.wallet.valueobjects.WalletId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Component
 public class CreateRecurringBillCommandHandler implements ICommandHandler<RecurringBill, CreateRecurringBillCommand> {
     private final IRecurringBillRepository recurringBillRepository;
     private final IWalletRepository walletRepository;
@@ -93,5 +95,10 @@ public class CreateRecurringBillCommandHandler implements ICommandHandler<Recurr
         recurringBill = recurringBillRepository.save(recurringBill);
 
         return recurringBill;
+    }
+
+    @Override
+    public Class<CreateRecurringBillCommand> getCommandType() {
+        return CreateRecurringBillCommand.class;
     }
 }

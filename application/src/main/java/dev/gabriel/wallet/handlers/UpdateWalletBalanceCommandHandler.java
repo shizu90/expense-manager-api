@@ -7,7 +7,9 @@ import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import dev.gabriel.wallet.valueobjects.WalletId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UpdateWalletBalanceCommandHandler implements ICommandHandler<Wallet, UpdateWalletBalanceCommand> {
     private final IWalletRepository walletRepository;
 
@@ -22,5 +24,10 @@ public class UpdateWalletBalanceCommandHandler implements ICommandHandler<Wallet
         wallet.updateBalance(command.getBalance());
 
         return walletRepository.save(wallet);
+    }
+
+    @Override
+    public Class<UpdateWalletBalanceCommand> getCommandType() {
+        return UpdateWalletBalanceCommand.class;
     }
 }

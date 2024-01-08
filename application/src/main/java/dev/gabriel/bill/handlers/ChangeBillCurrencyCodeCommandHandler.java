@@ -9,9 +9,11 @@ import dev.gabriel.shared.handlers.ICommandHandler;
 import dev.gabriel.shared.services.CurrencyConversionService;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+@Component
 public class ChangeBillCurrencyCodeCommandHandler implements ICommandHandler<Bill, ChangeBillCurrencyCodeCommand> {
     private final IBillRepository billRepository;
     private final CurrencyConversionService currencyConversionService;
@@ -38,5 +40,10 @@ public class ChangeBillCurrencyCodeCommandHandler implements ICommandHandler<Bil
 
         bill.changeCurrencyCode(CurrencyCode.valueOf(command.getCurrencyCode()));
         return billRepository.save(bill);
+    }
+
+    @Override
+    public Class<ChangeBillCurrencyCodeCommand> getCommandType() {
+        return ChangeBillCurrencyCodeCommand.class;
     }
 }

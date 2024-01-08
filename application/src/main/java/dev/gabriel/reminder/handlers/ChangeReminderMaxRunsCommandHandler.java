@@ -7,7 +7,9 @@ import dev.gabriel.reminder.repositories.IReminderRepository;
 import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeReminderMaxRunsCommandHandler implements ICommandHandler<Reminder, ChangeReminderMaxRunsCommand> {
     private final IReminderRepository reminderRepository;
 
@@ -23,5 +25,10 @@ public class ChangeReminderMaxRunsCommandHandler implements ICommandHandler<Remi
         reminder.changeMaxRuns(command.getMaxRuns());
 
         return reminderRepository.save(reminder);
+    }
+
+    @Override
+    public Class<ChangeReminderMaxRunsCommand> getCommandType() {
+        return ChangeReminderMaxRunsCommand.class;
     }
 }

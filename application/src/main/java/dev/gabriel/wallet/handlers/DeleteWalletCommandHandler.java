@@ -7,7 +7,9 @@ import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import dev.gabriel.wallet.valueobjects.WalletId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DeleteWalletCommandHandler implements ICommandHandler<Wallet, DeleteWalletCommand> {
     private final IWalletRepository walletRepository;
 
@@ -24,5 +26,10 @@ public class DeleteWalletCommandHandler implements ICommandHandler<Wallet, Delet
         walletRepository.save(wallet);
 
         return null;
+    }
+
+    @Override
+    public Class<DeleteWalletCommand> getCommandType() {
+        return DeleteWalletCommand.class;
     }
 }

@@ -11,7 +11,9 @@ import dev.gabriel.recurringbill.repositories.IRecurringBillRepository;
 import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeRecurringBillCategoryCommandHandler implements ICommandHandler<RecurringBill, ChangeRecurringBillCategoryCommand> {
     private final IRecurringBillRepository recurringBillRepository;
     private final ICategoryRepository categoryRepository;
@@ -34,5 +36,10 @@ public class ChangeRecurringBillCategoryCommandHandler implements ICommandHandle
         recurringBill.changeCategory(category.getId());
 
         return recurringBillRepository.save(recurringBill);
+    }
+
+    @Override
+    public Class<ChangeRecurringBillCategoryCommand> getCommandType() {
+        return ChangeRecurringBillCategoryCommand.class;
     }
 }

@@ -7,7 +7,9 @@ import dev.gabriel.budget.repositories.IBudgetRepository;
 import dev.gabriel.budget.valueobjects.BudgetId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RenameBudgetCommandHandler implements ICommandHandler<Budget, RenameBudgetCommand> {
     private final IBudgetRepository budgetRepository;
 
@@ -23,5 +25,10 @@ public class RenameBudgetCommandHandler implements ICommandHandler<Budget, Renam
         budget.rename(command.getName());
 
         return budgetRepository.save(budget);
+    }
+
+    @Override
+    public Class<RenameBudgetCommand> getCommandType() {
+        return RenameBudgetCommand.class;
     }
 }

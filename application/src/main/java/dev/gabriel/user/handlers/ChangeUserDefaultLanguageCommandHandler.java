@@ -8,7 +8,9 @@ import dev.gabriel.user.models.UserLanguage;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeUserDefaultLanguageCommandHandler implements ICommandHandler<User, ChangeUserDefaultLanguageCommand> {
     private final IUserRepository userRepository;
 
@@ -23,5 +25,10 @@ public class ChangeUserDefaultLanguageCommandHandler implements ICommandHandler<
         user.changeDefaultUserLanguage(UserLanguage.valueOf(command.getLanguage()));
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public Class<ChangeUserDefaultLanguageCommand> getCommandType() {
+        return ChangeUserDefaultLanguageCommand.class;
     }
 }

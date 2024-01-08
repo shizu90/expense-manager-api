@@ -9,9 +9,11 @@ import dev.gabriel.user.models.UserLanguage;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.services.CheckUniqueUserEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class CreateUserCommandHandler implements ICommandHandler<User, CreateUserCommand> {
     private final IUserRepository userRepository;
     private final CheckUniqueUserEmailService checkUniqueUserEmailService;
@@ -39,5 +41,10 @@ public class CreateUserCommandHandler implements ICommandHandler<User, CreateUse
             throw new UserEmailAlreadyExists(user.getEmail().getValue());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public Class<CreateUserCommand> getCommandType() {
+        return CreateUserCommand.class;
     }
 }

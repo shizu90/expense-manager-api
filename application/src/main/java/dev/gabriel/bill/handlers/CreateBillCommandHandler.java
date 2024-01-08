@@ -17,10 +17,12 @@ import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import dev.gabriel.wallet.valueobjects.WalletId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Component
 public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBillCommand> {
     private final IBillRepository billRepository;
     private final IWalletRepository walletRepository;
@@ -40,7 +42,7 @@ public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBil
     }
 
     @Override
-    public Bill handle(CreateBillCommand command) {
+        public Bill handle(CreateBillCommand command) {
         Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
         Category category = categoryRepository.findById(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
 
@@ -73,5 +75,10 @@ public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBil
         billRepository.save(bill);
 
         return bill;
+    }
+
+    @Override
+    public Class<CreateBillCommand> getCommandType() {
+        return CreateBillCommand.class;
     }
 }

@@ -10,9 +10,11 @@ import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class CreateBudgetCommandHandler implements ICommandHandler<Budget, CreateBudgetCommand> {
     private final IBudgetRepository budgetRepository;
     private final IUserRepository userRepository;
@@ -35,5 +37,10 @@ public class CreateBudgetCommandHandler implements ICommandHandler<Budget, Creat
         );
 
         return budgetRepository.save(budget);
+    }
+
+    @Override
+    public Class<CreateBudgetCommand> getCommandType() {
+        return CreateBudgetCommand.class;
     }
 }

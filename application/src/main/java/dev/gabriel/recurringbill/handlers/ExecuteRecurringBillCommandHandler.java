@@ -11,7 +11,9 @@ import dev.gabriel.wallet.exceptions.WalletNotFoundException;
 import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ExecuteRecurringBillCommandHandler implements ICommandHandler<RecurringBill, ExecuteRecurringBillCommand> {
     private final IRecurringBillRepository recurringBillRepository;
     private final IWalletRepository walletRepository;
@@ -39,5 +41,10 @@ public class ExecuteRecurringBillCommandHandler implements ICommandHandler<Recur
         recurringBillRepository.save(recurringBill);
 
         return recurringBill;
+    }
+
+    @Override
+    public Class<ExecuteRecurringBillCommand> getCommandType() {
+        return ExecuteRecurringBillCommand.class;
     }
 }

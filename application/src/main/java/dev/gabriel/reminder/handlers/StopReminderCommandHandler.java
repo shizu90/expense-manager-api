@@ -7,7 +7,9 @@ import dev.gabriel.reminder.repositories.IReminderRepository;
 import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StopReminderCommandHandler implements ICommandHandler<Reminder, StopReminderCommand> {
     private final IReminderRepository reminderRepository;
 
@@ -23,5 +25,10 @@ public class StopReminderCommandHandler implements ICommandHandler<Reminder, Sto
         reminder.stop();
 
         return reminderRepository.save(reminder);
+    }
+
+    @Override
+    public Class<StopReminderCommand> getCommandType() {
+        return StopReminderCommand.class;
     }
 }

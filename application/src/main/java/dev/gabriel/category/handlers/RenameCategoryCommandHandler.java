@@ -7,7 +7,9 @@ import dev.gabriel.category.repositories.ICategoryRepository;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RenameCategoryCommandHandler implements ICommandHandler<Category, RenameCategoryCommand> {
     private final ICategoryRepository categoryRepository;
 
@@ -23,5 +25,10 @@ public class RenameCategoryCommandHandler implements ICommandHandler<Category, R
         category.rename(command.getName());
 
         return categoryRepository.save(category);
+    }
+
+    @Override
+    public Class<RenameCategoryCommand> getCommandType() {
+        return RenameCategoryCommand.class;
     }
 }

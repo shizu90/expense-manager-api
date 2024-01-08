@@ -7,7 +7,9 @@ import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DeleteUserCommandHandler implements ICommandHandler<User, DeleteUserCommand> {
     private final IUserRepository userRepository;
 
@@ -24,5 +26,10 @@ public class DeleteUserCommandHandler implements ICommandHandler<User, DeleteUse
         userRepository.save(user);
 
         return null;
+    }
+
+    @Override
+    public Class<DeleteUserCommand> getCommandType() {
+        return DeleteUserCommand.class;
     }
 }

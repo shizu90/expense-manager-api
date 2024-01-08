@@ -1,6 +1,6 @@
 package dev.gabriel.bill.commands;
 
-import dev.gabriel.shared.commands.ICommand;
+import dev.gabriel.shared.commands.Command;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Getter
 @AllArgsConstructor
-public class CreateBillCommand implements ICommand {
+public class CreateBillCommand extends Command {
     private String name;
     private String comment;
     private BigDecimal amount;

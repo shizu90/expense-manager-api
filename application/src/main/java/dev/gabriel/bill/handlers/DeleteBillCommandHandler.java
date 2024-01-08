@@ -13,9 +13,11 @@ import dev.gabriel.wallet.exceptions.WalletNotFoundException;
 import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+@Component
 public class DeleteBillCommandHandler implements ICommandHandler<Bill, DeleteBillCommand> {
     private final IBillRepository billRepository;
     private final IWalletRepository walletRepository;
@@ -56,5 +58,10 @@ public class DeleteBillCommandHandler implements ICommandHandler<Bill, DeleteBil
         walletRepository.save(wallet);
 
         return null;
+    }
+
+    @Override
+    public Class<DeleteBillCommand> getCommandType() {
+        return DeleteBillCommand.class;
     }
 }

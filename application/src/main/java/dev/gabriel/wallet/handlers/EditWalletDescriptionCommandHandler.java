@@ -7,7 +7,9 @@ import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import dev.gabriel.wallet.valueobjects.WalletId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EditWalletDescriptionCommandHandler implements ICommandHandler<Wallet, EditWalletDescriptionCommand> {
     private final IWalletRepository walletRepository;
 
@@ -22,5 +24,10 @@ public class EditWalletDescriptionCommandHandler implements ICommandHandler<Wall
         wallet.editDescription(command.getDescription());
 
         return walletRepository.save(wallet);
+    }
+
+    @Override
+    public Class<EditWalletDescriptionCommand> getCommandType() {
+        return EditWalletDescriptionCommand.class;
     }
 }

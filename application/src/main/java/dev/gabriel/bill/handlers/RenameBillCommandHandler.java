@@ -7,7 +7,9 @@ import dev.gabriel.bill.repositories.IBillRepository;
 import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RenameBillCommandHandler implements ICommandHandler<Bill, RenameBillCommand> {
     private final IBillRepository billRepository;
 
@@ -22,5 +24,10 @@ public class RenameBillCommandHandler implements ICommandHandler<Bill, RenameBil
         bill.rename(command.getName());
 
         return billRepository.save(bill);
+    }
+
+    @Override
+    public Class<RenameBillCommand> getCommandType() {
+        return RenameBillCommand.class;
     }
 }

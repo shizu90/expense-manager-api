@@ -7,12 +7,14 @@ import dev.gabriel.reminder.repositories.IReminderRepository;
 import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class StartReminderCommandHanlder implements ICommandHandler<Reminder, StartReminderCommand> {
+@Component
+public class StartReminderCommandHandler implements ICommandHandler<Reminder, StartReminderCommand> {
     private final IReminderRepository reminderRepository;
 
     @Autowired
-    public StartReminderCommandHanlder(IReminderRepository reminderRepository) {
+    public StartReminderCommandHandler(IReminderRepository reminderRepository) {
         this.reminderRepository = reminderRepository;
     }
 
@@ -23,5 +25,10 @@ public class StartReminderCommandHanlder implements ICommandHandler<Reminder, St
         reminder.start();
 
         return reminderRepository.save(reminder);
+    }
+
+    @Override
+    public Class<StartReminderCommand> getCommandType() {
+        return StartReminderCommand.class;
     }
 }

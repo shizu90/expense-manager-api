@@ -7,7 +7,9 @@ import dev.gabriel.budget.repositories.IBudgetRepository;
 import dev.gabriel.budget.valueobjects.BudgetId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DeleteBudgetCommandHandler implements ICommandHandler<Budget, DeleteBudgetCommand> {
     private final IBudgetRepository budgetRepository;
 
@@ -23,5 +25,10 @@ public class DeleteBudgetCommandHandler implements ICommandHandler<Budget, Delet
         budget.delete();
 
         return budgetRepository.save(budget);
+    }
+
+    @Override
+    public Class<DeleteBudgetCommand> getCommandType() {
+        return DeleteBudgetCommand.class;
     }
 }

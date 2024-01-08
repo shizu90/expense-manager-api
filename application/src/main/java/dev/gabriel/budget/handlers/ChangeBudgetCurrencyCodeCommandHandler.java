@@ -8,7 +8,9 @@ import dev.gabriel.budget.valueobjects.BudgetId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeBudgetCurrencyCodeCommandHandler implements ICommandHandler<Budget, ChangeBudgetCurrencyCodeCommand> {
     private final IBudgetRepository budgetRepository;
 
@@ -24,5 +26,10 @@ public class ChangeBudgetCurrencyCodeCommandHandler implements ICommandHandler<B
         budget.changeCurrencyCode(CurrencyCode.getConstant(command.getCurrencyCode()));
 
         return budgetRepository.save(budget);
+    }
+
+    @Override
+    public Class<ChangeBudgetCurrencyCodeCommand> getCommandType() {
+        return ChangeBudgetCurrencyCodeCommand.class;
     }
 }

@@ -7,7 +7,9 @@ import dev.gabriel.reminder.repositories.IReminderRepository;
 import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeReminderRecurrenceCommandHandler implements ICommandHandler<Reminder, ChangeReminderRecurrenceCommand> {
     private final IReminderRepository reminderRepository;
 
@@ -23,5 +25,10 @@ public class ChangeReminderRecurrenceCommandHandler implements ICommandHandler<R
         reminder.changeRecurrence(command.getRecurrence());
 
         return reminderRepository.save(reminder);
+    }
+
+    @Override
+    public Class<ChangeReminderRecurrenceCommand> getCommandType() {
+        return ChangeReminderRecurrenceCommand.class;
     }
 }

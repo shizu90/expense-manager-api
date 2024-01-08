@@ -8,7 +8,9 @@ import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeUserEmailCommandHandler implements ICommandHandler<User, ChangeUserEmailCommand> {
     private final IUserRepository userRepository;
 
@@ -25,5 +27,10 @@ public class ChangeUserEmailCommandHandler implements ICommandHandler<User, Chan
         if(userRepository.existsByEmail(user.getEmail())) throw new UserEmailAlreadyExists(user.getEmail().getValue());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public Class<ChangeUserEmailCommand> getCommandType() {
+        return ChangeUserEmailCommand.class;
     }
 }

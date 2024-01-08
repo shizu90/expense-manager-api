@@ -11,7 +11,9 @@ import dev.gabriel.category.repositories.ICategoryRepository;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeBillCategoryCommandHandler implements ICommandHandler<Bill, ChangeBillCategoryCommand> {
     private final IBillRepository billRepository;
     private final ICategoryRepository categoryRepository;
@@ -29,5 +31,10 @@ public class ChangeBillCategoryCommandHandler implements ICommandHandler<Bill, C
         bill.changeCategory(category.getId());
 
         return billRepository.save(bill);
+    }
+
+    @Override
+    public Class<ChangeBillCategoryCommand> getCommandType() {
+        return ChangeBillCategoryCommand.class;
     }
 }

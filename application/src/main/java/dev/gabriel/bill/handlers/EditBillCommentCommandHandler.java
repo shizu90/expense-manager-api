@@ -7,7 +7,9 @@ import dev.gabriel.bill.repositories.IBillRepository;
 import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EditBillCommentCommandHandler implements ICommandHandler<Bill, EditBillCommentCommand> {
     private final IBillRepository billRepository;
 
@@ -22,5 +24,10 @@ public class EditBillCommentCommandHandler implements ICommandHandler<Bill, Edit
         bill.editComment(command.getComment());
 
         return billRepository.save(bill);
+    }
+
+    @Override
+    public Class<EditBillCommentCommand> getCommandType() {
+        return EditBillCommentCommand.class;
     }
 }

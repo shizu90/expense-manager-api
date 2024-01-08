@@ -8,7 +8,9 @@ import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeUserDefaultCurrencyCodeCommandHandler implements ICommandHandler<User, ChangeUserDefaultCurrencyCodeCommand> {
     private final IUserRepository userRepository;
 
@@ -23,5 +25,10 @@ public class ChangeUserDefaultCurrencyCodeCommandHandler implements ICommandHand
         user.changeDefaultCurrencyCode(CurrencyCode.valueOf(command.getCurrencyCode()));
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public Class<ChangeUserDefaultCurrencyCodeCommand> getCommandType() {
+        return ChangeUserDefaultCurrencyCodeCommand.class;
     }
 }

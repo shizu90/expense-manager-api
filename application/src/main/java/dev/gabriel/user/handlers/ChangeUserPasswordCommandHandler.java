@@ -7,7 +7,9 @@ import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeUserPasswordCommandHandler implements ICommandHandler<User, ChangeUserPasswordCommand> {
     private final IUserRepository userRepository;
 
@@ -22,5 +24,10 @@ public class ChangeUserPasswordCommandHandler implements ICommandHandler<User, C
         user.changePassword(command.getPassword());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public Class<ChangeUserPasswordCommand> getCommandType() {
+        return ChangeUserPasswordCommand.class;
     }
 }

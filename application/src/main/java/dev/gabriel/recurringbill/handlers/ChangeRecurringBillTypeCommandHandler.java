@@ -8,7 +8,9 @@ import dev.gabriel.recurringbill.repositories.IRecurringBillRepository;
 import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeRecurringBillTypeCommandHandler implements ICommandHandler<RecurringBill, ChangeRecurringBillTypeCommand> {
     private final IRecurringBillRepository recurringBillRepository;
 
@@ -24,5 +26,10 @@ public class ChangeRecurringBillTypeCommandHandler implements ICommandHandler<Re
         recurringBill.changeType(RecurringBillType.getConstant(command.getType()));
 
         return recurringBillRepository.save(recurringBill);
+    }
+
+    @Override
+    public Class<ChangeRecurringBillTypeCommand> getCommandType() {
+        return ChangeRecurringBillTypeCommand.class;
     }
 }

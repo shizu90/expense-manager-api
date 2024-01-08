@@ -9,9 +9,11 @@ import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class CreateReminderCommandHandler implements ICommandHandler<Reminder, CreateReminderCommand> {
     private final IReminderRepository reminderRepository;
     private final IUserRepository userRepository;
@@ -39,5 +41,10 @@ public class CreateReminderCommandHandler implements ICommandHandler<Reminder, C
         reminder.start();
 
         return reminderRepository.save(reminder);
+    }
+
+    @Override
+    public Class<CreateReminderCommand> getCommandType() {
+        return CreateReminderCommand.class;
     }
 }

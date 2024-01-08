@@ -11,9 +11,11 @@ import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.models.WalletType;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class CreateWalletCommandHandler implements ICommandHandler<Wallet, CreateWalletCommand> {
     private final IWalletRepository walletRepository;
     private final IUserRepository userRepository;
@@ -39,5 +41,10 @@ public class CreateWalletCommandHandler implements ICommandHandler<Wallet, Creat
         );
 
         return walletRepository.save(wallet);
+    }
+
+    @Override
+    public Class<CreateWalletCommand> getCommandType() {
+        return CreateWalletCommand.class;
     }
 }

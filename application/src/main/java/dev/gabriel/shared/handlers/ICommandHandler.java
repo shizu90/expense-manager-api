@@ -1,8 +1,12 @@
 package dev.gabriel.shared.handlers;
 
-import dev.gabriel.shared.commands.ICommand;
+import dev.gabriel.shared.commands.Command;
 import dev.gabriel.shared.models.AggregateRoot;
 
-public interface ICommandHandler<R extends AggregateRoot, C extends ICommand> extends ICommandHandlerAbstraction {
+import java.lang.reflect.ParameterizedType;
+
+public interface ICommandHandler<R extends AggregateRoot, C extends Command> {
     R handle(C command);
+
+    Class<C> getCommandType();
 }

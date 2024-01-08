@@ -7,7 +7,9 @@ import dev.gabriel.reminder.repositories.IReminderRepository;
 import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EditReminderDescriptionCommandHandler implements ICommandHandler<Reminder, EditReminderDescriptionCommand> {
     private final IReminderRepository reminderRepository;
 
@@ -23,5 +25,10 @@ public class EditReminderDescriptionCommandHandler implements ICommandHandler<Re
         reminder.editDescription(command.getDescription());
 
         return reminderRepository.save(reminder);
+    }
+
+    @Override
+    public Class<EditReminderDescriptionCommand> getCommandType() {
+        return EditReminderDescriptionCommand.class;
     }
 }

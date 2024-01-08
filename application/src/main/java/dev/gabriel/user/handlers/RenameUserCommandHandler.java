@@ -7,7 +7,9 @@ import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RenameUserCommandHandler implements ICommandHandler<User, RenameUserCommand> {
     private final IUserRepository userRepository;
 
@@ -22,5 +24,10 @@ public class RenameUserCommandHandler implements ICommandHandler<User, RenameUse
         user.rename(command.getName());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public Class<RenameUserCommand> getCommandType() {
+        return RenameUserCommand.class;
     }
 }

@@ -7,7 +7,9 @@ import dev.gabriel.reminder.repositories.IReminderRepository;
 import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DeleteReminderCommandHandler implements ICommandHandler<Reminder, DeleteReminderCommand> {
     private final IReminderRepository reminderRepository;
 
@@ -25,5 +27,10 @@ public class DeleteReminderCommandHandler implements ICommandHandler<Reminder, D
         reminderRepository.save(reminder);
 
         return null;
+    }
+
+    @Override
+    public Class<DeleteReminderCommand> getCommandType() {
+        return DeleteReminderCommand.class;
     }
 }

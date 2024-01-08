@@ -8,7 +8,9 @@ import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import dev.gabriel.wallet.valueobjects.WalletId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChangeWalletCurrencyCodeCommandHandler implements ICommandHandler<Wallet, ChangeWalletCurrencyCodeCommand> {
     private final IWalletRepository walletRepository;
 
@@ -23,5 +25,10 @@ public class ChangeWalletCurrencyCodeCommandHandler implements ICommandHandler<W
         wallet.changeCurrencyCode(CurrencyCode.valueOf(command.getCurrencyCode()));
 
         return walletRepository.save(wallet);
+    }
+
+    @Override
+    public Class<ChangeWalletCurrencyCodeCommand> getCommandType() {
+        return ChangeWalletCurrencyCodeCommand.class;
     }
 }
