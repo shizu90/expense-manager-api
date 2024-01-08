@@ -9,6 +9,7 @@ import dev.gabriel.user.exceptions.UserNotFoundException;
 import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
@@ -16,13 +17,14 @@ public class CreateBudgetCommandHandler implements ICommandHandler<Budget, Creat
     private final IBudgetRepository budgetRepository;
     private final IUserRepository userRepository;
 
+    @Autowired
     public CreateBudgetCommandHandler(IBudgetRepository budgetRepository, IUserRepository userRepository) {
         this.budgetRepository = budgetRepository;
         this.userRepository = userRepository;
     }
 
     @Override
-    public Budget execute(CreateBudgetCommand command) {
+    public Budget handle(CreateBudgetCommand command) {
         User user = userRepository.findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         Budget budget = Budget.create(
                 UUID.randomUUID().toString(),

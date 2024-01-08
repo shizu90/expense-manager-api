@@ -7,16 +7,18 @@ import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.models.WalletType;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import dev.gabriel.wallet.valueobjects.WalletId;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ChangeWalletTypeCommandHandler implements ICommandHandler<Wallet, ChangeWalletTypeCommand> {
     private final IWalletRepository walletRepository;
 
+    @Autowired
     public ChangeWalletTypeCommandHandler(IWalletRepository walletRepository) {
         this.walletRepository = walletRepository;
     }
 
     @Override
-    public Wallet execute(ChangeWalletTypeCommand command) {
+    public Wallet handle(ChangeWalletTypeCommand command) {
         Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
         wallet.changeType(WalletType.valueOf(command.getType()));
 

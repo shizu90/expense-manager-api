@@ -6,16 +6,18 @@ import dev.gabriel.budget.models.Budget;
 import dev.gabriel.budget.repositories.IBudgetRepository;
 import dev.gabriel.budget.valueobjects.BudgetId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class RenameBudgetCommandHandler implements ICommandHandler<Budget, RenameBudgetCommand> {
     private final IBudgetRepository budgetRepository;
 
+    @Autowired
     public RenameBudgetCommandHandler(IBudgetRepository budgetRepository) {
         this.budgetRepository = budgetRepository;
     }
 
     @Override
-    public Budget execute(RenameBudgetCommand command) {
+    public Budget handle(RenameBudgetCommand command) {
         Budget budget = budgetRepository
                 .findById(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
         budget.rename(command.getName());

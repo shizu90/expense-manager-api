@@ -8,6 +8,7 @@ import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import dev.gabriel.shared.services.CurrencyConversionService;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
@@ -15,13 +16,14 @@ public class ChangeBillCurrencyCodeCommandHandler implements ICommandHandler<Bil
     private final IBillRepository billRepository;
     private final CurrencyConversionService currencyConversionService;
 
+    @Autowired
     public ChangeBillCurrencyCodeCommandHandler(IBillRepository billRepository, CurrencyConversionService currencyConversionService) {
         this.billRepository = billRepository;
         this.currencyConversionService = currencyConversionService;
     }
 
     @Override
-    public Bill execute(ChangeBillCurrencyCodeCommand command) {
+    public Bill handle(ChangeBillCurrencyCodeCommand command) {
         Bill bill = billRepository.findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
         CurrencyCode currencyCode = CurrencyCode.getConstant(command.getCurrencyCode());
 

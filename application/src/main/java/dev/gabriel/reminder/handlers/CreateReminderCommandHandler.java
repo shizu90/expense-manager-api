@@ -8,6 +8,7 @@ import dev.gabriel.user.exceptions.UserNotFoundException;
 import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
@@ -15,13 +16,14 @@ public class CreateReminderCommandHandler implements ICommandHandler<Reminder, C
     private final IReminderRepository reminderRepository;
     private final IUserRepository userRepository;
 
+    @Autowired
     public CreateReminderCommandHandler(IReminderRepository reminderRepository, IUserRepository userRepository) {
         this.reminderRepository = reminderRepository;
         this.userRepository = userRepository;
     }
 
     @Override
-    public Reminder execute(CreateReminderCommand command) {
+    public Reminder handle(CreateReminderCommand command) {
         User user = userRepository
                 .findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
 

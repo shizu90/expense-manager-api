@@ -16,6 +16,7 @@ import dev.gabriel.wallet.exceptions.WalletNotFoundException;
 import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
 import dev.gabriel.wallet.valueobjects.WalletId;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -26,6 +27,7 @@ public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBil
     private final ICategoryRepository categoryRepository;
     private final CurrencyConversionService currencyConversionService;
 
+    @Autowired
     public CreateBillCommandHandler(IBillRepository billRepository,
                                     IWalletRepository walletRepository,
                                     ICategoryRepository categoryRepository,
@@ -38,7 +40,7 @@ public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBil
     }
 
     @Override
-    public Bill execute(CreateBillCommand command) {
+    public Bill handle(CreateBillCommand command) {
         Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
         Category category = categoryRepository.findById(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
 

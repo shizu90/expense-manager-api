@@ -6,16 +6,18 @@ import dev.gabriel.budget.models.Budget;
 import dev.gabriel.budget.repositories.IBudgetRepository;
 import dev.gabriel.budget.valueobjects.BudgetId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class EditBudgetDescriptionCommandHandler implements ICommandHandler<Budget, EditBudgetDescriptionCommand> {
     private final IBudgetRepository budgetRepository;
 
+    @Autowired
     public EditBudgetDescriptionCommandHandler(IBudgetRepository budgetRepository) {
         this.budgetRepository = budgetRepository;
     }
 
     @Override
-    public Budget execute(EditBudgetDescriptionCommand command) {
+    public Budget handle(EditBudgetDescriptionCommand command) {
         Budget budget = budgetRepository
                 .findById(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
         budget.editDescription(command.getDescription());

@@ -12,6 +12,7 @@ import dev.gabriel.shared.valueobjects.Currency;
 import dev.gabriel.wallet.exceptions.WalletNotFoundException;
 import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
@@ -20,6 +21,7 @@ public class DeleteBillCommandHandler implements ICommandHandler<Bill, DeleteBil
     private final IWalletRepository walletRepository;
     private final CurrencyConversionService currencyConversionService;
 
+    @Autowired
     public DeleteBillCommandHandler(IBillRepository billRepository,
                                     IWalletRepository walletRepository,
                                     CurrencyConversionService currencyConversionService
@@ -30,7 +32,7 @@ public class DeleteBillCommandHandler implements ICommandHandler<Bill, DeleteBil
     }
 
     @Override
-    public Bill execute(DeleteBillCommand command) {
+    public Bill handle(DeleteBillCommand command) {
         Bill bill = billRepository.findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
         Wallet wallet = walletRepository.findById(bill.getWalletId()).orElseThrow(() -> new WalletNotFoundException(bill.getWalletId().getValue()));
 

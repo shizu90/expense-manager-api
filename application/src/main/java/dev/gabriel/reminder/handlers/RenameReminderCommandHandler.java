@@ -6,16 +6,18 @@ import dev.gabriel.reminder.models.Reminder;
 import dev.gabriel.reminder.repositories.IReminderRepository;
 import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class RenameReminderCommandHandler implements ICommandHandler<Reminder, RenameReminderCommand> {
     private final IReminderRepository reminderRepository;
 
+    @Autowired
     public RenameReminderCommandHandler(IReminderRepository reminderRepository) {
         this.reminderRepository = reminderRepository;
     }
 
     @Override
-    public Reminder execute(RenameReminderCommand command) {
+    public Reminder handle(RenameReminderCommand command) {
         Reminder reminder = reminderRepository
                 .findById(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
         reminder.rename(command.getName());

@@ -6,16 +6,18 @@ import dev.gabriel.reminder.models.Reminder;
 import dev.gabriel.reminder.repositories.IReminderRepository;
 import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ChangeReminderRecurrenceCommandHandler implements ICommandHandler<Reminder, ChangeReminderRecurrenceCommand> {
     private final IReminderRepository reminderRepository;
 
+    @Autowired
     public ChangeReminderRecurrenceCommandHandler(IReminderRepository reminderRepository) {
         this.reminderRepository = reminderRepository;
     }
 
     @Override
-    public Reminder execute(ChangeReminderRecurrenceCommand command) {
+    public Reminder handle(ChangeReminderRecurrenceCommand command) {
         Reminder reminder = reminderRepository
                 .findById(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
         reminder.changeRecurrence(command.getRecurrence());

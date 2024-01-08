@@ -6,16 +6,18 @@ import dev.gabriel.category.repositories.ICategoryRepository;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import dev.gabriel.category.commands.DeleteCategoryCommand;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class DeleteCategoryCommandHandler implements ICommandHandler<Category, DeleteCategoryCommand> {
     private final ICategoryRepository categoryRepository;
 
+    @Autowired
     public DeleteCategoryCommandHandler(ICategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public Category execute(DeleteCategoryCommand command) {
+    public Category handle(DeleteCategoryCommand command) {
         Category category = categoryRepository
                 .findById(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
         category.delete();

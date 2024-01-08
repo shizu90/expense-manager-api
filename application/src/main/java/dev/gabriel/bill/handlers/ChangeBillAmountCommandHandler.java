@@ -6,16 +6,18 @@ import dev.gabriel.bill.models.Bill;
 import dev.gabriel.bill.repositories.IBillRepository;
 import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ChangeBillAmountCommandHandler implements ICommandHandler<Bill, ChangeBillAmountCommand> {
     private final IBillRepository billRepository;
 
+    @Autowired
     public ChangeBillAmountCommandHandler(IBillRepository billRepository) {
         this.billRepository = billRepository;
     }
 
     @Override
-    public Bill execute(ChangeBillAmountCommand command) {
+    public Bill handle(ChangeBillAmountCommand command) {
         Bill bill = billRepository
                 .findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
         bill.changeAmount(command.getAmount());

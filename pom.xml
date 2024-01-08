@@ -26,6 +26,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <project.version>1.0.0</project.version>
         <project.encoding>UTF-8</project.encoding>
         <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -36,6 +37,7 @@
         <junit.jupiter.engine.version>5.10.0</junit.jupiter.engine.version>
         <mockito.version>5.3.1</mockito.version>
         <assertj.version>3.24.2</assertj.version>
+        <guava.version>33.0.0-jre</guava.version>
     </properties>
 
     <build>

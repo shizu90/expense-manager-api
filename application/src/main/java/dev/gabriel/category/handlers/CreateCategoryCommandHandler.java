@@ -8,6 +8,7 @@ import dev.gabriel.user.exceptions.UserNotFoundException;
 import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
@@ -15,13 +16,14 @@ public class CreateCategoryCommandHandler implements ICommandHandler<Category, C
     private final ICategoryRepository categoryRepository;
     private final IUserRepository userRepository;
 
+    @Autowired
     public CreateCategoryCommandHandler(ICategoryRepository categoryRepository, IUserRepository userRepository) {
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
     }
 
     @Override
-    public Category execute(CreateCategoryCommand command) {
+    public Category handle(CreateCategoryCommand command) {
         User user = userRepository
                 .findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
 

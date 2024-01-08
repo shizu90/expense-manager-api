@@ -7,16 +7,18 @@ import dev.gabriel.user.exceptions.UserNotFoundException;
 import dev.gabriel.user.models.User;
 import dev.gabriel.user.repositories.IUserRepository;
 import dev.gabriel.user.valueobjects.UserId;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ChangeUserDefaultCurrencyCodeCommandHandler implements ICommandHandler<User, ChangeUserDefaultCurrencyCodeCommand> {
     private final IUserRepository userRepository;
 
+    @Autowired
     public ChangeUserDefaultCurrencyCodeCommandHandler(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public User execute(ChangeUserDefaultCurrencyCodeCommand command) {
+    public User handle(ChangeUserDefaultCurrencyCodeCommand command) {
         User user = userRepository.findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         user.changeDefaultCurrencyCode(CurrencyCode.valueOf(command.getCurrencyCode()));
 

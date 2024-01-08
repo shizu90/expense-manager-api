@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ChangeRecurringBillDaysRecurrenceCommand implements ICommand {
+public class ChangeRecurringBillMaxPeriodsCommand implements ICommand {
     private String recurringBillId;
-    private Long daysRecurrence;
+    private Long maxPeriods;
 }

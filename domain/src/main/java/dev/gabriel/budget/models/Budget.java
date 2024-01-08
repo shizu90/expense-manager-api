@@ -1,7 +1,6 @@
 package dev.gabriel.budget.models;
 
 import dev.gabriel.bill.models.Bill;
-import dev.gabriel.bill.models.BillType;
 import dev.gabriel.bill.valueobjects.BillId;
 import dev.gabriel.budget.events.*;
 import dev.gabriel.budget.exceptions.BudgetAlreadyDeletedException;
@@ -72,6 +71,10 @@ public class Budget extends AggregateRoot {
         raiseEvent(new BudgetCurrencyCodeChangedEvent(getId().getValue(), getNextVersion(), currencyCode));
     }
 
+    public void updateTotalAmount(BigDecimal amount) {
+        raiseEvent(new BudgetTotalAmountUpdatedEvent(getId().getValue(), getNextVersion(), amount));
+    }
+
     public void addBill(Bill bill) {
         Optional<BudgetItem> alreadyInBill = bills.stream().filter(item -> item.getBillId().equals(bill.getId())).findFirst();
         if(alreadyInBill.isPresent()) {
@@ -80,10 +83,7 @@ public class Budget extends AggregateRoot {
         raiseEvent(new BudgetItemAddedEvent(
                 getId().getValue(),
                 getNextVersion(),
-                bill.getId().getValue(),
-                bill.getAmount().getValue(),
-                bill.getAmount().getCurrencyCode(),
-                bill.getType()
+                bill.getId().getValue()
         ));
     }
 
@@ -96,10 +96,7 @@ public class Budget extends AggregateRoot {
         raiseEvent(new BudgetItemDeletedEvent(
                 getId().getValue(),
                 getNextVersion(),
-                bill.getId().getValue(),
-                bill.getAmount().getValue(),
-                bill.getAmount().getCurrencyCode(),
-                bill.getType()
+                bill.getId().getValue()
         ));
     }
 
@@ -142,22 +139,17 @@ public class Budget extends AggregateRoot {
     }
 
     @SuppressWarnings("unused")
+    private void apply(BudgetTotalAmountUpdatedEvent event) {
+        this.totalAmount = Currency.create(event.getAmount(), totalAmount.getCurrencyCode());
+    }
+
+    @SuppressWarnings("unused")
     private void apply(BudgetItemAddedEvent event) {
-        if(event.getType().equals(BillType.EXPENSE)) {
-            this.totalAmount = totalAmount.add(Currency.create(event.getAmount(), event.getCurrencyCode()));
-        }else {
-            this.totalAmount = totalAmount.subtract(Currency.create(event.getAmount(), event.getCurrencyCode()));
-        }
         bills.add(BudgetItem.create(UUID.randomUUID().toString(), BillId.create(event.getBillId()), getId()));
     }
 
     @SuppressWarnings("unused")
     private void apply(BudgetItemDeletedEvent event) {
-        if(event.getType().equals(BillType.EXPENSE)) {
-            this.totalAmount = totalAmount.subtract(Currency.create(event.getAmount(), event.getCurrencyCode()));
-        }else {
-            this.totalAmount = totalAmount.add(Currency.create(event.getAmount(), event.getCurrencyCode()));
-        }
         bills.removeIf(item -> item.getBillId().equals(BillId.create(event.getBillId())));
     }
 

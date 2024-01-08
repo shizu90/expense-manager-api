@@ -6,16 +6,18 @@ import dev.gabriel.category.models.Category;
 import dev.gabriel.category.repositories.ICategoryRepository;
 import dev.gabriel.category.valueobjects.CategoryId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class RenameCategoryCommandHandler implements ICommandHandler<Category, RenameCategoryCommand> {
     private final ICategoryRepository categoryRepository;
 
+    @Autowired
     public RenameCategoryCommandHandler(ICategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public Category execute(RenameCategoryCommand command) {
+    public Category handle(RenameCategoryCommand command) {
         Category category = categoryRepository
                 .findById(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
         category.rename(command.getName());

@@ -6,16 +6,18 @@ import dev.gabriel.recurringbill.models.RecurringBill;
 import dev.gabriel.recurringbill.repositories.IRecurringBillRepository;
 import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ChangeRecurringBillStartDateCommandHandler implements ICommandHandler<RecurringBill, ChangeRecurringBillStartDateCommand> {
     private final IRecurringBillRepository recurringBillRepository;
 
+    @Autowired
     public ChangeRecurringBillStartDateCommandHandler(IRecurringBillRepository recurringBillRepository) {
         this.recurringBillRepository = recurringBillRepository;
     }
 
     @Override
-    public RecurringBill execute(ChangeRecurringBillStartDateCommand command) {
+    public RecurringBill handle(ChangeRecurringBillStartDateCommand command) {
         RecurringBill recurringBill = recurringBillRepository
                 .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         recurringBill.changeStartDate(command.getStartDate());

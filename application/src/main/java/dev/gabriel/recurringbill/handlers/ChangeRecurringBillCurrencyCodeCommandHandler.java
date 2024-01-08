@@ -7,16 +7,18 @@ import dev.gabriel.recurringbill.repositories.IRecurringBillRepository;
 import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ChangeRecurringBillCurrencyCodeCommandHandler implements ICommandHandler<RecurringBill, ChangeRecurringBillCurrencyCodeCommand> {
     private final IRecurringBillRepository recurringBillRepository;
 
+    @Autowired
     public ChangeRecurringBillCurrencyCodeCommandHandler(IRecurringBillRepository recurringBillRepository) {
         this.recurringBillRepository = recurringBillRepository;
     }
 
     @Override
-    public RecurringBill execute(ChangeRecurringBillCurrencyCodeCommand command) {
+    public RecurringBill handle(ChangeRecurringBillCurrencyCodeCommand command) {
         RecurringBill recurringBill = recurringBillRepository
                 .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         recurringBill.changeCurrencyCode(CurrencyCode.getConstant(command.getCurrencyCode()));

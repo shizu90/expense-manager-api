@@ -7,18 +7,25 @@ import dev.gabriel.user.exceptions.UserEmailAlreadyExists;
 import dev.gabriel.user.models.User;
 import dev.gabriel.user.models.UserLanguage;
 import dev.gabriel.user.repositories.IUserRepository;
+import dev.gabriel.user.services.CheckUniqueUserEmailService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
 public class CreateUserCommandHandler implements ICommandHandler<User, CreateUserCommand> {
     private final IUserRepository userRepository;
+    private final CheckUniqueUserEmailService checkUniqueUserEmailService;
 
-    public CreateUserCommandHandler(IUserRepository userRepository) {
+    @Autowired
+    public CreateUserCommandHandler(IUserRepository userRepository,
+                                    CheckUniqueUserEmailService checkUniqueUserEmailService
+    ) {
         this.userRepository = userRepository;
+        this.checkUniqueUserEmailService = checkUniqueUserEmailService;
     }
 
     @Override
-    public User execute(CreateUserCommand command) {
+    public User handle(CreateUserCommand command) {
         User user = User.create(
                 UUID.randomUUID().toString(),
                 command.getEmail(),
@@ -28,7 +35,8 @@ public class CreateUserCommandHandler implements ICommandHandler<User, CreateUse
                 UserLanguage.valueOf(command.getDefaultLanguage())
         );
 
-        if(userRepository.existsByEmail(user.getEmail())) throw new UserEmailAlreadyExists(user.getEmail().getValue());
+        if(checkUniqueUserEmailService.getUserFromEmail(user.getEmail()).isPresent())
+            throw new UserEmailAlreadyExists(user.getEmail().getValue());
 
         return userRepository.save(user);
     }

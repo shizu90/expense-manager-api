@@ -6,16 +6,18 @@ import dev.gabriel.recurringbill.models.RecurringBill;
 import dev.gabriel.recurringbill.repositories.IRecurringBillRepository;
 import dev.gabriel.recurringbill.valueobjects.RecurringBillId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class RenameRecurringBillCommandHandler implements ICommandHandler<RecurringBill, RenameRecurringBillCommand> {
     private final IRecurringBillRepository recurringBillRepository;
 
+    @Autowired
     public RenameRecurringBillCommandHandler(IRecurringBillRepository recurringBillRepository) {
         this.recurringBillRepository = recurringBillRepository;
     }
 
     @Override
-    public RecurringBill execute(RenameRecurringBillCommand command) {
+    public RecurringBill handle(RenameRecurringBillCommand command) {
         RecurringBill recurringBill = recurringBillRepository
                 .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         recurringBill.rename(command.getName());

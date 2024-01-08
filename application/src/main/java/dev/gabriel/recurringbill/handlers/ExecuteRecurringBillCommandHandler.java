@@ -10,18 +10,20 @@ import dev.gabriel.shared.handlers.ICommandHandler;
 import dev.gabriel.wallet.exceptions.WalletNotFoundException;
 import dev.gabriel.wallet.models.Wallet;
 import dev.gabriel.wallet.repositories.IWalletRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ExecuteRecurringBillCommandHandler implements ICommandHandler<RecurringBill, ExecuteRecurringBillCommand> {
     private final IRecurringBillRepository recurringBillRepository;
     private final IWalletRepository walletRepository;
 
+    @Autowired
     public ExecuteRecurringBillCommandHandler(IRecurringBillRepository recurringBillRepository, IWalletRepository walletRepository) {
         this.recurringBillRepository = recurringBillRepository;
         this.walletRepository = walletRepository;
     }
 
     @Override
-    public RecurringBill execute(ExecuteRecurringBillCommand command) {
+    public RecurringBill handle(ExecuteRecurringBillCommand command) {
         RecurringBill recurringBill = recurringBillRepository
                 .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         Wallet wallet = walletRepository

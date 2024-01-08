@@ -6,16 +6,18 @@ import dev.gabriel.reminder.models.Reminder;
 import dev.gabriel.reminder.repositories.IReminderRepository;
 import dev.gabriel.reminder.valueobjects.ReminderId;
 import dev.gabriel.shared.handlers.ICommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ChangeReminderMaxRunsCommandHandler implements ICommandHandler<Reminder, ChangeReminderMaxRunsCommand> {
     private final IReminderRepository reminderRepository;
 
+    @Autowired
     public ChangeReminderMaxRunsCommandHandler(IReminderRepository reminderRepository) {
         this.reminderRepository = reminderRepository;
     }
 
     @Override
-    public Reminder execute(ChangeReminderMaxRunsCommand command) {
+    public Reminder handle(ChangeReminderMaxRunsCommand command) {
         Reminder reminder = reminderRepository
                 .findById(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
         reminder.changeMaxRuns(command.getMaxRuns());
