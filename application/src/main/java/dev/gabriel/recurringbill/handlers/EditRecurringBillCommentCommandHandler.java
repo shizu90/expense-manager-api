@@ -21,10 +21,10 @@ public class EditRecurringBillCommentCommandHandler implements ICommandHandler<R
     @Override
     public RecurringBill handle(EditRecurringBillCommentCommand command) {
         RecurringBill recurringBill = recurringBillRepository
-                .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
+                .load(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         recurringBill.editComment(command.getComment());
 
-        return recurringBillRepository.save(recurringBill);
+        return recurringBillRepository.registerEvents(recurringBill);
     }
 
     @Override

@@ -21,10 +21,11 @@ public class ChangeWalletTypeCommandHandler implements ICommandHandler<Wallet, C
 
     @Override
     public Wallet handle(ChangeWalletTypeCommand command) {
-        Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
+        Wallet wallet = walletRepository
+                .load(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
         wallet.changeType(WalletType.valueOf(command.getType()));
 
-        return walletRepository.save(wallet);
+        return walletRepository.registerEvents(wallet);
     }
 
     @Override

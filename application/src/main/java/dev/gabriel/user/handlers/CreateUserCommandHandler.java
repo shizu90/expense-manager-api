@@ -40,7 +40,7 @@ public class CreateUserCommandHandler implements ICommandHandler<User, CreateUse
         if(checkUniqueUserEmailService.getUserFromEmail(user.getEmail()).isPresent())
             throw new UserEmailAlreadyExists(user.getEmail().getValue());
 
-        return userRepository.save(user);
+        return userRepository.registerEvents(user);
     }
 
     @Override

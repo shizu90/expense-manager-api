@@ -27,7 +27,7 @@ public class CreateReminderCommandHandler implements ICommandHandler<Reminder, C
     @Override
     public Reminder handle(CreateReminderCommand command) {
         User user = userRepository
-                .findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
+                .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
 
         Reminder reminder = Reminder.create(
                 UUID.randomUUID().toString(),
@@ -40,7 +40,7 @@ public class CreateReminderCommandHandler implements ICommandHandler<Reminder, C
 
         reminder.start();
 
-        return reminderRepository.save(reminder);
+        return reminderRepository.registerEvents(reminder);
     }
 
     @Override

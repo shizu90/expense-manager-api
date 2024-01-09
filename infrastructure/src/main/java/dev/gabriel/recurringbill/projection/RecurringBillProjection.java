@@ -1,69 +1,61 @@
 package dev.gabriel.recurringbill.projection;
 
-import dev.gabriel.category.projection.CategoryProjection;
 import dev.gabriel.recurringbill.models.RecurringBillType;
-import dev.gabriel.reminder.projection.ReminderProjection;
-import dev.gabriel.shared.projection.AggregateRootProjection;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
-import dev.gabriel.wallet.projection.WalletProjection;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "recurring_bills")
-@Getter
-@Setter
-public class RecurringBillProjection extends AggregateRootProjection {
+@Document(collection = "RecurringBills")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
+public class RecurringBillProjection {
     @Id
     private String id;
     private String name;
     private String comment;
     private BigDecimal amount;
-    @Enumerated(EnumType.STRING)
     private CurrencyCode currencyCode;
-    @Enumerated(EnumType.STRING)
     private RecurringBillType type;
-    private Long daysRecurrence;
-    private Long totalPeriods;
+    private String category;
+    private Long recurrence;
+    private Long maxPeriods;
     private Long currentPeriods;
     private LocalDate startDate;
-    @ManyToOne
-    private WalletProjection wallet;
-    @ManyToOne
-    private CategoryProjection category;
-    @OneToOne
-    private ReminderProjection reminder;
+    private String walletId;
+    private String reminderId;
 
-    public RecurringBillProjection(String id,
-                                   String name,
-                                   String comment,
-                                   BigDecimal amount,
-                                   CurrencyCode currencyCode,
-                                   RecurringBillType type,
-                                   Long daysRecurrence,
-                                   Long currentPeriods,
-                                   LocalDate startDate,
-                                   WalletProjection wallet,
-                                   CategoryProjection category,
-                                   ReminderProjection reminder
+    public static RecurringBillProjection create(String id,
+                                                 String name,
+                                                 String comment,
+                                                 BigDecimal amount,
+                                                 CurrencyCode currencyCode,
+                                                 RecurringBillType type,
+                                                 String category,
+                                                 Long recurrence,
+                                                 Long maxPeriods,
+                                                 Long currentPeriods,
+                                                 LocalDate startDate,
+                                                 String walletId,
+                                                 String reminderId
     ) {
-        super(Instant.now(), Instant.now(), false);
-        this.id = id;
-        this.name = name;
-        this.comment = comment;
-        this.amount = amount;
-        this.currencyCode = currencyCode;
-        this.type = type;
-        this.daysRecurrence = daysRecurrence;
-        this.currentPeriods = currentPeriods;
-        this.startDate = startDate;
-        this.wallet = wallet;
-        this.category = category;
-        this.reminder = reminder;
+        return new RecurringBillProjection(
+                id,
+                name,
+                comment,
+                amount,
+                currencyCode,
+                type,
+                category,
+                recurrence,
+                maxPeriods,
+                currentPeriods,
+                startDate,
+                walletId,
+                reminderId
+        );
     }
 }

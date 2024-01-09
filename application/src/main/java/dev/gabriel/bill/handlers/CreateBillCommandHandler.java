@@ -43,8 +43,10 @@ public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBil
 
     @Override
         public Bill handle(CreateBillCommand command) {
-        Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
-        Category category = categoryRepository.findById(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
+        Wallet wallet = walletRepository
+                .load(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
+        Category category = categoryRepository
+                .load(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
 
         Bill bill = Bill.create(
                 UUID.randomUUID().toString(),
@@ -71,8 +73,8 @@ public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBil
                     .add(Currency.create(amountToDiscount, wallet.getBalance().getCurrencyCode())).getValue());
         }
 
-        walletRepository.save(wallet);
-        billRepository.save(bill);
+        walletRepository.registerEvents(wallet);
+        billRepository.registerEvents(bill);
 
         return bill;
     }

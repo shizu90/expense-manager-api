@@ -52,12 +52,12 @@ public class CreateRecurringBillCommandHandler implements ICommandHandler<Recurr
     @Override
     public RecurringBill handle(CreateRecurringBillCommand command) {
         Wallet wallet = walletRepository
-                .findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
+                .load(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
 
         Category category = categoryRepository
-                .findById(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
+                .load(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
         Reminder reminder = reminderRepository
-                .findById(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
+                .load(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
 
         RecurringBill recurringBill = RecurringBill.create(
                 UUID.randomUUID().toString(),
@@ -89,10 +89,10 @@ public class CreateRecurringBillCommandHandler implements ICommandHandler<Recurr
                         .add(Currency.create(amountToDiscount, wallet.getBalance().getCurrencyCode())).getValue());
             }
 
-            walletRepository.save(wallet);
+            walletRepository.registerEvents(wallet);
         }
 
-        recurringBill = recurringBillRepository.save(recurringBill);
+        recurringBill = recurringBillRepository.registerEvents(recurringBill);
 
         return recurringBill;
     }

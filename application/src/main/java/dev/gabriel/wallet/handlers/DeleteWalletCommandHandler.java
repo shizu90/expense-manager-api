@@ -20,10 +20,11 @@ public class DeleteWalletCommandHandler implements ICommandHandler<Wallet, Delet
 
     @Override
     public Wallet handle(DeleteWalletCommand command) {
-        Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
+        Wallet wallet = walletRepository
+                .load(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
         wallet.delete();
 
-        walletRepository.save(wallet);
+        walletRepository.registerEvents(wallet);
 
         return null;
     }

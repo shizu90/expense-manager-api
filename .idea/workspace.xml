@@ -6,6 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="d000b209-e205-4894-a9ea-f86bc8cb3114" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/domain/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/repositories/IBillRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/bill/repositories/IBillRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/repositories/IBudgetRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/budget/repositories/IBudgetRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/repositories/ICategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/category/repositories/ICategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/repositories/IRecurringBillRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/recurringbill/repositories/IRecurringBillRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/repositories/IReminderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/reminder/repositories/IReminderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/repositories/IUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/user/repositories/IUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/repositories/IWalletRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/domain/src/main/java/dev/gabriel/wallet/repositories/IWalletRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

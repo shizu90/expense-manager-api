@@ -21,10 +21,10 @@ public class RenameCategoryCommandHandler implements ICommandHandler<Category, R
     @Override
     public Category handle(RenameCategoryCommand command) {
         Category category = categoryRepository
-                .findById(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
+                .load(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
         category.rename(command.getName());
 
-        return categoryRepository.save(category);
+        return categoryRepository.registerEvents(category);
     }
 
     @Override

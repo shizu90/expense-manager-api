@@ -27,7 +27,7 @@ public class CreateBudgetCommandHandler implements ICommandHandler<Budget, Creat
 
     @Override
     public Budget handle(CreateBudgetCommand command) {
-        User user = userRepository.findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
+        User user = userRepository.load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         Budget budget = Budget.create(
                 UUID.randomUUID().toString(),
                 command.getName(),
@@ -36,7 +36,7 @@ public class CreateBudgetCommandHandler implements ICommandHandler<Budget, Creat
                 user.getId()
         );
 
-        return budgetRepository.save(budget);
+        return budgetRepository.registerEvents(budget);
     }
 
     @Override

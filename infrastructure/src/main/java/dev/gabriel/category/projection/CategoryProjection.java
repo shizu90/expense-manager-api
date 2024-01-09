@@ -1,35 +1,19 @@
 package dev.gabriel.category.projection;
 
-import dev.gabriel.bill.projection.BillProjection;
-import dev.gabriel.recurringbill.projection.RecurringBillProjection;
-import dev.gabriel.shared.projection.AggregateRootProjection;
-import dev.gabriel.user.projection.UserProjection;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.Instant;
-import java.util.List;
-
-@Entity
-@Table(name = "categories")
-@Getter
-@Setter
-public class CategoryProjection extends AggregateRootProjection {
+@Document(collection = "Categories")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
+public class CategoryProjection {
     @Id
     private String id;
     private String name;
-    @ManyToOne
-    private UserProjection owner;
-    @OneToMany(mappedBy = "category")
-    private List<BillProjection> bills;
-    @OneToMany(mappedBy = "category")
-    private List<RecurringBillProjection> recurringBills;
+    private String ownerId;
 
-    public CategoryProjection(String id, String name, UserProjection user) {
-        super(Instant.now(), Instant.now(), false);
-        this.id = id;
-        this.name = name;
-        this.owner = user;
+    public static CategoryProjection create(String id, String name, String ownerId) {
+        return new CategoryProjection(id, name, ownerId);
     }
 }

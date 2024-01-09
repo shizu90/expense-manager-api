@@ -8,12 +8,12 @@ import java.util.Optional;
 
 public class BudgetEventStore implements IBudgetRepository {
     @Override
-    public Optional<Budget> findById(BudgetId budgetId) {
+    public Optional<Budget> load(BudgetId budgetId) {
         return Optional.empty();
     }
 
     @Override
-    public Budget save(Budget budget) {
+    public Budget registerEvents(Budget budget) {
         return null;
     }
 }

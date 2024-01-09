@@ -21,10 +21,10 @@ public class DeleteCategoryCommandHandler implements ICommandHandler<Category, D
     @Override
     public Category handle(DeleteCategoryCommand command) {
         Category category = categoryRepository
-                .findById(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
+                .load(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
         category.delete();
 
-        categoryRepository.save(category);
+        categoryRepository.registerEvents(category);
 
         return null;
     }

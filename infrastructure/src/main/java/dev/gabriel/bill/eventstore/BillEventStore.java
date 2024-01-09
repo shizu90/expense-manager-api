@@ -8,12 +8,12 @@ import java.util.Optional;
 
 public class BillEventStore implements IBillRepository {
     @Override
-    public Optional<Bill> findById(BillId billId) {
+    public Optional<Bill> load(BillId billId) {
         return Optional.empty();
     }
 
     @Override
-    public Bill save(Bill bill) {
+    public Bill registerEvents(Bill bill) {
         return null;
     }
 }

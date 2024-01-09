@@ -22,10 +22,10 @@ public class ChangeRecurringBillCurrencyCodeCommandHandler implements ICommandHa
     @Override
     public RecurringBill handle(ChangeRecurringBillCurrencyCodeCommand command) {
         RecurringBill recurringBill = recurringBillRepository
-                .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
+                .load(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         recurringBill.changeCurrencyCode(CurrencyCode.getConstant(command.getCurrencyCode()));
 
-        return recurringBillRepository.save(recurringBill);
+        return recurringBillRepository.registerEvents(recurringBill);
     }
 
     @Override

@@ -21,10 +21,11 @@ public class ChangeUserDefaultLanguageCommandHandler implements ICommandHandler<
 
     @Override
     public User handle(ChangeUserDefaultLanguageCommand command) {
-        User user = userRepository.findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
+        User user = userRepository
+                .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         user.changeDefaultUserLanguage(UserLanguage.valueOf(command.getLanguage()));
 
-        return userRepository.save(user);
+        return userRepository.registerEvents(user);
     }
 
     @Override

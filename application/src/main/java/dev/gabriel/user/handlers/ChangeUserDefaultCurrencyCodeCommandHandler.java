@@ -21,10 +21,11 @@ public class ChangeUserDefaultCurrencyCodeCommandHandler implements ICommandHand
 
     @Override
     public User handle(ChangeUserDefaultCurrencyCodeCommand command) {
-        User user = userRepository.findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
+        User user = userRepository
+                .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         user.changeDefaultCurrencyCode(CurrencyCode.valueOf(command.getCurrencyCode()));
 
-        return userRepository.save(user);
+        return userRepository.registerEvents(user);
     }
 
     @Override

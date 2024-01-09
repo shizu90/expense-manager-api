@@ -27,7 +27,7 @@ public class CreateCategoryCommandHandler implements ICommandHandler<Category, C
     @Override
     public Category handle(CreateCategoryCommand command) {
         User user = userRepository
-                .findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
+                .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
 
         Category category = Category.create(
                 UUID.randomUUID().toString(),
@@ -35,7 +35,7 @@ public class CreateCategoryCommandHandler implements ICommandHandler<Category, C
                 user.getId()
         );
 
-        return categoryRepository.save(category);
+        return categoryRepository.registerEvents(category);
     }
 
     @Override

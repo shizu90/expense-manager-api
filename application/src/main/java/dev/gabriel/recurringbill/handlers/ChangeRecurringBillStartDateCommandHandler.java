@@ -21,10 +21,10 @@ public class ChangeRecurringBillStartDateCommandHandler implements ICommandHandl
     @Override
     public RecurringBill handle(ChangeRecurringBillStartDateCommand command) {
         RecurringBill recurringBill = recurringBillRepository
-                .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
+                .load(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         recurringBill.changeStartDate(command.getStartDate());
 
-        return recurringBillRepository.save(recurringBill);
+        return recurringBillRepository.registerEvents(recurringBill);
     }
 
     @Override

@@ -20,10 +20,11 @@ public class RenameUserCommandHandler implements ICommandHandler<User, RenameUse
 
     @Override
     public User handle(RenameUserCommand command) {
-        User user = userRepository.findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
+        User user = userRepository
+                .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         user.rename(command.getName());
 
-        return userRepository.save(user);
+        return userRepository.registerEvents(user);
     }
 
     @Override

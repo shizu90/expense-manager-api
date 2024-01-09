@@ -7,6 +7,6 @@ import dev.gabriel.shared.repositories.IDomainRepository;
 import java.util.Optional;
 
 public interface IBudgetRepository extends IDomainRepository {
-    Optional<Budget> findById(BudgetId budgetId);
-    Budget save(Budget budget);
+    Optional<Budget> load(BudgetId budgetId);
+    Budget registerEvents(Budget budget);
 }

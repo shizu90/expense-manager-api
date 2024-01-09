@@ -36,9 +36,9 @@ public class AddBudgetItemCommandHandler implements ICommandHandler<Budget, AddB
     @Override
     public Budget handle(AddBudgetItemCommand command) {
         Budget budget = budgetRepository
-                .findById(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
+                .load(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
         Bill bill = billRepository
-                .findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
+                .load(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
 
         BigDecimal budgetAmount = budget.getTotalAmount().getValue();
         BigDecimal amountToDiscount = bill.getAmount().getValue();
@@ -56,7 +56,7 @@ public class AddBudgetItemCommandHandler implements ICommandHandler<Budget, AddB
         budget.addBill(bill);
         budget.updateTotalAmount(budgetAmount);
 
-        return budgetRepository.save(budget);
+        return budgetRepository.registerEvents(budget);
     }
 
     @Override

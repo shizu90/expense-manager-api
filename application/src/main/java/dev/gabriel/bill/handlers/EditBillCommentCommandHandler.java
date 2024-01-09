@@ -20,10 +20,11 @@ public class EditBillCommentCommandHandler implements ICommandHandler<Bill, Edit
 
     @Override
     public Bill handle(EditBillCommentCommand command) {
-        Bill bill = billRepository.findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
+        Bill bill = billRepository
+                .load(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
         bill.editComment(command.getComment());
 
-        return billRepository.save(bill);
+        return billRepository.registerEvents(bill);
     }
 
     @Override

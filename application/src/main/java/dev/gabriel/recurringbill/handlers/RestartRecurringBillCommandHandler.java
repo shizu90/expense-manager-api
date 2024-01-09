@@ -21,10 +21,10 @@ public class RestartRecurringBillCommandHandler implements ICommandHandler<Recur
     @Override
     public RecurringBill handle(RestartRecurringBillCommand command) {
         RecurringBill recurringBill = recurringBillRepository
-                .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
+                .load(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         recurringBill.restart();
 
-        return recurringBillRepository.save(recurringBill);
+        return recurringBillRepository.registerEvents(recurringBill);
     }
 
     @Override

@@ -8,12 +8,12 @@ import java.util.Optional;
 
 public class ReminderEventStore implements IReminderRepository {
     @Override
-    public Optional<Reminder> findById(ReminderId reminderId) {
+    public Optional<Reminder> load(ReminderId reminderId) {
         return Optional.empty();
     }
 
     @Override
-    public Reminder save(Reminder reminder) {
+    public Reminder registerEvents(Reminder reminder) {
         return null;
     }
 }

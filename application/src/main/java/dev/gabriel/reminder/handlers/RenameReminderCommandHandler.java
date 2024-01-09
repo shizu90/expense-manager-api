@@ -21,10 +21,10 @@ public class RenameReminderCommandHandler implements ICommandHandler<Reminder, R
     @Override
     public Reminder handle(RenameReminderCommand command) {
         Reminder reminder = reminderRepository
-                .findById(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
+                .load(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
         reminder.rename(command.getName());
 
-        return reminderRepository.save(reminder);
+        return reminderRepository.registerEvents(reminder);
     }
 
     @Override

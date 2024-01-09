@@ -27,9 +27,9 @@ public class ExecuteRecurringBillCommandHandler implements ICommandHandler<Recur
     @Override
     public RecurringBill handle(ExecuteRecurringBillCommand command) {
         RecurringBill recurringBill = recurringBillRepository
-                .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
+                .load(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         Wallet wallet = walletRepository
-                .findById(recurringBill.getWalletId()).orElseThrow(() -> new WalletNotFoundException(recurringBill.getWalletId().getValue()));
+                .load(recurringBill.getWalletId()).orElseThrow(() -> new WalletNotFoundException(recurringBill.getWalletId().getValue()));
 
         recurringBill.execute(command.getNumberOfPeriods());
 
@@ -37,8 +37,8 @@ public class ExecuteRecurringBillCommandHandler implements ICommandHandler<Recur
             wallet.updateBalance(wallet.getBalance().subtract(recurringBill.getAmount().multiply(command.getNumberOfPeriods())).getValue());
         }else wallet.updateBalance(wallet.getBalance().add(recurringBill.getAmount().multiply(command.getNumberOfPeriods())).getValue());
 
-        walletRepository.save(wallet);
-        recurringBillRepository.save(recurringBill);
+        walletRepository.registerEvents(wallet);
+        recurringBillRepository.registerEvents(recurringBill);
 
         return recurringBill;
     }

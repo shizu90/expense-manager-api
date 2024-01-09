@@ -21,10 +21,10 @@ public class RenameBudgetCommandHandler implements ICommandHandler<Budget, Renam
     @Override
     public Budget handle(RenameBudgetCommand command) {
         Budget budget = budgetRepository
-                .findById(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
+                .load(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
         budget.rename(command.getName());
 
-        return budgetRepository.save(budget);
+        return budgetRepository.registerEvents(budget);
     }
 
     @Override

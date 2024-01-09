@@ -20,10 +20,11 @@ public class RenameBillCommandHandler implements ICommandHandler<Bill, RenameBil
 
     @Override
     public Bill handle(RenameBillCommand command) {
-        Bill bill = billRepository.findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
+        Bill bill = billRepository
+                .load(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
         bill.rename(command.getName());
 
-        return billRepository.save(bill);
+        return billRepository.registerEvents(bill);
     }
 
     @Override

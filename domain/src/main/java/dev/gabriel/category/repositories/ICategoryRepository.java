@@ -7,6 +7,6 @@ import dev.gabriel.shared.repositories.IDomainRepository;
 import java.util.Optional;
 
 public interface ICategoryRepository extends IDomainRepository {
-    Optional<Category> findById(CategoryId categoryId);
-    Category save(Category category);
+    Optional<Category> load(CategoryId categoryId);
+    Category registerEvents(Category category);
 }

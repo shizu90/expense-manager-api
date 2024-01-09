@@ -21,10 +21,11 @@ public class ChangeWalletCurrencyCodeCommandHandler implements ICommandHandler<W
 
     @Override
     public Wallet handle(ChangeWalletCurrencyCodeCommand command) {
-        Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
+        Wallet wallet = walletRepository
+                .load(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
         wallet.changeCurrencyCode(CurrencyCode.valueOf(command.getCurrencyCode()));
 
-        return walletRepository.save(wallet);
+        return walletRepository.registerEvents(wallet);
     }
 
     @Override

@@ -20,10 +20,11 @@ public class ChangeUserPasswordCommandHandler implements ICommandHandler<User, C
 
     @Override
     public User handle(ChangeUserPasswordCommand command) {
-        User user = userRepository.findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
+        User user = userRepository
+                .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         user.changePassword(command.getPassword());
 
-        return userRepository.save(user);
+        return userRepository.registerEvents(user);
     }
 
     @Override

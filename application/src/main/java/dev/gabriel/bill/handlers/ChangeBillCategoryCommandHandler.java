@@ -26,11 +26,13 @@ public class ChangeBillCategoryCommandHandler implements ICommandHandler<Bill, C
 
     @Override
     public Bill handle(ChangeBillCategoryCommand command) {
-        Bill bill = billRepository.findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
-        Category category = categoryRepository.findById(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
+        Bill bill = billRepository
+                .load(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
+        Category category = categoryRepository
+                .load(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
         bill.changeCategory(category.getId());
 
-        return billRepository.save(bill);
+        return billRepository.registerEvents(bill);
     }
 
     @Override

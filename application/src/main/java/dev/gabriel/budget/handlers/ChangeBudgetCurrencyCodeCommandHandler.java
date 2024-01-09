@@ -22,10 +22,10 @@ public class ChangeBudgetCurrencyCodeCommandHandler implements ICommandHandler<B
     @Override
     public Budget handle(ChangeBudgetCurrencyCodeCommand command) {
         Budget budget = budgetRepository
-                .findById(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
+                .load(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
         budget.changeCurrencyCode(CurrencyCode.getConstant(command.getCurrencyCode()));
 
-        return budgetRepository.save(budget);
+        return budgetRepository.registerEvents(budget);
     }
 
     @Override

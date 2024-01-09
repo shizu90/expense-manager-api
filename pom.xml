@@ -32,12 +32,19 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
+        <spring.version>3.2.0</spring.version>
+        <spring.mongodb.version>4.2.0</spring.mongodb.version>
         <lombok.version>1.18.30</lombok.version>
         <junit.jupiter.api.version>5.10.0</junit.jupiter.api.version>
         <junit.jupiter.engine.version>5.10.0</junit.jupiter.engine.version>
         <mockito.version>5.3.1</mockito.version>
         <assertj.version>3.24.2</assertj.version>
         <guava.version>33.0.0-jre</guava.version>
+        <postgresql.driver.version>42.6.0</postgresql.driver.version>
+        <mongodb.driver.version>4.11.0</mongodb.driver.version>
+        <javax.persistence.version>2.2</javax.persistence.version>
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
+        <javax.servlet.version>4.0.1</javax.servlet.version>
     </properties>
 
     <build>

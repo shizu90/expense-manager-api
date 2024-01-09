@@ -21,10 +21,10 @@ public class EditBudgetDescriptionCommandHandler implements ICommandHandler<Budg
     @Override
     public Budget handle(EditBudgetDescriptionCommand command) {
         Budget budget = budgetRepository
-                .findById(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
+                .load(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
         budget.editDescription(command.getDescription());
 
-        return budgetRepository.save(budget);
+        return budgetRepository.registerEvents(budget);
     }
 
     @Override

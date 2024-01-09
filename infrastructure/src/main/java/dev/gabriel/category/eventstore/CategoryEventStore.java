@@ -8,12 +8,12 @@ import java.util.Optional;
 
 public class CategoryEventStore implements ICategoryRepository {
     @Override
-    public Optional<Category> findById(CategoryId categoryId) {
+    public Optional<Category> load(CategoryId categoryId) {
         return Optional.empty();
     }
 
     @Override
-    public Category save(Category category) {
+    public Category registerEvents(Category category) {
         return null;
     }
 }

@@ -21,10 +21,10 @@ public class RenameRecurringBillCommandHandler implements ICommandHandler<Recurr
     @Override
     public RecurringBill handle(RenameRecurringBillCommand command) {
         RecurringBill recurringBill = recurringBillRepository
-                .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
+                .load(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         recurringBill.rename(command.getName());
 
-        return recurringBillRepository.save(recurringBill);
+        return recurringBillRepository.registerEvents(recurringBill);
     }
 
     @Override

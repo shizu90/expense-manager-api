@@ -7,6 +7,6 @@ import dev.gabriel.shared.repositories.IDomainRepository;
 import java.util.Optional;
 
 public interface IBillRepository extends IDomainRepository {
-    Optional<Bill> findById(BillId billId);
-    Bill save(Bill bill);
+    Optional<Bill> load(BillId billId);
+    Bill registerEvents(Bill bill);
 }

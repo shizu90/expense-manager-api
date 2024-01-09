@@ -20,10 +20,11 @@ public class DeleteUserCommandHandler implements ICommandHandler<User, DeleteUse
 
     @Override
     public User handle(DeleteUserCommand command) {
-        User user = userRepository.findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
+        User user = userRepository
+                .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         user.delete();
 
-        userRepository.save(user);
+        userRepository.registerEvents(user);
 
         return null;
     }

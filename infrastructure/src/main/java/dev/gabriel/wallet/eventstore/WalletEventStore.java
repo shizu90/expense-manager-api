@@ -8,12 +8,12 @@ import java.util.Optional;
 
 public class WalletEventStore implements IWalletRepository {
     @Override
-    public Optional<Wallet> findById(WalletId walletId) {
+    public Optional<Wallet> load(WalletId walletId) {
         return Optional.empty();
     }
 
     @Override
-    public Wallet save(Wallet wallet) {
+    public Wallet registerEvents(Wallet wallet) {
         return null;
     }
 }

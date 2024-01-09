@@ -1,57 +1,51 @@
 package dev.gabriel.wallet.projection;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.gabriel.bill.projection.BillProjection;
-import dev.gabriel.shared.projection.AggregateRootProjection;
 import dev.gabriel.shared.valueobjects.CurrencyCode;
-import dev.gabriel.user.projection.UserProjection;
 import dev.gabriel.wallet.models.WalletType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
 
-@Entity
-@Table(name = "wallets")
-@Getter
-@Setter
-public class WalletProjection extends AggregateRootProjection {
+@Document(collection = "Wallets")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
+public class WalletProjection {
     @Id
     private String id;
     private String name;
     private String description;
     private BigDecimal balance;
-    @Column(name = "initial_balance")
     private BigDecimal initialBalance;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "currency_code")
     private CurrencyCode currencyCode;
-    @Column(name = "is_main")
-    private Boolean isMain;
-    @Column(name = "last_balance_update")
+    private Boolean main;
     private Instant lastBalanceUpdate;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "wallet_type")
-    private WalletType walletType;
-    @ManyToOne
-    @JsonIgnore
-    private UserProjection owner;
-    @OneToMany(mappedBy = "wallet")
-    private List<BillProjection> bills;
+    private WalletType type;
+    private String ownerId;
 
-    public WalletProjection(String id, String name, String description, BigDecimal balance, CurrencyCode currencyCode, Boolean isMain, WalletType walletType, UserProjection user) {
-        super(Instant.now(), Instant.now(), false);
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.balance = balance;
-        this.initialBalance = balance;
-        this.currencyCode = currencyCode;
-        this.isMain = isMain;
-        this.walletType = walletType;
-        this.owner = user;
+    public static WalletProjection create(String id,
+                                          String name,
+                                          String description,
+                                          BigDecimal balance,
+                                          BigDecimal initialBalance,
+                                          CurrencyCode currencyCode,
+                                          Boolean main,
+                                          Instant lastBalanceUpdate,
+                                          WalletType type,
+                                          String ownerId
+    ) {
+        return new WalletProjection(
+                id,
+                name,
+                description,
+                balance,
+                initialBalance,
+                currencyCode,
+                main,
+                lastBalanceUpdate,
+                type,
+                ownerId
+        );
     }
 }

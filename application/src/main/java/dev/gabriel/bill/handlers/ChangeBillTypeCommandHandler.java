@@ -22,10 +22,10 @@ public class ChangeBillTypeCommandHandler implements ICommandHandler<Bill, Chang
     @Override
     public Bill handle(ChangeBillTypeCommand command) {
         Bill bill = billRepository
-                .findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
+                .load(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
         bill.changeType(BillType.getConstant(command.getType()));
 
-        return billRepository.save(bill);
+        return billRepository.registerEvents(bill);
     }
 
     @Override

@@ -21,10 +21,10 @@ public class DeleteRecurringBillCommandHandler implements ICommandHandler<Recurr
     @Override
     public RecurringBill handle(DeleteRecurringBillCommand command) {
         RecurringBill recurringBill = recurringBillRepository
-                .findById(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
+                .load(RecurringBillId.create(command.getRecurringBillId())).orElseThrow(() -> new RecurringBillNotFoundException(command.getRecurringBillId()));
         recurringBill.delete();
 
-        recurringBillRepository.save(recurringBill);
+        recurringBillRepository.registerEvents(recurringBill);
 
         return null;
     }

@@ -21,10 +21,10 @@ public class EditReminderDescriptionCommandHandler implements ICommandHandler<Re
     @Override
     public Reminder handle(EditReminderDescriptionCommand command) {
         Reminder reminder = reminderRepository
-                .findById(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
+                .load(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
         reminder.editDescription(command.getDescription());
 
-        return reminderRepository.save(reminder);
+        return reminderRepository.registerEvents(reminder);
     }
 
     @Override

@@ -7,6 +7,6 @@ import dev.gabriel.shared.repositories.IDomainRepository;
 import java.util.Optional;
 
 public interface IRecurringBillRepository extends IDomainRepository {
-    Optional<RecurringBill> findById(RecurringBillId recurringBillId);
-    RecurringBill save(RecurringBill recurringBill);
+    Optional<RecurringBill> load(RecurringBillId recurringBillId);
+    RecurringBill registerEvents(RecurringBill recurringBill);
 }

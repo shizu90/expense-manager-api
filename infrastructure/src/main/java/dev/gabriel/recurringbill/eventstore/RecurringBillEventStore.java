@@ -8,12 +8,12 @@ import java.util.Optional;
 
 public class RecurringBillEventStore implements IRecurringBillRepository {
     @Override
-    public Optional<RecurringBill> findById(RecurringBillId recurringBillId) {
+    public Optional<RecurringBill> load(RecurringBillId recurringBillId) {
         return Optional.empty();
     }
 
     @Override
-    public RecurringBill save(RecurringBill recurringBill) {
+    public RecurringBill registerEvents(RecurringBill recurringBill) {
         return null;
     }
 }

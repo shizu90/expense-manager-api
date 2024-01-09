@@ -21,10 +21,10 @@ public class DeleteReminderCommandHandler implements ICommandHandler<Reminder, D
     @Override
     public Reminder handle(DeleteReminderCommand command) {
         Reminder reminder = reminderRepository
-                .findById(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
+                .load(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
         reminder.delete();
 
-        reminderRepository.save(reminder);
+        reminderRepository.registerEvents(reminder);
 
         return null;
     }

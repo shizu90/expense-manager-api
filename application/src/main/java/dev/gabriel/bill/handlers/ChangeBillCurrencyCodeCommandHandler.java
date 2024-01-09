@@ -26,7 +26,8 @@ public class ChangeBillCurrencyCodeCommandHandler implements ICommandHandler<Bil
 
     @Override
     public Bill handle(ChangeBillCurrencyCodeCommand command) {
-        Bill bill = billRepository.findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
+        Bill bill = billRepository
+                .load(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
         CurrencyCode currencyCode = CurrencyCode.getConstant(command.getCurrencyCode());
 
         if(!bill.getAmount().getCurrencyCode().equals(currencyCode)) {
@@ -35,11 +36,11 @@ public class ChangeBillCurrencyCodeCommandHandler implements ICommandHandler<Bil
             bill.changeCurrencyCode(currencyCode);
             bill.changeAmount(convertedAmount);
 
-            return billRepository.save(bill);
+            return billRepository.registerEvents(bill);
         }
 
         bill.changeCurrencyCode(CurrencyCode.valueOf(command.getCurrencyCode()));
-        return billRepository.save(bill);
+        return billRepository.registerEvents(bill);
     }
 
     @Override

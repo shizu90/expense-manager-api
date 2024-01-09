@@ -28,7 +28,8 @@ public class CreateWalletCommandHandler implements ICommandHandler<Wallet, Creat
 
     @Override
     public Wallet handle(CreateWalletCommand command) {
-        User user = userRepository.findById(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
+        User user = userRepository
+                .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         Wallet wallet = Wallet.create(
                 UUID.randomUUID().toString(),
                 command.getName(),
@@ -40,7 +41,7 @@ public class CreateWalletCommandHandler implements ICommandHandler<Wallet, Creat
                 user.getId()
         );
 
-        return walletRepository.save(wallet);
+        return walletRepository.registerEvents(wallet);
     }
 
     @Override

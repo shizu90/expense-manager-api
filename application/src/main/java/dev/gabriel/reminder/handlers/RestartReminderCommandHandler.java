@@ -21,10 +21,10 @@ public class RestartReminderCommandHandler implements ICommandHandler<Reminder, 
     @Override
     public Reminder handle(RestartReminderCommand command) {
         Reminder reminder = reminderRepository
-                .findById(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
+                .load(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
         reminder.restart();
 
-        return reminderRepository.save(reminder);
+        return reminderRepository.registerEvents(reminder);
     }
 
     @Override

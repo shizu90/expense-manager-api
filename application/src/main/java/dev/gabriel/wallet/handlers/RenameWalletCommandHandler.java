@@ -20,10 +20,11 @@ public class RenameWalletCommandHandler implements ICommandHandler<Wallet, Renam
 
     @Override
     public Wallet handle(RenameWalletCommand command) {
-        Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
+        Wallet wallet = walletRepository
+                .load(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
         wallet.rename(command.getName());
 
-        return walletRepository.save(wallet);
+        return walletRepository.registerEvents(wallet);
     }
 
     @Override

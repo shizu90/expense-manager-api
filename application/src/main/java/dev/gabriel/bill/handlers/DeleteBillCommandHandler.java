@@ -35,8 +35,10 @@ public class DeleteBillCommandHandler implements ICommandHandler<Bill, DeleteBil
 
     @Override
     public Bill handle(DeleteBillCommand command) {
-        Bill bill = billRepository.findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
-        Wallet wallet = walletRepository.findById(bill.getWalletId()).orElseThrow(() -> new WalletNotFoundException(bill.getWalletId().getValue()));
+        Bill bill = billRepository
+                .load(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
+        Wallet wallet = walletRepository
+                .load(bill.getWalletId()).orElseThrow(() -> new WalletNotFoundException(bill.getWalletId().getValue()));
 
         BigDecimal amountToDiscount = bill.getAmount().getValue();
 
@@ -54,8 +56,8 @@ public class DeleteBillCommandHandler implements ICommandHandler<Bill, DeleteBil
 
         bill.delete();
 
-        billRepository.save(bill);
-        walletRepository.save(wallet);
+        billRepository.registerEvents(bill);
+        walletRepository.registerEvents(wallet);
 
         return null;
     }

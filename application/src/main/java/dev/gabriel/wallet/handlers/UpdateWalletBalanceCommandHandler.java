@@ -20,10 +20,11 @@ public class UpdateWalletBalanceCommandHandler implements ICommandHandler<Wallet
 
     @Override
     public Wallet handle(UpdateWalletBalanceCommand command) {
-        Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
+        Wallet wallet = walletRepository
+                .load(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
         wallet.updateBalance(command.getBalance());
 
-        return walletRepository.save(wallet);
+        return walletRepository.registerEvents(wallet);
     }
 
     @Override

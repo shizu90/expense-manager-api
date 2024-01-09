@@ -20,10 +20,11 @@ public class EditWalletDescriptionCommandHandler implements ICommandHandler<Wall
 
     @Override
     public Wallet handle(EditWalletDescriptionCommand command) {
-        Wallet wallet = walletRepository.findById(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
+        Wallet wallet = walletRepository
+                .load(WalletId.create(command.getWalletId())).orElseThrow(() -> new WalletNotFoundException(command.getWalletId()));
         wallet.editDescription(command.getDescription());
 
-        return walletRepository.save(wallet);
+        return walletRepository.registerEvents(wallet);
     }
 
     @Override

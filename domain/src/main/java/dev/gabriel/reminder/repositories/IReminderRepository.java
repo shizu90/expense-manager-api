@@ -7,6 +7,6 @@ import dev.gabriel.shared.repositories.IDomainRepository;
 import java.util.Optional;
 
 public interface IReminderRepository extends IDomainRepository {
-    Optional<Reminder> findById(ReminderId reminderId);
-    Reminder save(Reminder reminder);
+    Optional<Reminder> load(ReminderId reminderId);
+    Reminder registerEvents(Reminder reminder);
 }

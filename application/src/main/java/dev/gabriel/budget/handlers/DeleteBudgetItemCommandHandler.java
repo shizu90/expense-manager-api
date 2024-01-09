@@ -36,9 +36,9 @@ public class DeleteBudgetItemCommandHandler implements ICommandHandler<Budget, D
     @Override
     public Budget handle(DeleteBudgetItemCommand command) {
         Budget budget = budgetRepository
-                .findById(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
+                .load(BudgetId.create(command.getBudgetId())).orElseThrow(() -> new BudgetNotFoundException(command.getBudgetId()));
         Bill bill = billRepository
-                .findById(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
+                .load(BillId.create(command.getBillId())).orElseThrow(() -> new BillNotFoundException(command.getBillId()));
 
         if(!bill.getAmount().getCurrencyCode().equals(budget.getTotalAmount().getCurrencyCode())) {
             BigDecimal amountToDiscount = currencyConversionService.convert(bill.getAmount(), budget.getTotalAmount().getCurrencyCode());
@@ -61,7 +61,7 @@ public class DeleteBudgetItemCommandHandler implements ICommandHandler<Budget, D
         budget.deleteBill(bill);
         budget.updateTotalAmount(budgetAmount);
 
-        return budgetRepository.save(budget);
+        return budgetRepository.registerEvents(budget);
     }
 
     @Override
