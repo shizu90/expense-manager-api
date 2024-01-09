@@ -18,14 +18,14 @@ import java.util.UUID;
 public class WalletTests {
     Wallet populate() {
         return Wallet.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 "Name",
                 "Description",
                 BigDecimal.valueOf(1200.0),
                 CurrencyCode.BRL,
                 true,
                 WalletType.CREDIT_CARD,
-                UserId.create(UUID.randomUUID().toString())
+                UserId.create(UUID.randomUUID())
         );
     }
 

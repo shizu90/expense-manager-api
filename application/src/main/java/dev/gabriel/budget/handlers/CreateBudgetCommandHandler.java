@@ -29,7 +29,7 @@ public class CreateBudgetCommandHandler implements ICommandHandler<Budget, Creat
     public Budget handle(CreateBudgetCommand command) {
         User user = userRepository.load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         Budget budget = Budget.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 command.getName(),
                 command.getComment(),
                 CurrencyCode.valueOf(command.getCurrencyCode()),

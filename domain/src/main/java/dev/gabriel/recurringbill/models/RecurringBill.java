@@ -16,6 +16,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class RecurringBill extends AggregateRoot {
@@ -32,7 +33,7 @@ public class RecurringBill extends AggregateRoot {
     private ReminderId reminderId;
     private Boolean isDeleted;
 
-    private RecurringBill(String id,
+    private RecurringBill(UUID id,
                           String name,
                           String comment,
                           BigDecimal amount,
@@ -67,11 +68,11 @@ public class RecurringBill extends AggregateRoot {
         );
     }
 
-    private RecurringBill(String id, List<DomainEvent> events) {
+    private RecurringBill(UUID id, List<DomainEvent> events) {
         super(RecurringBillId.create(id), events);
     }
 
-    public static RecurringBill create(String id,
+    public static RecurringBill create(UUID id,
                                        String name,
                                        String comment,
                                        BigDecimal amount,
@@ -87,7 +88,7 @@ public class RecurringBill extends AggregateRoot {
         return new RecurringBill(id, name, comment, amount, currencyCode, categoryId, type, walletId, reminderId, recurrence, maxPeriods, startDate);
     }
 
-    public static RecurringBill create(String id, List<DomainEvent> events) {
+    public static RecurringBill create(UUID id, List<DomainEvent> events) {
         return new RecurringBill(id, events);
     }
 
@@ -148,7 +149,7 @@ public class RecurringBill extends AggregateRoot {
 
     public void delete() {
         if(isDeleted) {
-            throw new RecurringBillAlreadyDeletedException(getId().getValue());
+            throw new RecurringBillAlreadyDeletedException();
         }else {
             raiseEvent(new RecurringBillDeletedEvent(getId().getValue(), getNextVersion()));
         }

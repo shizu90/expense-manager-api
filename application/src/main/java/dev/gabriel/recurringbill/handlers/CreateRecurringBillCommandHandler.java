@@ -60,7 +60,7 @@ public class CreateRecurringBillCommandHandler implements ICommandHandler<Recurr
                 .load(ReminderId.create(command.getReminderId())).orElseThrow(() -> new ReminderNotFoundException(command.getReminderId()));
 
         RecurringBill recurringBill = RecurringBill.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 command.getName(),
                 command.getComment(),
                 command.getAmount(),

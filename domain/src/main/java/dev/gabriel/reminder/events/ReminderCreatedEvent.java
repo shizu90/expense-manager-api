@@ -2,21 +2,23 @@ package dev.gabriel.reminder.events;
 
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 public class ReminderCreatedEvent extends ReminderEvent {
     private final String name;
     private final String description;
     private final Long recurrence;
     private final Long maxRuns;
-    private final String userId;
+    private final UUID userId;
 
-    public ReminderCreatedEvent(String reminderId,
+    public ReminderCreatedEvent(UUID reminderId,
                                 Long version,
                                 String name,
                                 String description,
                                 Long recurrence,
                                 Long maxRuns,
-                                String userId
+                                UUID userId
     ) {
         super(reminderId, version);
         this.name = name;

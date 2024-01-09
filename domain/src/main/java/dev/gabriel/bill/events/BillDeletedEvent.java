@@ -1,7 +1,9 @@
 package dev.gabriel.bill.events;
 
+import java.util.UUID;
+
 public class BillDeletedEvent extends BillEvent {
-    public BillDeletedEvent(String billId, Long version) {
+    public BillDeletedEvent(UUID billId, Long version) {
         super(billId, version);
     }
 }

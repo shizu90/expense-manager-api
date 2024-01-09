@@ -5,6 +5,7 @@ import dev.gabriel.wallet.models.WalletType;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 public class WalletCreatedEvent extends WalletEvent {
@@ -14,9 +15,9 @@ public class WalletCreatedEvent extends WalletEvent {
     private final CurrencyCode currencyCode;
     private final Boolean main;
     private final WalletType type;
-    private final String userId;
+    private final UUID userId;
 
-    public WalletCreatedEvent(String walletId,
+    public WalletCreatedEvent(UUID walletId,
                               Long version,
                               String name,
                               String description,
@@ -24,7 +25,7 @@ public class WalletCreatedEvent extends WalletEvent {
                               CurrencyCode currencyCode,
                               Boolean main,
                               WalletType type,
-                              String userId
+                              UUID userId
     ) {
         super(walletId, version);
         this.name = name;

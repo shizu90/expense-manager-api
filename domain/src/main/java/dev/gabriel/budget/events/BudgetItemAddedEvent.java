@@ -2,11 +2,13 @@ package dev.gabriel.budget.events;
 
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 public class BudgetItemAddedEvent extends BudgetEvent {
-    private final String billId;
+    private final UUID billId;
 
-    public BudgetItemAddedEvent(String budgetId, Long version, String billId) {
+    public BudgetItemAddedEvent(UUID budgetId, Long version, UUID billId) {
         super(budgetId, version);
         this.billId = billId;
     }

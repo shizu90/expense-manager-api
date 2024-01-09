@@ -30,7 +30,7 @@ public class CreateCategoryCommandHandler implements ICommandHandler<Category, C
                 .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
 
         Category category = Category.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 command.getName(),
                 user.getId()
         );

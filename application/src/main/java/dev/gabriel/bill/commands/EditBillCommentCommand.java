@@ -4,9 +4,11 @@ import dev.gabriel.shared.commands.Command;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 public class EditBillCommentCommand extends Command {
-    private String billId;
+    private UUID billId;
     private String comment;
 }

@@ -15,6 +15,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class Bill extends AggregateRoot {
@@ -26,7 +27,7 @@ public class Bill extends AggregateRoot {
     private CategoryId categoryId;
     private Boolean isDeleted;
 
-    private Bill(String id,
+    private Bill(UUID id,
                  String name,
                  String comment,
                  BigDecimal amount,
@@ -51,11 +52,11 @@ public class Bill extends AggregateRoot {
         ));
     }
 
-    private Bill(String id, List<DomainEvent> eventStream) {
+    private Bill(UUID id, List<DomainEvent> eventStream) {
         super(BillId.create(id), eventStream);
     }
 
-    public static Bill create(String id,
+    public static Bill create(UUID id,
                               String name,
                               String comment,
                               BigDecimal amount,
@@ -67,7 +68,7 @@ public class Bill extends AggregateRoot {
         return new Bill(id, name, comment, amount, currencyCode, type, walletId, categoryId);
     }
 
-    public static Bill create(String id, List<DomainEvent> eventStream) {
+    public static Bill create(UUID id, List<DomainEvent> eventStream) {
         return new Bill(id, eventStream);
     }
 

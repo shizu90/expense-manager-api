@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 public class RecurringBillCreatedEvent extends RecurringBillEvent {
@@ -14,26 +15,26 @@ public class RecurringBillCreatedEvent extends RecurringBillEvent {
     private final BigDecimal amount;
     private final CurrencyCode currencyCode;
     private final RecurringBillType type;
-    private final String categoryId;
-    private final String walletId;
+    private final UUID categoryId;
+    private final UUID walletId;
     private final Long maxPeriods;
     private final Long recurrence;
     private final LocalDate startDate;
-    private final String reminderId;
+    private final UUID reminderId;
 
-    public RecurringBillCreatedEvent(String recurringBillId,
+    public RecurringBillCreatedEvent(UUID recurringBillId,
                                      Long version,
                                      String name,
                                      String comment,
                                      BigDecimal amount,
                                      CurrencyCode currencyCode,
                                      RecurringBillType type,
-                                     String categoryId,
-                                     String walletId,
+                                     UUID categoryId,
+                                     UUID walletId,
                                      Long maxPeriods,
                                      Long recurrence,
                                      LocalDate startDate,
-                                     String reminderId
+                                     UUID reminderId
     ) {
         super(recurringBillId, version);
         this.name = name;

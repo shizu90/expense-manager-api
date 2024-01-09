@@ -4,6 +4,8 @@ import dev.gabriel.shared.valueobjects.CurrencyCode;
 import dev.gabriel.user.models.UserLanguage;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 public class UserCreatedEvent extends UserEvent {
     private final String username;
@@ -12,7 +14,7 @@ public class UserCreatedEvent extends UserEvent {
     private final CurrencyCode defaultCurrencyCode;
     private final UserLanguage defaultLanguage;
 
-    public UserCreatedEvent(String userId, Long version, String username, String email, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultLanguage) {
+    public UserCreatedEvent(UUID userId, Long version, String username, String email, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultLanguage) {
         super(userId, version);
         this.username = username;
         this.email = email;

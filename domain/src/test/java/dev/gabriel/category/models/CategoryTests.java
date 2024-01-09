@@ -14,9 +14,9 @@ import java.util.UUID;
 public class CategoryTests {
     Category populate() {
         return Category.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 "Name",
-                UserId.create(UUID.randomUUID().toString())
+                UserId.create(UUID.randomUUID())
         );
     }
 

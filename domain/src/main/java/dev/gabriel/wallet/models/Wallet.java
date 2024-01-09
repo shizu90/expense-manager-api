@@ -14,6 +14,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class Wallet extends AggregateRoot {
@@ -26,7 +27,7 @@ public class Wallet extends AggregateRoot {
     private UserId userId;
     private Boolean isDeleted;
 
-    private Wallet(String id,
+    private Wallet(UUID id,
                    String name,
                    String description,
                    BigDecimal balance,
@@ -51,11 +52,11 @@ public class Wallet extends AggregateRoot {
         ));
     }
 
-    private Wallet(String id, List<DomainEvent> events) {
+    private Wallet(UUID id, List<DomainEvent> events) {
         super(WalletId.create(id), events);
     }
 
-    public static Wallet create(String id,
+    public static Wallet create(UUID id,
                                 String name,
                                 String description,
                                 BigDecimal balance,
@@ -67,7 +68,7 @@ public class Wallet extends AggregateRoot {
         return new Wallet(id, name, description, balance, currencyCode, main, type, userId);
     }
 
-    public static Wallet create(String id, List<DomainEvent> events) {
+    public static Wallet create(UUID id, List<DomainEvent> events) {
         return new Wallet(id, events);
     }
 
@@ -99,7 +100,7 @@ public class Wallet extends AggregateRoot {
 
     public void delete() {
         if(isDeleted) {
-            throw new WalletAlreadyDeletedException(getId().getValue());
+            throw new WalletAlreadyDeletedException();
         }else raiseEvent(new WalletDeletedEvent(getId().getValue(), getNextVersion()));
     }
 

@@ -2,12 +2,14 @@ package dev.gabriel.user.valueobjects;
 
 import dev.gabriel.shared.valueobjects.Identity;
 
+import java.util.UUID;
+
 public class UserConfigurationId extends Identity {
-    private UserConfigurationId(String value) {
+    private UserConfigurationId(UUID value) {
         super(value);
     }
 
-    public static UserConfigurationId create(String value) {
+    public static UserConfigurationId create(UUID value) {
         return new UserConfigurationId(value);
     }
 }

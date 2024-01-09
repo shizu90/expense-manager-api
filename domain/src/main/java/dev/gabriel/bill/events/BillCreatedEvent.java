@@ -5,6 +5,7 @@ import dev.gabriel.shared.valueobjects.CurrencyCode;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 public class BillCreatedEvent extends BillEvent {
@@ -13,18 +14,18 @@ public class BillCreatedEvent extends BillEvent {
     private final BigDecimal amount;
     private final CurrencyCode currencyCode;
     private final BillType type;
-    private final String walletId;
-    private final String categoryId;
+    private final UUID walletId;
+    private final UUID categoryId;
 
-    public BillCreatedEvent(String billId,
+    public BillCreatedEvent(UUID billId,
                             Long version,
                             String name,
                             String comment,
                             BigDecimal amount,
                             CurrencyCode currencyCode,
                             BillType type,
-                            String walletId,
-                            String categoryId
+                            UUID walletId,
+                            UUID categoryId
     ) {
         super(billId, version);
         this.name = name;

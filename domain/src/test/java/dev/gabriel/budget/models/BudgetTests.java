@@ -24,24 +24,24 @@ import java.util.UUID;
 public class BudgetTests {
     Budget populate() {
         return Budget.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 "Name",
                 "Comment",
                 CurrencyCode.BRL,
-                UserId.create(UUID.randomUUID().toString())
+                UserId.create(UUID.randomUUID())
         );
     }
 
     Bill populateBill() {
         return Bill.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 "Name",
                 "Comment",
                 BigDecimal.valueOf(40.0),
                 CurrencyCode.BRL,
                 BillType.EXPENSE,
-                WalletId.create(UUID.randomUUID().toString()),
-                CategoryId.create(UUID.randomUUID().toString())
+                WalletId.create(UUID.randomUUID()),
+                CategoryId.create(UUID.randomUUID())
         );
     }
 

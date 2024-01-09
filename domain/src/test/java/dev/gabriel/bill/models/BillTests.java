@@ -19,14 +19,14 @@ import java.util.UUID;
 public class BillTests {
     Bill populate() {
         return Bill.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 "Name",
                 "Comment",
                 BigDecimal.valueOf(30.0),
                 CurrencyCode.BRL,
                 BillType.EXPENSE,
-                WalletId.create(UUID.randomUUID().toString()),
-                CategoryId.create(UUID.randomUUID().toString())
+                WalletId.create(UUID.randomUUID()),
+                CategoryId.create(UUID.randomUUID())
         );
     }
 
@@ -128,7 +128,7 @@ public class BillTests {
     @DisplayName("Change bill category")
     void changeBillCategory() {
         Bill bill = populate();
-        CategoryId categoryId = CategoryId.create(UUID.randomUUID().toString());
+        CategoryId categoryId = CategoryId.create(UUID.randomUUID());
         bill.changeCategory(categoryId);
 
         Assertions.assertInstanceOf(BillCategoryChangedEvent.class, bill.getEvents().get(1));

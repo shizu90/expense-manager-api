@@ -2,8 +2,10 @@ package dev.gabriel.reminder.exceptions;
 
 import dev.gabriel.shared.exceptions.NotFoundException;
 
+import java.util.UUID;
+
 public class ReminderNotFoundException extends NotFoundException {
-    public ReminderNotFoundException(String reminderId) {
-        super("Reminder " + reminderId + " was not found.");
+    public ReminderNotFoundException(UUID reminderId) {
+        super("Reminder " + reminderId.toString() + " was not found.");
     }
 }

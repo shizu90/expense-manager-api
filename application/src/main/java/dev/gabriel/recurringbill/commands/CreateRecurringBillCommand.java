@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
@@ -15,9 +16,9 @@ public class CreateRecurringBillCommand extends Command {
     private BigDecimal amount;
     private String currencyCode;
     private String type;
-    private String categoryId;
-    private String walletId;
-    private String reminderId;
+    private UUID categoryId;
+    private UUID walletId;
+    private UUID reminderId;
     private Long recurrence;
     private Long maxPeriods;
     private LocalDate startDate;

@@ -2,12 +2,14 @@ package dev.gabriel.category.events;
 
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 public class CategoryCreatedEvent extends CategoryEvent {
     private final String name;
-    private final String userId;
+    private final UUID userId;
 
-    public CategoryCreatedEvent(String categoryId, Long version, String name, String userId) {
+    public CategoryCreatedEvent(UUID categoryId, Long version, String name, UUID userId) {
         super(categoryId, version);
         this.name = name;
         this.userId = userId;

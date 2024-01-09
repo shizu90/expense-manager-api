@@ -31,7 +31,7 @@ public class CreateWalletCommandHandler implements ICommandHandler<Wallet, Creat
         User user = userRepository
                 .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
         Wallet wallet = Wallet.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 command.getName(),
                 command.getDescription(),
                 command.getAmount(),

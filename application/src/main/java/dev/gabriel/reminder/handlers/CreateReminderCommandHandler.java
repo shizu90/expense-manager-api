@@ -30,7 +30,7 @@ public class CreateReminderCommandHandler implements ICommandHandler<Reminder, C
                 .load(UserId.create(command.getUserId())).orElseThrow(() -> new UserNotFoundException(command.getUserId()));
 
         Reminder reminder = Reminder.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 command.getName(),
                 command.getDescription(),
                 command.getRecurrence(),

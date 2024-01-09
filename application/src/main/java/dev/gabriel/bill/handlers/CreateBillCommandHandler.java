@@ -49,7 +49,7 @@ public class CreateBillCommandHandler implements ICommandHandler<Bill, CreateBil
                 .load(CategoryId.create(command.getCategoryId())).orElseThrow(() -> new CategoryNotFoundException(command.getCategoryId()));
 
         Bill bill = Bill.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 command.getName(),
                 command.getComment(),
                 command.getAmount(),

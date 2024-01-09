@@ -1,7 +1,9 @@
 package dev.gabriel.reminder.events;
 
+import java.util.UUID;
+
 public class ReminderDeletedEvent extends ReminderEvent {
-    public ReminderDeletedEvent(String reminderId, Long version) {
+    public ReminderDeletedEvent(UUID reminderId, Long version) {
         super(reminderId, version);
     }
 }

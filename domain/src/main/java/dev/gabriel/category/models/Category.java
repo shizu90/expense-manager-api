@@ -12,6 +12,7 @@ import dev.gabriel.user.valueobjects.UserId;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class Category extends AggregateRoot {
@@ -19,7 +20,7 @@ public class Category extends AggregateRoot {
     private UserId userId;
     private Boolean isDeleted;
 
-    private Category(String id, String name, UserId userId) {
+    private Category(UUID id, String name, UserId userId) {
         super(CategoryId.create(id));
         CategoryName.validate(name);
         raiseEvent(new CategoryCreatedEvent(
@@ -30,15 +31,15 @@ public class Category extends AggregateRoot {
         );
     }
 
-    private Category(String id, List<DomainEvent> events) {
+    private Category(UUID id, List<DomainEvent> events) {
         super(CategoryId.create(id), events);
     }
 
-    public static Category create(String id, String name, UserId userId) {
+    public static Category create(UUID id, String name, UserId userId) {
         return new Category(id, name, userId);
     }
 
-    public static Category create(String id, List<DomainEvent> events) {
+    public static Category create(UUID id, List<DomainEvent> events) {
         return new Category(id, events);
     }
 
@@ -49,7 +50,7 @@ public class Category extends AggregateRoot {
 
     public void delete() {
         if(isDeleted) {
-            throw new CategoryAlreadyDeletedException(getId().getValue());
+            throw new CategoryAlreadyDeletedException();
         }else {
             raiseEvent(new CategoryDeletedEvent(getId().getValue(), getNextVersion()));
         }

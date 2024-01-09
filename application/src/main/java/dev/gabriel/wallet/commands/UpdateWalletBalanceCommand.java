@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
 public class UpdateWalletBalanceCommand extends Command {
-    private String walletId;
+    private UUID walletId;
     private BigDecimal balance;
 }

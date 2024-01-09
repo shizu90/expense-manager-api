@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
@@ -15,5 +16,5 @@ public class CreateWalletCommand extends Command {
     private String currencyCode;
     private Boolean isMain;
     private String type;
-    private String userId;
+    private UUID userId;
 }

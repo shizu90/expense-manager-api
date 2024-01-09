@@ -4,9 +4,11 @@ import dev.gabriel.shared.commands.Command;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 public class ChangeReminderRecurrenceCommand extends Command {
-    private String reminderId;
+    private UUID reminderId;
     private Long recurrence;
 }

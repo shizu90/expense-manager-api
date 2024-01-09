@@ -29,7 +29,7 @@ public class CreateUserCommandHandler implements ICommandHandler<User, CreateUse
     @Override
     public User handle(CreateUserCommand command) {
         User user = User.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 command.getEmail(),
                 command.getName(),
                 command.getPassword(),

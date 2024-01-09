@@ -11,6 +11,7 @@ import lombok.Getter;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class Reminder extends AggregateRoot {
@@ -24,7 +25,7 @@ public class Reminder extends AggregateRoot {
     private UserId userId;
     private Boolean isDeleted;
 
-    private Reminder(String id, String name, String description, Long recurrence, Long maxRuns, UserId userId) {
+    private Reminder(UUID id, String name, String description, Long recurrence, Long maxRuns, UserId userId) {
         super(ReminderId.create(id));
         ReminderName.validate(name);
         ReminderDescription.validate(description);
@@ -41,15 +42,15 @@ public class Reminder extends AggregateRoot {
         ));
     }
 
-    private Reminder(String id, List<DomainEvent> events) {
+    private Reminder(UUID id, List<DomainEvent> events) {
         super(ReminderId.create(id), events);
     }
 
-    public static Reminder create(String id, String name, String description, Long recurrence, Long maxRuns, UserId userId) {
+    public static Reminder create(UUID id, String name, String description, Long recurrence, Long maxRuns, UserId userId) {
         return new Reminder(id, name, description, recurrence, maxRuns, userId);
     }
 
-    public static Reminder create(String id, List<DomainEvent> events) {
+    public static Reminder create(UUID id, List<DomainEvent> events) {
         return new Reminder(id, events);
     }
 

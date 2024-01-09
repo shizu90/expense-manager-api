@@ -2,12 +2,14 @@ package dev.gabriel.wallet.valueobjects;
 
 import dev.gabriel.shared.valueobjects.Identity;
 
+import java.util.UUID;
+
 public class WalletId extends Identity {
-    private WalletId(String value) {
+    private WalletId(UUID value) {
         super(value);
     }
 
-    public static WalletId create(String value) {
+    public static WalletId create(UUID value) {
         return new WalletId(value);
     }
 }

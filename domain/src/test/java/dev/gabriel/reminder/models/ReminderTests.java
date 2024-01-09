@@ -16,12 +16,12 @@ import java.util.UUID;
 public class ReminderTests {
     Reminder populate() {
         return Reminder.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 "Name",
                 "Description",
                 2L,
                 20L,
-                UserId.create(UUID.randomUUID().toString())
+                UserId.create(UUID.randomUUID())
         );
     }
 

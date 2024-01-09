@@ -2,8 +2,10 @@ package dev.gabriel.bill.exceptions;
 
 import dev.gabriel.shared.exceptions.NotFoundException;
 
+import java.util.UUID;
+
 public class BillNotFoundException extends NotFoundException {
-    public BillNotFoundException(String id) {
-        super("Bill " + id + " was not found.");
+    public BillNotFoundException(UUID id) {
+        super("Bill " + id.toString() + " was not found.");
     }
 }

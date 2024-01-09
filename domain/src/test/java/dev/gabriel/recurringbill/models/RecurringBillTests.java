@@ -21,15 +21,15 @@ import java.util.UUID;
 public class RecurringBillTests {
     RecurringBill populate() {
         return RecurringBill.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 "Name",
                 "Comment",
                 BigDecimal.valueOf(20.0),
                 CurrencyCode.BRL,
-                CategoryId.create(UUID.randomUUID().toString()),
+                CategoryId.create(UUID.randomUUID()),
                 RecurringBillType.INCOME,
-                WalletId.create(UUID.randomUUID().toString()),
-                ReminderId.create(UUID.randomUUID().toString()),
+                WalletId.create(UUID.randomUUID()),
+                ReminderId.create(UUID.randomUUID()),
                 2L,
                 20L,
                 LocalDate.now()
@@ -137,7 +137,7 @@ public class RecurringBillTests {
     @DisplayName("Change category")
     void changeCategory() {
         RecurringBill recurringBill = populate();
-        CategoryId categoryId = CategoryId.create(UUID.randomUUID().toString());
+        CategoryId categoryId = CategoryId.create(UUID.randomUUID());
         recurringBill.changeCategory(categoryId);
 
         Assertions.assertInstanceOf(RecurringBillCategoryChangedEvent.class, recurringBill.getEvents().get(1));

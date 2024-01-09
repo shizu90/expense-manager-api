@@ -4,9 +4,11 @@ import dev.gabriel.shared.commands.Command;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 public class ChangeWalletTypeCommand extends Command {
-    private String walletId;
+    private UUID walletId;
     private String type;
 }

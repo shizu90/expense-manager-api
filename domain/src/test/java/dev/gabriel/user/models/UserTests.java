@@ -16,7 +16,7 @@ import java.util.UUID;
 public class UserTests {
     User populate() {
         return User.create(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 "email@gmail.com",
                 "Username",
                 "Password123",

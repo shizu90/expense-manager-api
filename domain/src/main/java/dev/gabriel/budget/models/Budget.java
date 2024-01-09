@@ -31,7 +31,7 @@ public class Budget extends AggregateRoot {
     private Currency totalAmount;
     private Boolean isDeleted;
 
-    private Budget(String id, String name, String description, CurrencyCode currencyCode, UserId userId) {
+    private Budget(UUID id, String name, String description, CurrencyCode currencyCode, UserId userId) {
         super(BudgetId.create(id));
         BudgetName.validate(name);
         BudgetDescription.validate(description);
@@ -45,15 +45,15 @@ public class Budget extends AggregateRoot {
         ));
     }
 
-    private Budget(String id, List<DomainEvent> events) {
+    private Budget(UUID id, List<DomainEvent> events) {
         super(BudgetId.create(id), events);
     }
 
-    public static Budget create(String id, String name, String comment, CurrencyCode currencyCode, UserId userId) {
+    public static Budget create(UUID id, String name, String comment, CurrencyCode currencyCode, UserId userId) {
         return new Budget(id, name, comment, currencyCode, userId);
     }
 
-    public static Budget create(String id, List<DomainEvent> events) {
+    public static Budget create(UUID id, List<DomainEvent> events) {
         return new Budget(id, events);
     }
 
@@ -145,7 +145,7 @@ public class Budget extends AggregateRoot {
 
     @SuppressWarnings("unused")
     private void apply(BudgetItemAddedEvent event) {
-        bills.add(BudgetItem.create(UUID.randomUUID().toString(), BillId.create(event.getBillId()), getId()));
+        bills.add(BudgetItem.create(UUID.randomUUID(), BillId.create(event.getBillId()), getId()));
     }
 
     @SuppressWarnings("unused")

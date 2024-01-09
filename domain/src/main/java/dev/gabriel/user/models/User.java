@@ -9,6 +9,7 @@ import dev.gabriel.user.valueobjects.*;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class User extends AggregateRoot {
@@ -18,7 +19,7 @@ public class User extends AggregateRoot {
     private UserConfiguration configuration;
     private Boolean isDeleted;
 
-    private User(String id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
+    private User(UUID id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
         super(UserId.create(id));
         Email.validate(email);
         Username.validate(name);
@@ -34,15 +35,15 @@ public class User extends AggregateRoot {
         ));
     }
 
-    private User(String id, List<DomainEvent> events) {
+    private User(UUID id, List<DomainEvent> events) {
         super(UserId.create(id), events);
     }
 
-    public static User create(String id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
+    public static User create(UUID id, String email, String name, String password, CurrencyCode defaultCurrencyCode, UserLanguage defaultUserLanguage) {
         return new User(id, email, name, password, defaultCurrencyCode, defaultUserLanguage);
     }
 
-    public static User create(String id, List<DomainEvent> events) {
+    public static User create(UUID id, List<DomainEvent> events) {
         return new User(id, events);
     }
 
@@ -71,7 +72,7 @@ public class User extends AggregateRoot {
 
     public void delete() {
         if(isDeleted) {
-            throw new UserAlreadyDeletedException(getId().getValue());
+            throw new UserAlreadyDeletedException();
         }else raiseEvent(new UserDeletedEvent(getId().getValue(), getNextVersion()));
     }
 
